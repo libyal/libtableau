@@ -1,0 +1,64 @@
+AM_CPPFLAGS = \
+	-I$(top_srcdir)/include \
+	-I$(top_srcdir)/common \
+	@LIBCERROR_CPPFLAGS@ \
+	@LIBCNOTIFY_CPPFLAGS@ \
+	@LIBTABLEAU_DLL_IMPORT@
+
+TESTS = \
+	test_library.sh
+
+check_SCRIPTS = \
+	test_library.sh \
+	test_runner.sh
+
+EXTRA_DIST = \
+	$(check_SCRIPTS)
+
+check_PROGRAMS = \
+	tableau_test_handle \
+	tableau_test_security_values \
+	tableau_test_values_table
+
+tableau_test_handle_SOURCES = \
+	tableau_test_handle.c \
+	tableau_test_libcerror.h \
+	tableau_test_libtableau.h \
+	tableau_test_macros.h \
+	tableau_test_memory.c tableau_test_memory.h \
+	tableau_test_unused.h
+
+tableau_test_handle_LDADD = \
+	../libtableau/libtableau.la \
+	@LIBCERROR_LIBADD@
+
+tableau_test_security_values_SOURCES = \
+	tableau_test_libcerror.h \
+	tableau_test_libtableau.h \
+	tableau_test_macros.h \
+	tableau_test_memory.c tableau_test_memory.h \
+	tableau_test_security_values.c \
+	tableau_test_unused.h
+
+tableau_test_security_values_LDADD = \
+	../libtableau/libtableau.la \
+	@LIBCERROR_LIBADD@
+
+tableau_test_values_table_SOURCES = \
+	tableau_test_libcerror.h \
+	tableau_test_libtableau.h \
+	tableau_test_macros.h \
+	tableau_test_memory.c tableau_test_memory.h \
+	tableau_test_unused.h \
+	tableau_test_values_table.c
+
+tableau_test_values_table_LDADD = \
+	../libtableau/libtableau.la \
+	@LIBCERROR_LIBADD@
+
+MAINTAINERCLEANFILES = \
+	Makefile.in
+
+distclean: clean
+	/bin/rm -f Makefile
+

@@ -1,0 +1,61 @@
+TODO
+* improve error handling for send command
+  - detect response and no response errors
+* create debian package files
+
+20170903
+* Applied updates
+
+20160819
+* Applied updates
+
+20080511
+* Fixed typo in spec file
+* added features include header
+* Updated email address
+
+20080502
+* Fixed .pc file
+* Fixed make lib
+
+20080426
+* Minor changes
+
+20080416
+* Minor changes
+
+20080404
+* Worked on manuals
+* Worked on initial version
+
+20080404
+* Worked on initial version
+
+20080403
+* Added initial version of MacOS-X project files
+
+20080329
+* Worked on initial version
+* Licensed code under LGPL v3
+* Created platform independent SCSI IO using libsgutils
+* Added print of libsgutils version in tableauinfo and control output
+
+20080325
+* Worked on initial version
+
+20080324
+* Worked on initial version
+
+20080323
+* Worked on initial version
+
+20080322
+* Worked on initial version
+* integrated libewf common code base
+
+20080122
+* Worked on initial version
+
+20080102
+* Created initial version based on tableau-parm-0.1.0.tar.gz
+

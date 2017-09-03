@@ -1,0 +1,43 @@
+Source: libtableau
+Priority: extra
+Maintainer: Joachim Metz <joachim.metz@gmail.com>
+Build-Depends: debhelper (>= 9), dh-autoreconf, pkg-config
+Standards-Version: 3.9.5
+Section: libs
+Homepage: https://github.com/libyal/libtableau
+
+Package: libtableau
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Suggests: libtableau-dbg
+Description: Library to support the Tableau(TM) forensic bridge (write blocker)
+ libtableau is a library to support the Tableau(TM) forensic bridge (write blocker).
+
+Package: libtableau-dbg
+Architecture: any
+Section: debug
+Depends: libtableau (= ${binary:Version}), ${misc:Depends}
+Description: Debugging symbols for libtableau
+ Debugging symbols for libtableau.
+
+Package: libtableau-dev
+Section: libdevel
+Architecture: any
+Depends: libtableau (= ${binary:Version}), ${misc:Depends}
+Description: Header files and libraries for developing applications for libtableau
+ Header files and libraries for developing applications for libtableau.
+
+Package: libtableau-tools
+Section: utils
+Architecture: any
+Depends: libtableau (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Description: Several tools for reading Tableau(TM) forensic bridges (write blockers)
+ Several tools for reading Tableau(TM) forensic bridges (write blockers).
+
+Package: libtableau-tools-dbg
+Section: debug
+Architecture: any
+Depends: libtableau-tools (= ${binary:Version}), ${misc:Depends}
+Description: Debugging symbols for libtableau-tools
+ Debugging symbols for libtableau-tools.
+

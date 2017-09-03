@@ -1,0 +1,89 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual C++ Express 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tableau_test_handle", "tableau_test_handle\tableau_test_handle.vcproj", "{CC495F58-E6D3-485C-8462-22E33861940E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E28DE84E-17E2-49A1-8C3A-7303BF6F1E29} = {E28DE84E-17E2-49A1-8C3A-7303BF6F1E29}
+		{C021C4E8-E9BF-42AE-97CB-F258CFDA6E2E} = {C021C4E8-E9BF-42AE-97CB-F258CFDA6E2E}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tableau_test_security_values", "tableau_test_security_values\tableau_test_security_values.vcproj", "{68D0B7E0-4832-4760-B54E-B4206ED3A832}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E28DE84E-17E2-49A1-8C3A-7303BF6F1E29} = {E28DE84E-17E2-49A1-8C3A-7303BF6F1E29}
+		{C021C4E8-E9BF-42AE-97CB-F258CFDA6E2E} = {C021C4E8-E9BF-42AE-97CB-F258CFDA6E2E}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tableau_test_values_table", "tableau_test_values_table\tableau_test_values_table.vcproj", "{3DBC1710-C80F-4EA4-90C8-D68F0D3CD50B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E28DE84E-17E2-49A1-8C3A-7303BF6F1E29} = {E28DE84E-17E2-49A1-8C3A-7303BF6F1E29}
+		{C021C4E8-E9BF-42AE-97CB-F258CFDA6E2E} = {C021C4E8-E9BF-42AE-97CB-F258CFDA6E2E}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tableaucontrol", "tableaucontrol\tableaucontrol.vcproj", "{17DD27E9-D03C-4069-8A00-E80F7B325DB0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E28DE84E-17E2-49A1-8C3A-7303BF6F1E29} = {E28DE84E-17E2-49A1-8C3A-7303BF6F1E29}
+		{C021C4E8-E9BF-42AE-97CB-F258CFDA6E2E} = {C021C4E8-E9BF-42AE-97CB-F258CFDA6E2E}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tableauinfo", "tableauinfo\tableauinfo.vcproj", "{7E455490-25C2-48BB-A916-EBD240DE307E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E28DE84E-17E2-49A1-8C3A-7303BF6F1E29} = {E28DE84E-17E2-49A1-8C3A-7303BF6F1E29}
+		{C021C4E8-E9BF-42AE-97CB-F258CFDA6E2E} = {C021C4E8-E9BF-42AE-97CB-F258CFDA6E2E}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libcerror", "libcerror\libcerror.vcproj", "{C021C4E8-E9BF-42AE-97CB-F258CFDA6E2E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libcnotify", "libcnotify\libcnotify.vcproj", "{58ED9D34-F25A-4BF8-BA3F-1BA2B848FEBA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C021C4E8-E9BF-42AE-97CB-F258CFDA6E2E} = {C021C4E8-E9BF-42AE-97CB-F258CFDA6E2E}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libtableau", "libtableau\libtableau.vcproj", "{E28DE84E-17E2-49A1-8C3A-7303BF6F1E29}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C021C4E8-E9BF-42AE-97CB-F258CFDA6E2E} = {C021C4E8-E9BF-42AE-97CB-F258CFDA6E2E}
+		{58ED9D34-F25A-4BF8-BA3F-1BA2B848FEBA} = {58ED9D34-F25A-4BF8-BA3F-1BA2B848FEBA}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Release|Win32 = Release|Win32
+		VSDebug|Win32 = VSDebug|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CC495F58-E6D3-485C-8462-22E33861940E}.Release|Win32.ActiveCfg = Release|Win32
+		{CC495F58-E6D3-485C-8462-22E33861940E}.Release|Win32.Build.0 = Release|Win32
+		{CC495F58-E6D3-485C-8462-22E33861940E}.VSDebug|Win32.ActiveCfg = VSDebug|Win32
+		{CC495F58-E6D3-485C-8462-22E33861940E}.VSDebug|Win32.Build.0 = VSDebug|Win32
+		{68D0B7E0-4832-4760-B54E-B4206ED3A832}.Release|Win32.ActiveCfg = Release|Win32
+		{68D0B7E0-4832-4760-B54E-B4206ED3A832}.Release|Win32.Build.0 = Release|Win32
+		{68D0B7E0-4832-4760-B54E-B4206ED3A832}.VSDebug|Win32.ActiveCfg = VSDebug|Win32
+		{68D0B7E0-4832-4760-B54E-B4206ED3A832}.VSDebug|Win32.Build.0 = VSDebug|Win32
+		{3DBC1710-C80F-4EA4-90C8-D68F0D3CD50B}.Release|Win32.ActiveCfg = Release|Win32
+		{3DBC1710-C80F-4EA4-90C8-D68F0D3CD50B}.Release|Win32.Build.0 = Release|Win32
+		{3DBC1710-C80F-4EA4-90C8-D68F0D3CD50B}.VSDebug|Win32.ActiveCfg = VSDebug|Win32
+		{3DBC1710-C80F-4EA4-90C8-D68F0D3CD50B}.VSDebug|Win32.Build.0 = VSDebug|Win32
+		{17DD27E9-D03C-4069-8A00-E80F7B325DB0}.Release|Win32.ActiveCfg = Release|Win32
+		{17DD27E9-D03C-4069-8A00-E80F7B325DB0}.Release|Win32.Build.0 = Release|Win32
+		{17DD27E9-D03C-4069-8A00-E80F7B325DB0}.VSDebug|Win32.ActiveCfg = VSDebug|Win32
+		{17DD27E9-D03C-4069-8A00-E80F7B325DB0}.VSDebug|Win32.Build.0 = VSDebug|Win32
+		{7E455490-25C2-48BB-A916-EBD240DE307E}.Release|Win32.ActiveCfg = Release|Win32
+		{7E455490-25C2-48BB-A916-EBD240DE307E}.Release|Win32.Build.0 = Release|Win32
+		{7E455490-25C2-48BB-A916-EBD240DE307E}.VSDebug|Win32.ActiveCfg = VSDebug|Win32
+		{7E455490-25C2-48BB-A916-EBD240DE307E}.VSDebug|Win32.Build.0 = VSDebug|Win32
+		{C021C4E8-E9BF-42AE-97CB-F258CFDA6E2E}.Release|Win32.ActiveCfg = Release|Win32
+		{C021C4E8-E9BF-42AE-97CB-F258CFDA6E2E}.Release|Win32.Build.0 = Release|Win32
+		{C021C4E8-E9BF-42AE-97CB-F258CFDA6E2E}.VSDebug|Win32.ActiveCfg = VSDebug|Win32
+		{C021C4E8-E9BF-42AE-97CB-F258CFDA6E2E}.VSDebug|Win32.Build.0 = VSDebug|Win32
+		{58ED9D34-F25A-4BF8-BA3F-1BA2B848FEBA}.Release|Win32.ActiveCfg = Release|Win32
+		{58ED9D34-F25A-4BF8-BA3F-1BA2B848FEBA}.Release|Win32.Build.0 = Release|Win32
+		{58ED9D34-F25A-4BF8-BA3F-1BA2B848FEBA}.VSDebug|Win32.ActiveCfg = VSDebug|Win32
+		{58ED9D34-F25A-4BF8-BA3F-1BA2B848FEBA}.VSDebug|Win32.Build.0 = VSDebug|Win32
+		{E28DE84E-17E2-49A1-8C3A-7303BF6F1E29}.Release|Win32.ActiveCfg = Release|Win32
+		{E28DE84E-17E2-49A1-8C3A-7303BF6F1E29}.Release|Win32.Build.0 = Release|Win32
+		{E28DE84E-17E2-49A1-8C3A-7303BF6F1E29}.VSDebug|Win32.ActiveCfg = VSDebug|Win32
+		{E28DE84E-17E2-49A1-8C3A-7303BF6F1E29}.VSDebug|Win32.Build.0 = VSDebug|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

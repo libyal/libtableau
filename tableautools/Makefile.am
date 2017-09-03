@@ -1,0 +1,50 @@
+AM_CPPFLAGS = \
+	-I$(top_srcdir)/include \
+	-I$(top_srcdir)/common \
+	@LIBCERROR_CPPFLAGS@ \
+	@LIBTABLEAU_DLL_IMPORT@
+
+AM_LDFLAGS = @STATIC_LDFLAGS@
+
+bin_PROGRAMS = \
+	tableaucontrol \
+	tableauinfo
+
+tableaucontrol_SOURCES = \
+	tableaucontrol.c \
+	tableautools_getopt.c tableautools_getopt.h \
+	tableautools_i18n.h \
+	tableautools_libcerror.h \
+	tableautools_libtableau.h \
+	tableautools_output.c tableautools_output.h \
+	tableautools_unused.h
+
+tableaucontrol_LDADD = \
+	../libtableau/libtableau.la \
+	@LIBCERROR_LIBADD@ \
+	@LIBINTL@
+
+tableauinfo_SOURCES = \
+	tableauinfo.c \
+	tableautools_getopt.c tableautools_getopt.h \
+	tableautools_i18n.h \
+	tableautools_libcerror.h \
+	tableautools_libtableau.h \
+	tableautools_output.c tableautools_output.h \
+	tableautools_unused.h
+
+tableauinfo_LDADD = \
+	../libtableau/libtableau.la \
+	@LIBCERROR_LIBADD@ \
+	@LIBINTL@
+
+MAINTAINERCLEANFILES = \
+	Makefile.in
+
+distclean: clean
+	/bin/rm -f Makefile
+
+splint:
+	@echo "Running splint on tableauinfo ..."
+	-splint -preproc -redef $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(tableauinfo_SOURCES)
+

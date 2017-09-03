@@ -1,4 +1,4 @@
-libtableau is a library to read metadata from Tableau(TM) forensic bridges (write blockers).
+libtableau is a library to support the Tableau(TM) forensic bridge (write blocker).
 
 Project information:
 
