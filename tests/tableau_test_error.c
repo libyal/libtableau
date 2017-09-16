@@ -1,5 +1,5 @@
 /*
- * Library values_table type test program
+ * Library error functions test program
  *
  * Copyright (C) 2008-2017, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -30,52 +30,83 @@
 #include "tableau_test_libcerror.h"
 #include "tableau_test_libtableau.h"
 #include "tableau_test_macros.h"
-#include "tableau_test_memory.h"
 #include "tableau_test_unused.h"
 
-#include "../libtableau/libtableau_values_table.h"
-
-#if defined( __GNUC__ ) && !defined( LIBTABLEAU_DLL_IMPORT )
-
-/* Tests the libtableau_values_table_free function
+/* Tests the libtableau_error_free function
  * Returns 1 if successful or 0 if not
  */
-int tableau_test_values_table_free(
+int tableau_test_error_free(
      void )
 {
-	libcerror_error_t *error = NULL;
-	int result               = 0;
-
-	/* Test error cases
+	/* Test invocation of function only
 	 */
-	result = libtableau_values_table_free(
-	          NULL,
-	          &error );
-
-	TABLEAU_TEST_ASSERT_EQUAL_INT(
-	 "result",
-	 result,
-	 -1 );
-
-	TABLEAU_TEST_ASSERT_IS_NOT_NULL(
-	 "error",
-	 error );
-
-	libcerror_error_free(
-	 &error );
+	libtableau_error_free(
+	 NULL );
 
 	return( 1 );
-
-on_error:
-	if( error != NULL )
-	{
-		libcerror_error_free(
-		 &error );
-	}
-	return( 0 );
 }
 
-#endif /* defined( __GNUC__ ) && !defined( LIBTABLEAU_DLL_IMPORT ) */
+/* Tests the libtableau_error_fprint function
+ * Returns 1 if successful or 0 if not
+ */
+int tableau_test_error_fprint(
+     void )
+{
+	/* Test invocation of function only
+	 */
+	libtableau_error_fprint(
+	 NULL,
+	 NULL );
+
+	return( 1 );
+}
+
+/* Tests the libtableau_error_sprint function
+ * Returns 1 if successful or 0 if not
+ */
+int tableau_test_error_sprint(
+     void )
+{
+	/* Test invocation of function only
+	 */
+	libtableau_error_sprint(
+	 NULL,
+	 NULL,
+	 0 );
+
+	return( 1 );
+}
+
+/* Tests the libtableau_error_backtrace_fprint function
+ * Returns 1 if successful or 0 if not
+ */
+int tableau_test_error_backtrace_fprint(
+     void )
+{
+	/* Test invocation of function only
+	 */
+	libtableau_error_backtrace_fprint(
+	 NULL,
+	 NULL );
+
+	return( 1 );
+}
+
+/* Tests the libtableau_error_backtrace_sprint function
+ * Returns 1 if successful or 0 if not
+ */
+int tableau_test_error_backtrace_sprint(
+     void )
+{
+	/* Test invocation of function only
+	 */
+	libtableau_error_backtrace_sprint(
+	 NULL,
+	 NULL,
+	 0 );
+
+	return( 1 );
+}
 
 /* The main program
  */
@@ -92,25 +123,25 @@ int main(
 	TABLEAU_TEST_UNREFERENCED_PARAMETER( argc )
 	TABLEAU_TEST_UNREFERENCED_PARAMETER( argv )
 
-#if defined( __GNUC__ ) && !defined( LIBTABLEAU_DLL_IMPORT )
-
-	/* TODO: add tests for libtableau_values_table_initialize */
+	TABLEAU_TEST_RUN(
+	 "libtableau_error_free",
+	 tableau_test_error_free );
 
 	TABLEAU_TEST_RUN(
-	 "libtableau_values_table_free",
-	 tableau_test_values_table_free );
+	 "libtableau_error_fprint",
+	 tableau_test_error_fprint );
 
-	/* TODO: add tests for libtableau_values_table_realloc */
+	TABLEAU_TEST_RUN(
+	 "libtableau_error_sprint",
+	 tableau_test_error_sprint );
 
-	/* TODO: add tests for libtableau_values_table_get_index */
+	TABLEAU_TEST_RUN(
+	 "libtableau_error_backtrace_fprint",
+	 tableau_test_error_backtrace_fprint );
 
-	/* TODO: add tests for libtableau_values_table_get_identifier */
-
-	/* TODO: add tests for libtableau_values_table_get_value */
-
-	/* TODO: add tests for libtableau_values_table_set_value */
-
-#endif /* defined( __GNUC__ ) && !defined( LIBTABLEAU_DLL_IMPORT ) */
+	TABLEAU_TEST_RUN(
+	 "libtableau_error_backtrace_sprint",
+	 tableau_test_error_backtrace_sprint );
 
 	return( EXIT_SUCCESS );
 

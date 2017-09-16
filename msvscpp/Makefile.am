@@ -2,8 +2,11 @@ MSVSCPP_FILES = \
 	libcerror/libcerror.vcproj \
 	libcnotify/libcnotify.vcproj \
 	libtableau/libtableau.vcproj \
+	tableau_test_error/tableau_test_error.vcproj \
 	tableau_test_handle/tableau_test_handle.vcproj \
+	tableau_test_notify/tableau_test_notify.vcproj \
 	tableau_test_security_values/tableau_test_security_values.vcproj \
+	tableau_test_support/tableau_test_support.vcproj \
 	tableau_test_values_table/tableau_test_values_table.vcproj \
 	tableaucontrol/tableaucontrol.vcproj \
 	tableauinfo/tableauinfo.vcproj \

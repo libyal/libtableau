@@ -32,6 +32,33 @@
 #include "tableau_test_macros.h"
 #include "tableau_test_unused.h"
 
+/* Tests the libtableau_get_version function
+ * Returns 1 if successful or 0 if not
+ */
+int tableau_test_get_version(
+     void )
+{
+	const char *version_string = NULL;
+	int result                 = 0;
+
+	version_string = libtableau_get_version();
+
+	result = narrow_string_compare(
+	          version_string,
+	          LIBTABLEAU_VERSION_STRING,
+	          9 );
+
+	TABLEAU_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+
+	return( 1 );
+
+on_error:
+	return( 0 );
+}
+
 /* The main program
  */
 #if defined( HAVE_WIDE_SYSTEM_CHARACTER )

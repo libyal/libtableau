@@ -1,16 +1,31 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual C++ Express 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tableau_test_error", "tableau_test_error\tableau_test_error.vcproj", "{5D33C4CE-0271-4C95-BCA1-64F6C9D0B624}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E28DE84E-17E2-49A1-8C3A-7303BF6F1E29} = {E28DE84E-17E2-49A1-8C3A-7303BF6F1E29}
+	EndProjectSection
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tableau_test_handle", "tableau_test_handle\tableau_test_handle.vcproj", "{CC495F58-E6D3-485C-8462-22E33861940E}"
 	ProjectSection(ProjectDependencies) = postProject
 		{E28DE84E-17E2-49A1-8C3A-7303BF6F1E29} = {E28DE84E-17E2-49A1-8C3A-7303BF6F1E29}
 		{C021C4E8-E9BF-42AE-97CB-F258CFDA6E2E} = {C021C4E8-E9BF-42AE-97CB-F258CFDA6E2E}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tableau_test_notify", "tableau_test_notify\tableau_test_notify.vcproj", "{0CAA46C7-AB6C-4D12-98EC-F4BD1842D2BA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E28DE84E-17E2-49A1-8C3A-7303BF6F1E29} = {E28DE84E-17E2-49A1-8C3A-7303BF6F1E29}
+	EndProjectSection
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tableau_test_security_values", "tableau_test_security_values\tableau_test_security_values.vcproj", "{68D0B7E0-4832-4760-B54E-B4206ED3A832}"
 	ProjectSection(ProjectDependencies) = postProject
 		{E28DE84E-17E2-49A1-8C3A-7303BF6F1E29} = {E28DE84E-17E2-49A1-8C3A-7303BF6F1E29}
 		{C021C4E8-E9BF-42AE-97CB-F258CFDA6E2E} = {C021C4E8-E9BF-42AE-97CB-F258CFDA6E2E}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tableau_test_support", "tableau_test_support\tableau_test_support.vcproj", "{BA9E0D96-77CF-4C5B-88FC-90CAF2E6D0A2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E28DE84E-17E2-49A1-8C3A-7303BF6F1E29} = {E28DE84E-17E2-49A1-8C3A-7303BF6F1E29}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tableau_test_values_table", "tableau_test_values_table\tableau_test_values_table.vcproj", "{3DBC1710-C80F-4EA4-90C8-D68F0D3CD50B}"
@@ -50,14 +65,26 @@ Global
 		VSDebug|Win32 = VSDebug|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5D33C4CE-0271-4C95-BCA1-64F6C9D0B624}.Release|Win32.ActiveCfg = Release|Win32
+		{5D33C4CE-0271-4C95-BCA1-64F6C9D0B624}.Release|Win32.Build.0 = Release|Win32
+		{5D33C4CE-0271-4C95-BCA1-64F6C9D0B624}.VSDebug|Win32.ActiveCfg = VSDebug|Win32
+		{5D33C4CE-0271-4C95-BCA1-64F6C9D0B624}.VSDebug|Win32.Build.0 = VSDebug|Win32
 		{CC495F58-E6D3-485C-8462-22E33861940E}.Release|Win32.ActiveCfg = Release|Win32
 		{CC495F58-E6D3-485C-8462-22E33861940E}.Release|Win32.Build.0 = Release|Win32
 		{CC495F58-E6D3-485C-8462-22E33861940E}.VSDebug|Win32.ActiveCfg = VSDebug|Win32
 		{CC495F58-E6D3-485C-8462-22E33861940E}.VSDebug|Win32.Build.0 = VSDebug|Win32
+		{0CAA46C7-AB6C-4D12-98EC-F4BD1842D2BA}.Release|Win32.ActiveCfg = Release|Win32
+		{0CAA46C7-AB6C-4D12-98EC-F4BD1842D2BA}.Release|Win32.Build.0 = Release|Win32
+		{0CAA46C7-AB6C-4D12-98EC-F4BD1842D2BA}.VSDebug|Win32.ActiveCfg = VSDebug|Win32
+		{0CAA46C7-AB6C-4D12-98EC-F4BD1842D2BA}.VSDebug|Win32.Build.0 = VSDebug|Win32
 		{68D0B7E0-4832-4760-B54E-B4206ED3A832}.Release|Win32.ActiveCfg = Release|Win32
 		{68D0B7E0-4832-4760-B54E-B4206ED3A832}.Release|Win32.Build.0 = Release|Win32
 		{68D0B7E0-4832-4760-B54E-B4206ED3A832}.VSDebug|Win32.ActiveCfg = VSDebug|Win32
 		{68D0B7E0-4832-4760-B54E-B4206ED3A832}.VSDebug|Win32.Build.0 = VSDebug|Win32
+		{BA9E0D96-77CF-4C5B-88FC-90CAF2E6D0A2}.Release|Win32.ActiveCfg = Release|Win32
+		{BA9E0D96-77CF-4C5B-88FC-90CAF2E6D0A2}.Release|Win32.Build.0 = Release|Win32
+		{BA9E0D96-77CF-4C5B-88FC-90CAF2E6D0A2}.VSDebug|Win32.ActiveCfg = VSDebug|Win32
+		{BA9E0D96-77CF-4C5B-88FC-90CAF2E6D0A2}.VSDebug|Win32.Build.0 = VSDebug|Win32
 		{3DBC1710-C80F-4EA4-90C8-D68F0D3CD50B}.Release|Win32.ActiveCfg = Release|Win32
 		{3DBC1710-C80F-4EA4-90C8-D68F0D3CD50B}.Release|Win32.Build.0 = Release|Win32
 		{3DBC1710-C80F-4EA4-90C8-D68F0D3CD50B}.VSDebug|Win32.ActiveCfg = VSDebug|Win32

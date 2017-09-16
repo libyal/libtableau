@@ -16,9 +16,21 @@ EXTRA_DIST = \
 	$(check_SCRIPTS)
 
 check_PROGRAMS = \
+	tableau_test_error \
 	tableau_test_handle \
+	tableau_test_notify \
 	tableau_test_security_values \
+	tableau_test_support \
 	tableau_test_values_table
+
+tableau_test_error_SOURCES = \
+	tableau_test_error.c \
+	tableau_test_libtableau.h \
+	tableau_test_macros.h \
+	tableau_test_unused.h
+
+tableau_test_error_LDADD = \
+	../libtableau/libtableau.la
 
 tableau_test_handle_SOURCES = \
 	tableau_test_handle.c \
@@ -32,6 +44,15 @@ tableau_test_handle_LDADD = \
 	../libtableau/libtableau.la \
 	@LIBCERROR_LIBADD@
 
+tableau_test_notify_SOURCES = \
+	tableau_test_libtableau.h \
+	tableau_test_macros.h \
+	tableau_test_notify.c \
+	tableau_test_unused.h
+
+tableau_test_notify_LDADD = \
+	../libtableau/libtableau.la
+
 tableau_test_security_values_SOURCES = \
 	tableau_test_libcerror.h \
 	tableau_test_libtableau.h \
@@ -43,6 +64,15 @@ tableau_test_security_values_SOURCES = \
 tableau_test_security_values_LDADD = \
 	../libtableau/libtableau.la \
 	@LIBCERROR_LIBADD@
+
+tableau_test_support_SOURCES = \
+	tableau_test_libtableau.h \
+	tableau_test_macros.h \
+	tableau_test_support.c \
+	tableau_test_unused.h
+
+tableau_test_support_LDADD = \
+	../libtableau/libtableau.la
 
 tableau_test_values_table_SOURCES = \
 	tableau_test_libcerror.h \

@@ -1,166 +1,103 @@
-.Dd September  3, 2017
+.Dd September 16, 2017
 .Dt libtableau 3
 .Os libtableau
 .Sh NAME
 .Nm libtableau.h
-.Nd Library to read from the Tableau (TM) forenisc bridge (write blocker)
+.Nd Library to support the Tableau(TM) forensic bridge (write blocker)
 .Sh LIBRARY
 .Lb libtableau
 .Sh SYNOPSIS
 .In libtableau.h
 .Pp
-.Ft void
-.Fn libtableau_set_notify_values "FILE *stream, uint8_t verbose"
-.Ft int
-.Fn libtableau_handle_initialize "libtableau_handle_t **handle"
-.Ft int
-.Fn libtableau_handle_free "libtableau_handle_t **handle"
-.Ft int
-.Fn libtableau_open "libtableau_handle_t *handle, const char *filename"
-.Ft int
-.Fn libtableau_close "libtableau_handle_t *handle"
-.Ft int
-.Fn libtableau_query "libtableau_handle_t *handle"
-.Ft int
-.Fn libtableau_detected_dco "libtableau_handle_t *handle"
-.Ft int
-.Fn libtableau_remove_dco "libtableau_handle_t *handle"
-.Ft int
-.Fn libtableau_get_drive_amount_of_sectors "libtableau_handle_t *handle, uint32_t *amount_of_sectors"
-.Ft int
-.Fn libtableau_get_hpa_amount_of_sectors "libtableau_handle_t *handle, uint32_t *amount_of_sectors"
-.Ft int
-.Fn libtableau_get_dco_amount_of_sectors "libtableau_handle_t *handle, uint32_t *amount_of_sectors"
-.Ft int
-.Fn libtableau_get_amount_of_tableau_values "libtableau_handle_t *handle, uint32_t *amount_of_values"
-.Pp
-When the library was compiled with narrow character support (default) the following functions are available
+Support functions
 .Ft const char *
 .Fn libtableau_get_version "void"
-.Ft int
-.Fn libtableau_get_header_value_identifier "libtableau_handle_t *handle, uint32_t index, char *value, size_t length"
-.Ft int
-.Fn libtableau_get_header_value "libtableau_handle_t *handle, char *identifier, char *value, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_bridge_firmware_stepping "libtableau_handle_t *handle, char *bridge_firmware_stepping, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_bridge_channel_index "libtableau_handle_t *handle, char *bridge_channel_index, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_bridge_channel_type "libtableau_handle_t *handle, char *bridge_channel_type, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_bridge_debug_firmware "libtableau_handle_t *handle, char *bridge_debug_firmware, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_bridge_mode_read_only "libtableau_handle_t *handle, char *bridge_mode_read_only, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_bridge_report_read_only "libtableau_handle_t *handle, char *bridge_report_read_only, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_bridge_report_write_error "libtableau_handle_t *handle, char *bridge_report_write_error, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_bridge_serial_number "libtableau_handle_t *handle, char *bridge_serial_number, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_bridge_vendor "libtableau_handle_t *handle, char *bridge_vendor, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_bridge_model "libtableau_handle_t *handle, char *bridge_model, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_bridge_firmware_date "libtableau_handle_t *handle, char *bridge_firmware_date, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_bridge_firmware_time "libtableau_handle_t *handle, char *bridge_firmware_time, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_drive_vendor "libtableau_handle_t *handle, char *drive_vendor, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_drive_model "libtableau_handle_t *handle, char *drive_model, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_drive_serial_number "libtableau_handle_t *handle, char *drive_serial_number, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_drive_revision_number "libtableau_handle_t *handle, char *drive_revision_number, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_drive_hpa_support "libtableau_handle_t *handle, char *drive_hpa_support, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_drive_hpa_in_use "libtableau_handle_t *handle, char *drive_hpa_in_use, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_drive_dco_support "libtableau_handle_t *handle, char *drive_dco_support, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_drive_dco_in_use "libtableau_handle_t *handle, char *drive_dco_in_use, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_drive_security_support "libtableau_handle_t *handle, char *drive_security_support, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_drive_security_in_use "libtableau_handle_t *handle, char *drive_security_in_use, size_t length"
 .Pp
-When the library was compiled with wide character support the following functions are available instead of the narrow character functions
-.Ft const wchar_t *
-.Fn libtableau_get_version "void"
+Notify functions
+.Ft void
+.Fn libtableau_notify_set_verbose "int verbose"
 .Ft int
-.Fn libtableau_get_header_value_identifier "libtableau_handle_t *handle, uint32_t index, wchar_t *value, size_t length"
+.Fn libtableau_notify_set_stream "FILE *stream, libtableau_error_t **error"
 .Ft int
-.Fn libtableau_get_header_value "libtableau_handle_t *handle, wchar_t *identifier, wchar_t *value, size_t length"
+.Fn libtableau_notify_stream_open "const char *filename, libtableau_error_t **error"
 .Ft int
-.Fn libtableau_get_header_value_bridge_firmware_stepping "libtableau_handle_t *handle, wchar_t *bridge_firmware_stepping, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_bridge_channel_index "libtableau_handle_t *handle, wchar_t *bridge_channel_index, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_bridge_channel_type "libtableau_handle_t *handle, wchar_t *bridge_channel_type, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_bridge_debug_firmware "libtableau_handle_t *handle, wchar_t *bridge_debug_firmware, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_bridge_mode_read_only "libtableau_handle_t *handle, wchar_t *bridge_mode_read_only, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_bridge_report_read_only "libtableau_handle_t *handle, wchar_t *bridge_report_read_only, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_bridge_report_write_error "libtableau_handle_t *handle, wchar_t *bridge_report_write_error, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_bridge_serial_number "libtableau_handle_t *handle, wchar_t *bridge_serial_number, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_bridge_vendor "libtableau_handle_t *handle, wchar_t *bridge_vendor, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_bridge_model "libtableau_handle_t *handle, wchar_t *bridge_model, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_bridge_firmware_date "libtableau_handle_t *handle, wchar_t *bridge_firmware_date, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_bridge_firmware_time "libtableau_handle_t *handle, wchar_t *bridge_firmware_time, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_drive_vendor "libtableau_handle_t *handle, wchar_t *drive_vendor, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_drive_model "libtableau_handle_t *handle, wchar_t *drive_model, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_drive_serial_number "libtableau_handle_t *handle, wchar_t *drive_serial_number, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_drive_revision_number "libtableau_handle_t *handle, wchar_t *drive_revision_number, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_drive_hpa_support "libtableau_handle_t *handle, wchar_t *drive_hpa_support, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_drive_hpa_in_use "libtableau_handle_t *handle, wchar_t *drive_hpa_in_use, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_drive_dco_support "libtableau_handle_t *handle, wchar_t *drive_dco_support, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_drive_dco_in_use "libtableau_handle_t *handle, wchar_t *drive_dco_in_use, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_drive_security_support "libtableau_handle_t *handle, wchar_t *drive_security_support, size_t length"
-.Ft int
-.Fn libtableau_get_header_value_drive_security_in_use "libtableau_handle_t *handle, wchar_t *drive_security_in_use, size_t length"
+.Fn libtableau_notify_stream_close "libtableau_error_t **error"
 .Pp
-When wide character support functions like wmain and wopen are present and libtableau is compiled with
-.Ar HAVE_WIDE_CHARACTER_SUPPORT_FUNCTIONS
-,
-.Ar LIBTABLEAU_WIDE_CHARACTER_FILE_FUNCTIONS
- is defined in libtableau/types.h and the following functions will replace their narrow character functions.
-.Ft libtableau_handle_t *
-.Fn libtableau_open "libtableau_handle_t *handle, const wchar_t *filename"
+Error functions
+.Ft void
+.Fn libtableau_error_free "libtableau_error_t **error"
+.Ft int
+.Fn libtableau_error_fprint "libtableau_error_t *error, FILE *stream"
+.Ft int
+.Fn libtableau_error_sprint "libtableau_error_t *error, char *string, size_t size"
+.Ft int
+.Fn libtableau_error_backtrace_fprint "libtableau_error_t *error, FILE *stream"
+.Ft int
+.Fn libtableau_error_backtrace_sprint "libtableau_error_t *error, char *string, size_t size"
+.Pp
+Handle functions
+.Ft int
+.Fn libtableau_handle_initialize "libtableau_handle_t **handle, libtableau_error_t **error"
+.Ft int
+.Fn libtableau_handle_free "libtableau_handle_t **handle, libtableau_error_t **error"
+.Ft int
+.Fn libtableau_open "libtableau_handle_t *handle, const char *filename, libtableau_error_t **error"
+.Ft int
+.Fn libtableau_close "libtableau_handle_t *handle, libtableau_error_t **error"
+.Ft int
+.Fn libtableau_query "libtableau_handle_t *handle, libtableau_error_t **error"
+.Ft int
+.Fn libtableau_detected_dco "libtableau_handle_t *handle, libtableau_error_t **error"
+.Ft int
+.Fn libtableau_remove_dco "libtableau_handle_t *handle, libtableau_error_t **error"
+.Ft int
+.Fn libtableau_get_drive_amount_of_sectors "libtableau_handle_t *handle, uint32_t *amount_of_sectors, libtableau_error_t **error"
+.Ft int
+.Fn libtableau_get_hpa_amount_of_sectors "libtableau_handle_t *handle, uint32_t *amount_of_sectors, libtableau_error_t **error"
+.Ft int
+.Fn libtableau_get_dco_amount_of_sectors "libtableau_handle_t *handle, uint32_t *amount_of_sectors, libtableau_error_t **error"
+.Ft int
+.Fn libtableau_get_amount_of_tableau_values "libtableau_handle_t *handle, uint32_t *amount_of_values, libtableau_error_t **error"
+.Ft int
+.Fn libtableau_get_tableau_value_identifier "libtableau_handle_t *handle, uint32_t index, char *value, size_t length, libtableau_error_t **error"
+.Ft int
+.Fn libtableau_get_tableau_value "libtableau_handle_t *handle, char *identifier, char *value, size_t length, libtableau_error_t **error"
+.Pp
+Available when compiled with wide character string support:
+.Ft int
+.Fn libtableau_open_wide "libtableau_handle_t *handle, const wchar_t *filename, libtableau_error_t **error"
 .Sh DESCRIPTION
 The
 .Fn libtableau_get_version
 function is used to retrieve the library version.
 .Sh RETURN VALUES
-Most of the functions return NULL or -1 on error, dependent on the return type. For the actual return values refer to libtableau.h
+Most of the functions return NULL or \-1 on error, dependent on the return type.
+For the actual return values see "libtableau.h".
 .Sh ENVIRONMENT
 None
 .Sh FILES
 None
+.Sh NOTES
+libtableau allows to be compiled with wide character support (wchar_t).
+
+To compile libtableau with wide character support use:
+.Ar ./configure --enable-wide-character-type=yes
+ or define:
+.Ar _UNICODE
+ or
+.Ar UNICODE
+ during compilation.
+
+.Ar LIBTABLEAU_WIDE_CHARACTER_TYPE
+ in libtableau/features.h can be used to determine if libtableau was compiled with wide character support.
 .Sh BUGS
 Please report bugs of any kind on the project issue tracker: https://github.com/libyal/libtableau/issues
 .Sh AUTHOR
-These man pages were written by Joachim Metz.
+These man pages are generated from "libtableau.h".
 .Sh COPYRIGHT
 Copyright (C) 2008-2017, Joachim Metz <joachim.metz@gmail.com>.
-This is free software; see the source for copying conditions. There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+This is free software; see the source for copying conditions.
+There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 .Sh SEE ALSO
 the libtableau.h include file

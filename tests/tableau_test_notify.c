@@ -1,5 +1,5 @@
 /*
- * Library values_table type test program
+ * Library notification functions test program
  *
  * Copyright (C) 2008-2017, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -27,55 +27,67 @@
 #include <stdlib.h>
 #endif
 
-#include "tableau_test_libcerror.h"
 #include "tableau_test_libtableau.h"
 #include "tableau_test_macros.h"
-#include "tableau_test_memory.h"
 #include "tableau_test_unused.h"
 
-#include "../libtableau/libtableau_values_table.h"
-
-#if defined( __GNUC__ ) && !defined( LIBTABLEAU_DLL_IMPORT )
-
-/* Tests the libtableau_values_table_free function
+/* Tests the libtableau_notify_set_verbose function
  * Returns 1 if successful or 0 if not
  */
-int tableau_test_values_table_free(
+int tableau_test_notify_set_verbose(
      void )
 {
-	libcerror_error_t *error = NULL;
-	int result               = 0;
-
-	/* Test error cases
+	/* Test invocation of function only
 	 */
-	result = libtableau_values_table_free(
-	          NULL,
-	          &error );
-
-	TABLEAU_TEST_ASSERT_EQUAL_INT(
-	 "result",
-	 result,
-	 -1 );
-
-	TABLEAU_TEST_ASSERT_IS_NOT_NULL(
-	 "error",
-	 error );
-
-	libcerror_error_free(
-	 &error );
+	libtableau_notify_set_verbose(
+	 0 );
 
 	return( 1 );
-
-on_error:
-	if( error != NULL )
-	{
-		libcerror_error_free(
-		 &error );
-	}
-	return( 0 );
 }
 
-#endif /* defined( __GNUC__ ) && !defined( LIBTABLEAU_DLL_IMPORT ) */
+/* Tests the libtableau_notify_set_stream function
+ * Returns 1 if successful or 0 if not
+ */
+int tableau_test_notify_set_stream(
+     void )
+{
+	/* Test invocation of function only
+	 */
+	libtableau_notify_set_stream(
+	 NULL,
+	 NULL );
+
+	return( 1 );
+}
+
+/* Tests the libtableau_notify_stream_open function
+ * Returns 1 if successful or 0 if not
+ */
+int tableau_test_notify_stream_open(
+     void )
+{
+	/* Test invocation of function only
+	 */
+	libtableau_notify_stream_open(
+	 NULL,
+	 NULL );
+
+	return( 1 );
+}
+
+/* Tests the libtableau_notify_stream_close function
+ * Returns 1 if successful or 0 if not
+ */
+int tableau_test_notify_stream_close(
+     void )
+{
+	/* Test invocation of function only
+	 */
+	libtableau_notify_stream_close(
+	 NULL );
+
+	return( 1 );
+}
 
 /* The main program
  */
@@ -92,25 +104,21 @@ int main(
 	TABLEAU_TEST_UNREFERENCED_PARAMETER( argc )
 	TABLEAU_TEST_UNREFERENCED_PARAMETER( argv )
 
-#if defined( __GNUC__ ) && !defined( LIBTABLEAU_DLL_IMPORT )
-
-	/* TODO: add tests for libtableau_values_table_initialize */
+	TABLEAU_TEST_RUN(
+	 "libtableau_notify_set_verbose",
+	 tableau_test_notify_set_verbose )
 
 	TABLEAU_TEST_RUN(
-	 "libtableau_values_table_free",
-	 tableau_test_values_table_free );
+	 "libtableau_notify_set_stream",
+	 tableau_test_notify_set_stream )
 
-	/* TODO: add tests for libtableau_values_table_realloc */
+	TABLEAU_TEST_RUN(
+	 "libtableau_notify_stream_open",
+	 tableau_test_notify_stream_open )
 
-	/* TODO: add tests for libtableau_values_table_get_index */
-
-	/* TODO: add tests for libtableau_values_table_get_identifier */
-
-	/* TODO: add tests for libtableau_values_table_get_value */
-
-	/* TODO: add tests for libtableau_values_table_set_value */
-
-#endif /* defined( __GNUC__ ) && !defined( LIBTABLEAU_DLL_IMPORT ) */
+	TABLEAU_TEST_RUN(
+	 "libtableau_notify_stream_close",
+	 tableau_test_notify_stream_close )
 
 	return( EXIT_SUCCESS );
 
