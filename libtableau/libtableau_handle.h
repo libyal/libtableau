@@ -75,7 +75,15 @@ int libtableau_handle_open(
      const char *filename,
      libcerror_error_t **error );
 
-/* TODO add libtableau_open_wide */
+#if defined( HAVE_WIDE_CHARACTER_TYPE )
+
+LIBTABLEAU_EXTERN \
+int libtableau_handle_open_wide(
+     libtableau_handle_t *handle,
+     const wchar_t *filename,
+     libcerror_error_t **error );
+
+#endif /* defined( HAVE_WIDE_CHARACTER_TYPE ) */
 
 LIBTABLEAU_EXTERN \
 int libtableau_handle_close(

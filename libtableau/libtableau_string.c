@@ -103,7 +103,11 @@ ssize_t libtableau_string_trim_copy(
 	     &( source[ first_character ] ),
 	     last_character ) != 1 )
 	{
-		notify_warning_printf( "%s: unable to copy trimmed string.\n",
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_MEMORY,
+		 LIBCERROR_MEMORY_ERROR_COPY_FAILED,
+		 "%s: unable to copy trimmed string.",
 		 function );
 
 		return( -1 );

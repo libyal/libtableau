@@ -282,14 +282,22 @@ int libtableau_values_table_realloc(
 	if( ( previous_number_of_values > (uint32_t) INT32_MAX )
 	 || ( new_number_of_values > (uint32_t) INT32_MAX ) )
 	{
-		notify_warning_printf( "%s: invalid number_of_values value exceeds maximum.\n",
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_VALUE_EXCEEDS_MAXIMUM,
+		 "%s: invalid number of values value exceeds maximum.",
 		 function );
 
 		return( -1 );
 	}
 	if( previous_number_of_values >= new_number_of_values )
 	{
-		notify_warning_printf( "%s: new number_of_values smaller than previous number_of_values.\n",
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_VALUE_TOO_SMALL,
+		 "%s: new number of values smaller than previous.",
 		 function );
 
 		return( -1 );
@@ -297,7 +305,11 @@ int libtableau_values_table_realloc(
 	if( ( previous_size > (size_t) SSIZE_MAX )
 	 || ( new_size > (ssize_t) SSIZE_MAX ) )
 	{
-		notify_warning_printf( "%s: invalid size value exceeds maximum.\n",
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_VALUE_EXCEEDS_MAXIMUM,
+		 "%s: invalid size value exceeds maximum.",
 		 function );
 
 		return( -1 );
@@ -308,7 +320,11 @@ int libtableau_values_table_realloc(
 
 	if( reallocation == NULL )
 	{
-		notify_warning_printf( "%s: unable to reallocate identifiers.\n",
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_MEMORY,
+		 LIBCERROR_MEMORY_ERROR_INSUFFICIENT,
+		 "%s: unable to reallocate identifiers.",
 		 function );
 
 		return( -1 );
@@ -320,7 +336,11 @@ int libtableau_values_table_realloc(
              0,
              ( new_size - previous_size ) ) == NULL )
         {
-                notify_warning_printf( "%s: unable to clear identifiers.\n",
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_MEMORY,
+		 LIBCERROR_MEMORY_ERROR_SET_FAILED,
+                 "%s: unable to clear identifiers.",
                  function );
 
                 return( -1 );
@@ -331,7 +351,11 @@ int libtableau_values_table_realloc(
 
 	if( reallocation == NULL )
 	{
-		notify_warning_printf( "%s: unable to reallocate values.\n",
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_MEMORY,
+		 LIBCERROR_MEMORY_ERROR_INSUFFICIENT,
+		 "%s: unable to reallocate values.",
 		 function );
 
 		return( -1 );
@@ -343,7 +367,11 @@ int libtableau_values_table_realloc(
              0,
              ( new_size - previous_size ) ) == NULL )
         {
-                notify_warning_printf( "%s: unable to clear values.\n",
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_MEMORY,
+		 LIBCERROR_MEMORY_ERROR_SET_FAILED,
+                 "%s: unable to clear values.",
                  function );
 
                 return( -1 );
@@ -393,14 +421,22 @@ int32_t libtableau_values_table_get_index(
 
 	if( identifier_length == 0 )
 	{
-		notify_warning_printf( "%s: invalid identifier length.\n",
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_VALUE_OUT_OF_BOUNDS,
+		 "%s: invalid identifier length.",
 		 function );
 
 		return( -1 );
 	}
 	if( values_table->number_of_values > (uint32_t) INT32_MAX )
 	{
-		notify_warning_printf( "%s: invalid values table number_of_values value exceeds maximum.\n",
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_VALUE_OUT_OF_BOUNDS,
+		 "%s: invalid values table number of values value exceeds maximum.",
 		 function );
 
 		return( -1 );
@@ -411,20 +447,30 @@ int32_t libtableau_values_table_get_index(
 	{
 		if( values_table->identifiers[ value_index ] == NULL )
 		{
-			notify_warning_printf( "%s: missing identifier for index: %" PRIi32 ".\n",
-			 function, value_index );
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			 LIBCERROR_RUNTIME_ERROR_VALUE_MISSING,
+			 "%s: missing identifier for index: %" PRIi32 ".",
+			 function,
+			 value_index );
 
-			continue;
+			return( -1 );
 		}
 		string_length = narrow_string_length(
 		                 values_table->identifiers[ value_index ] );
 
 		if( string_length == 0 )
 		{
-			notify_warning_printf( "%s: unable to determine length of identifier of index: %" PRIi32 ".\n",
-			 function, value_index );
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			 LIBCERROR_RUNTIME_ERROR_VALUE_OUT_OF_BOUNDS,
+			 "%s: unable to determine length of identifier of index: %" PRIi32 ".",
+			 function,
+			 value_index );
 
-			continue;
+			return( -1 );
 		}
 		if( string_length != identifier_length )
 		{
@@ -448,7 +494,7 @@ int32_t libtableau_values_table_get_index(
 int libtableau_values_table_get_identifier(
      libtableau_values_table_t *values_table,
      uint32_t index,
-     const char *identifier,
+     char *identifier,
      size_t length,
      libcerror_error_t **error )
 {
@@ -519,7 +565,11 @@ int libtableau_values_table_get_identifier(
 
 	if( identifier_length > length )
 	{
-		notify_warning_printf( "%s: identifier too small.\n",
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_VALUE_OUT_OF_BOUNDS,
+		 "%s: identifier too small.",
 		 function );
 
 		return( -1 );
@@ -538,7 +588,7 @@ int libtableau_values_table_get_identifier(
 
 		return( -1 );
 	}
-	identifier[ identifier_length - 1 ] = '\0';
+	identifier[ identifier_length - 1 ] = 0;
 
 	return( 1 );
 }
@@ -576,8 +626,13 @@ int libtableau_values_table_get_value(
 
 	if( index <= -1 )
 	{
-		notify_warning_printf( "%s: unable to find index for: %" PRIs ".\n",
-		 function, identifier );
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
+		 "%s: unable to find index for: %s.",
+		 function,
+		 identifier );
 
 		return( -1 );
 	}
@@ -604,7 +659,11 @@ int libtableau_values_table_get_value(
 
 	if( value_length > length )
 	{
-		notify_warning_printf( "%s: value too small.\n",
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_VALUE_OUT_OF_BOUNDS,
+		 "%s: value too small.",
 		 function );
 
 		return( -1 );
@@ -651,8 +710,13 @@ int libtableau_values_table_set_value(
 
 	if( index <= -1 )
 	{
-		notify_warning_printf( "%s: unable to find index for: %" PRIs ".\n",
-		 function, identifier );
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
+		 "%s: unable to find index for: %s.",
+		 function,
+		 identifier );
 
 		return( -1 );
 	}
@@ -663,7 +727,11 @@ int libtableau_values_table_set_value(
 
 		if( string_length == 0 )
 		{
-			notify_warning_printf( "%s: unable to determine length of identifier.\n",
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			 LIBCERROR_RUNTIME_ERROR_VALUE_OUT_OF_BOUNDS,
+			 "%s: unable to determine length of identifier.",
 			 function );
 
 			goto on_error;
@@ -674,7 +742,11 @@ int libtableau_values_table_set_value(
 		     index + 1,
 		     error ) != 1 )
 		{
-			notify_warning_printf( "%s: unable to reallocate values table.\n",
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_MEMORY,
+			 LIBCERROR_MEMORY_ERROR_INSUFFICIENT,
+			 "%s: unable to reallocate values table.",
 			 function );
 
 			goto on_error;

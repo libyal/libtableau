@@ -23,8 +23,9 @@
 #define _LIBTABLEAU_H
 
 #include <libtableau/definitions.h>
+#include <libtableau/error.h>
 #include <libtableau/extern.h>
-#include <libtableau/handle.h>
+#include <libtableau/features.h>
 #include <libtableau/types.h>
 
 #include <stdio.h>
@@ -33,377 +34,362 @@
 extern "C" {
 #endif
 
+/* -------------------------------------------------------------------------
+ * Support functions
+ * ------------------------------------------------------------------------- */
+
 /* Returns the library version
  */
-#if defined( LIBTABLEAU_WIDE_CHARACTER_TYPE )
-LIBTABLEAU_EXTERN const wchar_t *libtableau_get_version(
-                                  void );
-#else
-LIBTABLEAU_EXTERN const char *libtableau_get_version(
-                               void );
-#endif
+LIBTABLEAU_EXTERN \
+const char *libtableau_get_version(
+             void );
 
-/* Set the notify values
+/* -------------------------------------------------------------------------
+ * Notify functions
+ * ------------------------------------------------------------------------- */
+
+/* Sets the verbose notification
  */
-LIBTABLEAU_EXTERN void libtableau_set_notify_values(
-                        FILE *stream,
-                        uint8_t verbose );
+LIBTABLEAU_EXTERN \
+void libtableau_notify_set_verbose(
+      int verbose );
+
+/* Sets the notification stream
+ * Returns 1 if successful or -1 on error
+ */
+LIBTABLEAU_EXTERN \
+int libtableau_notify_set_stream(
+     FILE *stream,
+     libtableau_error_t **error );
+
+/* Opens the notification stream using a filename
+ * The stream is opened in append mode
+ * Returns 1 if successful or -1 on error
+ */
+LIBTABLEAU_EXTERN \
+int libtableau_notify_stream_open(
+     const char *filename,
+     libtableau_error_t **error );
+
+/* Closes the notification stream if opened using a filename
+ * Returns 0 if successful or -1 on error
+ */
+LIBTABLEAU_EXTERN \
+int libtableau_notify_stream_close(
+     libtableau_error_t **error );
+
+/* -------------------------------------------------------------------------
+ * Error functions
+ * ------------------------------------------------------------------------- */
+
+/* Frees an error
+ */
+LIBTABLEAU_EXTERN \
+void libtableau_error_free(
+      libtableau_error_t **error );
+
+/* Prints a descriptive string of the error to the stream
+ * Returns the number of printed characters if successful or -1 on error
+ */
+LIBTABLEAU_EXTERN \
+int libtableau_error_fprint(
+     libtableau_error_t *error,
+     FILE *stream );
+
+/* Prints a descriptive string of the error to the string
+ * The end-of-string character is not included in the return value
+ * Returns the number of printed characters if successful or -1 on error
+ */
+LIBTABLEAU_EXTERN \
+int libtableau_error_sprint(
+     libtableau_error_t *error,
+     char *string,
+     size_t size );
+
+/* Prints a backtrace of the error to the stream
+ * Returns the number of printed characters if successful or -1 on error
+ */
+LIBTABLEAU_EXTERN \
+int libtableau_error_backtrace_fprint(
+     libtableau_error_t *error,
+     FILE *stream );
+
+/* Prints a backtrace of the error to the string
+ * The end-of-string character is not included in the return value
+ * Returns the number of printed characters if successful or -1 on error
+ */
+LIBTABLEAU_EXTERN \
+int libtableau_error_backtrace_sprint(
+     libtableau_error_t *error,
+     char *string,
+     size_t size );
+
+/* -------------------------------------------------------------------------
+ * Handle functions
+ * ------------------------------------------------------------------------- */
 
 /* Initializes the handle
  * Make sure the value handle is pointing to is set to NULL
  * Returns 1 if successful or -1 on error
  */
-LIBTABLEAU_EXTERN int libtableau_handle_initialize(
-                       libtableau_handle_t **handle );
+LIBTABLEAU_EXTERN \
+int libtableau_handle_initialize(
+     libtableau_handle_t **handle,
+     libtableau_error_t **error );
 
 /* Frees an exisisting handle
  * Returns 1 if successful or -1 on error
  */
-LIBTABLEAU_EXTERN int libtableau_handle_free(
-                       libtableau_handle_t **handle );
+LIBTABLEAU_EXTERN \
+int libtableau_handle_free(
+     libtableau_handle_t **handle,
+     libtableau_error_t **error );
 
 /* Opens a device
  * Returns 1 if successful or -1 on error
  */
-#if defined( LIBTABLEAU_WIDE_CHARACTER_FILE_FUNCTIONS )
-LIBTABLEAU_EXTERN int libtableau_open(
-                       libtableau_handle_t *handle,
-                       const wchar_t *filename );
-#else
-LIBTABLEAU_EXTERN int libtableau_open(
-                       libtableau_handle_t *handle,
-                       const char *filename );
-#endif
+LIBTABLEAU_EXTERN \
+int libtableau_open(
+     libtableau_handle_t *handle,
+     const char *filename,
+     libtableau_error_t **error );
+
+#if defined( LIBTABLEAU_HAVE_WIDE_CHARACTER_TYPE )
+
+/* Opens a device
+ * Returns 1 if successful or -1 on error
+ */
+LIBTABLEAU_EXTERN \
+int libtableau_open_wide(
+     libtableau_handle_t *handle,
+     const wchar_t *filename,
+     libtableau_error_t **error );
+
+#endif /* defined( LIBTABLEAU_HAVE_WIDE_CHARACTER_TYPE ) */
 
 /* Closes a device
  * Returns 0 if successful or -1 on error
  */
-LIBTABLEAU_EXTERN int libtableau_close(
-                       libtableau_handle_t *handle );
+LIBTABLEAU_EXTERN \
+int libtableau_close(
+     libtableau_handle_t *handle,
+     libtableau_error_t **error );
 
 /* Queries the opened device for Tableau information
  * Returns 1 if successful or -1 on error
  */
-LIBTABLEAU_EXTERN int libtableau_query(
-                       libtableau_handle_t *handle );
+LIBTABLEAU_EXTERN \
+int libtableau_query(
+     libtableau_handle_t *handle,
+     libtableau_error_t **error );
 
 /* Detects the DCO from the opened device
  * The device must be already queried
  * Returns 1 if a DCO is present, 0 if no DCO is present or -1 on error
  */
-LIBTABLEAU_EXTERN int libtableau_detected_dco(
-                       libtableau_handle_t *handle );
+LIBTABLEAU_EXTERN \
+int libtableau_detected_dco(
+     libtableau_handle_t *handle,
+     libtableau_error_t **error );
 
 /* Removes the DCO from the opened device
  * The device must be already queried
  * Returns 1 if successful, 0 if no DCO is present or -1 on error
  */
-LIBTABLEAU_EXTERN int libtableau_remove_dco(
-                       libtableau_handle_t *handle );
+LIBTABLEAU_EXTERN \
+int libtableau_remove_dco(
+     libtableau_handle_t *handle,
+     libtableau_error_t **error );
 
 /* Retrieves the amount of drive sectors
  * Returns 1 if successful, 0 if no amount of drive sectors value is present or -1 on error
  */
-LIBTABLEAU_EXTERN int libtableau_get_drive_amount_of_sectors(
-                       libtableau_handle_t *handle,
-                       uint32_t *amount_of_sectors );
+LIBTABLEAU_EXTERN \
+int libtableau_get_drive_amount_of_sectors(
+     libtableau_handle_t *handle,
+     uint32_t *amount_of_sectors,
+     libtableau_error_t **error );
 
 /* Retrieves the amount of HPA sectors
  * Returns 1 if successful, 0 if no amount of HPA sectors value is present or -1 on error
  */
-LIBTABLEAU_EXTERN int libtableau_get_hpa_amount_of_sectors(
-                       libtableau_handle_t *handle,
-                       uint32_t *amount_of_sectors );
+LIBTABLEAU_EXTERN \
+int libtableau_get_hpa_amount_of_sectors(
+     libtableau_handle_t *handle,
+     uint32_t *amount_of_sectors,
+     libtableau_error_t **error );
 
 /* Retrieves the amount of DCO sectors
  * Returns 1 if successful, 0 if no amount of DCO sectors value is present or -1 on error
  */
-LIBTABLEAU_EXTERN int libtableau_get_dco_amount_of_sectors(
-                       libtableau_handle_t *handle,
-                       uint32_t *amount_of_sectors );
+LIBTABLEAU_EXTERN \
+int libtableau_get_dco_amount_of_sectors(
+     libtableau_handle_t *handle,
+     uint32_t *amount_of_sectors,
+     libtableau_error_t **error );
 
 /* Retrieves the amount of tableau values
  * Returns 1 if successful, 0 if no tableau values are present or -1 on error
  */
-LIBTABLEAU_EXTERN int libtableau_get_amount_of_tableau_values(
-                       libtableau_handle_t *handle,
-                       uint32_t *amount_of_values );
+LIBTABLEAU_EXTERN \
+int libtableau_get_amount_of_tableau_values(
+     libtableau_handle_t *handle,
+     uint32_t *amount_of_values,
+     libtableau_error_t **error );
 
 /* Retrieves the tableau value identifier specified by its index
  * Returns 1 if successful, 0 if value not present or -1 on error
  */
-#if defined( LIBTABLEAU_WIDE_CHARACTER_TYPE )
-LIBTABLEAU_EXTERN int libtableau_get_tableau_value_identifier(
-                       libtableau_handle_t *handle,
-                       uint32_t index,
-                       wchar_t *value,
-                       size_t length );
-#else
-LIBTABLEAU_EXTERN int libtableau_get_tableau_value_identifier(
-                       libtableau_handle_t *handle,
-                       uint32_t index,
-                       char *value,
-                       size_t length );
-#endif
+LIBTABLEAU_EXTERN \
+int libtableau_get_tableau_value_identifier(
+     libtableau_handle_t *handle,
+     uint32_t index,
+     char *value,
+     size_t length,
+     libtableau_error_t **error );
 
 /* Retrieves the tableau value specified by the identifier
  * Returns 1 if successful, 0 if value not present or -1 on error
  */
-#if defined( LIBTABLEAU_WIDE_CHARACTER_TYPE )
-LIBTABLEAU_EXTERN int libtableau_get_tableau_value(
-                       libtableau_handle_t *handle,
-                       wchar_t *identifier,
-                       wchar_t *value,
-                       size_t length );
-#else
-LIBTABLEAU_EXTERN int libtableau_get_tableau_value(
-                       libtableau_handle_t *handle,
-                       char *identifier,
-                       char *value,
-                       size_t length );
-#endif
+LIBTABLEAU_EXTERN \
+int libtableau_get_tableau_value(
+     libtableau_handle_t *handle,
+     char *identifier,
+     char *value,
+     size_t length,
+     libtableau_error_t **error );
 
 /* Retrieves the tableau value firmware stepping
  * Returns 1 if successful, 0 if value not present or -1 on error
  */
-#if defined( LIBTABLEAU_WIDE_CHARACTER_TYPE )
-#define libtableau_get_tableau_value_bridge_firmware_stepping( handle, value, length ) \
-        libtableau_get_tableau_value( handle, L"bridge_firmware_stepping", value, length )
-#else
-#define libtableau_get_tableau_value_bridge_firmware_stepping( handle, value, length ) \
-        libtableau_get_tableau_value( handle, "bridge_firmware_stepping", value, length )
-#endif
+#define libtableau_get_tableau_value_bridge_firmware_stepping( handle, value, length, error ) \
+        libtableau_get_tableau_value( handle, "bridge_firmware_stepping", value, length, error )
 
 /* Retrieves the tableau value bridge channel index
  * Returns 1 if successful, 0 if value not present or -1 on error
  */
-#if defined( LIBTABLEAU_WIDE_CHARACTER_TYPE )
-#define libtableau_get_tableau_value_bridge_channel_index( handle, value, length ) \
-        libtableau_get_tableau_value( handle, L"bridge_channel_index", value, length )
-#else
-#define libtableau_get_tableau_value_bridge_channel_index( handle, value, length ) \
-        libtableau_get_tableau_value( handle, "bridge_channel_index", value, length )
-#endif
+#define libtableau_get_tableau_value_bridge_channel_index( handle, value, length, error ) \
+        libtableau_get_tableau_value( handle, "bridge_channel_index", value, length, error )
 
 /* Retrieves the tableau value bridge channel type
  * Returns 1 if successful, 0 if value not present or -1 on error
  */
-#if defined( LIBTABLEAU_WIDE_CHARACTER_TYPE )
-#define libtableau_get_tableau_value_bridge_channel_type( handle, value, length ) \
-        libtableau_get_tableau_value( handle, L"bridge_channel_type", value, length )
-#else
-#define libtableau_get_tableau_value_bridge_channel_type( handle, value, length ) \
-        libtableau_get_tableau_value( handle, "bridge_channel_type", value, length )
-#endif
+#define libtableau_get_tableau_value_bridge_channel_type( handle, value, length, error ) \
+        libtableau_get_tableau_value( handle, "bridge_channel_type", value, length, error )
 
 /* Retrieves the tableau value bridge debug firmware
  * Returns 1 if successful, 0 if value not present or -1 on error
  */
-#if defined( LIBTABLEAU_WIDE_CHARACTER_TYPE )
-#define libtableau_get_tableau_value_bridge_debug_firmware( handle, value, length ) \
-        libtableau_get_tableau_value( handle, L"bridge_debug_firmware", value, length )
-#else
-#define libtableau_get_tableau_value_bridge_debug_firmware( handle, value, length ) \
-        libtableau_get_tableau_value( handle, "bridge_debug_firmware", value, length )
-#endif
+#define libtableau_get_tableau_value_bridge_debug_firmware( handle, value, length, error ) \
+        libtableau_get_tableau_value( handle, "bridge_debug_firmware", value, length, error )
 
 /* Retrieves the tableau value bridge read only mode
  * Returns 1 if successful, 0 if value not present or -1 on error
  */
-#if defined( LIBTABLEAU_WIDE_CHARACTER_TYPE )
-#define libtableau_get_tableau_value_bridge_mode_read_only( handle, value, length ) \
-        libtableau_get_tableau_value( handle, L"bridge_mode_read_only", value, length )
-#else
-#define libtableau_get_tableau_value_bridge_mode_read_only( handle, value, length ) \
-        libtableau_get_tableau_value( handle, "bridge_mode_read_only", value, length )
-#endif
+#define libtableau_get_tableau_value_bridge_mode_read_only( handle, value, length, error ) \
+        libtableau_get_tableau_value( handle, "bridge_mode_read_only", value, length, error )
 
 /* Retrieves the tableau value bridge read only reporting
  * Returns 1 if successful, 0 if value not present or -1 on error
  */
-#if defined( LIBTABLEAU_WIDE_CHARACTER_TYPE )
-#define libtableau_get_tableau_value_bridge_report_read_only( handle, value, length ) \
-        libtableau_get_tableau_value( handle, L"bridge_report_read_only", value, length )
-#else
-#define libtableau_get_tableau_value_bridge_report_read_only( handle, value, length ) \
-        libtableau_get_tableau_value( handle, "bridge_report_read_only", value, length )
-#endif
+#define libtableau_get_tableau_value_bridge_report_read_only( handle, value, length, error ) \
+        libtableau_get_tableau_value( handle, "bridge_report_read_only", value, length, error )
 
 /* Retrieves the tableau value bridge write error reporting
  * Returns 1 if successful, 0 if value not present or -1 on error
  */
-#if defined( LIBTABLEAU_WIDE_CHARACTER_TYPE )
-#define libtableau_get_tableau_value_bridge_report_write_error( handle, value, length ) \
-        libtableau_get_tableau_value( handle, L"bridge_report_write_error", value, length )
-#else
-#define libtableau_get_tableau_value_bridge_report_write_error( handle, value, length ) \
-        libtableau_get_tableau_value( handle, "bridge_report_write_error", value, length )
-#endif
+#define libtableau_get_tableau_value_bridge_report_write_error( handle, value, length, error ) \
+        libtableau_get_tableau_value( handle, "bridge_report_write_error", value, length, error )
 
 /* Retrieves the tableau value bridge serial number
  * Returns 1 if successful, 0 if value not present or -1 on error
  */
-#if defined( LIBTABLEAU_WIDE_CHARACTER_TYPE )
-#define libtableau_get_tableau_value_bridge_serial_number( handle, value, length ) \
-        libtableau_get_tableau_value( handle, L"bridge_serial_number", value, length )
-#else
-#define libtableau_get_tableau_value_bridge_serial_number( handle, value, length ) \
-        libtableau_get_tableau_value( handle, "bridge_serial_number", value, length )
-#endif
+#define libtableau_get_tableau_value_bridge_serial_number( handle, value, length, error ) \
+        libtableau_get_tableau_value( handle, "bridge_serial_number", value, length, error )
 
 /* Retrieves the tableau value bridge vendor
  * Returns 1 if successful, 0 if value not present or -1 on error
  */
-#if defined( LIBTABLEAU_WIDE_CHARACTER_TYPE )
-#define libtableau_get_tableau_value_bridge_vendor( handle, value, length ) \
-        libtableau_get_tableau_value( handle, L"bridge_vendor", value, length )
-#else
-#define libtableau_get_tableau_value_bridge_vendor( handle, value, length ) \
-        libtableau_get_tableau_value( handle, "bridge_vendor", value, length )
-#endif
+#define libtableau_get_tableau_value_bridge_vendor( handle, value, length, error ) \
+        libtableau_get_tableau_value( handle, "bridge_vendor", value, length, error )
 
 /* Retrieves the tableau value bridge model
  * Returns 1 if successful, 0 if value not present or -1 on error
  */
-#if defined( LIBTABLEAU_WIDE_CHARACTER_TYPE )
-#define libtableau_get_tableau_value_bridge_model( handle, value, length ) \
-        libtableau_get_tableau_value( handle, L"bridge_model", value, length )
-#else
-#define libtableau_get_tableau_value_bridge_model( handle, value, length ) \
-        libtableau_get_tableau_value( handle, "bridge_model", value, length )
-#endif
+#define libtableau_get_tableau_value_bridge_model( handle, value, length, error ) \
+        libtableau_get_tableau_value( handle, "bridge_model", value, length, error )
 
 /* Retrieves the tableau value bridge firmware date
  * Returns 1 if successful, 0 if value not present or -1 on error
  */
-#if defined( LIBTABLEAU_WIDE_CHARACTER_TYPE )
-#define libtableau_get_tableau_value_bridge_firmware_date( handle, value, length ) \
-        libtableau_get_tableau_value( handle, L"bridge_firmware_date", value, length )
-#else
-#define libtableau_get_tableau_value_bridge_firmware_date( handle, value, length ) \
-        libtableau_get_tableau_value( handle, "bridge_firmware_date", value, length )
-#endif
+#define libtableau_get_tableau_value_bridge_firmware_date( handle, value, length, error ) \
+        libtableau_get_tableau_value( handle, "bridge_firmware_date", value, length, error )
 
 /* Retrieves the tableau value bridge firmware time
  * Returns 1 if successful, 0 if value not present or -1 on error
  */
-#if defined( LIBTABLEAU_WIDE_CHARACTER_TYPE )
-#define libtableau_get_tableau_value_bridge_firmware_time( handle, value, length ) \
-        libtableau_get_tableau_value( handle, L"bridge_firmware_time", value, length )
-#else
-#define libtableau_get_tableau_value_bridge_firmware_time( handle, value, length ) \
-        libtableau_get_tableau_value( handle, "bridge_firmware_time", value, length )
-#endif
+#define libtableau_get_tableau_value_bridge_firmware_time( handle, value, length, error ) \
+        libtableau_get_tableau_value( handle, "bridge_firmware_time", value, length, error )
 
 /* Retrieves the tableau value drive vendor
  * Returns 1 if successful, 0 if value not present or -1 on error
  */
-#if defined( LIBTABLEAU_WIDE_CHARACTER_TYPE )
-#define libtableau_get_tableau_value_drive_vendor( handle, value, length ) \
-        libtableau_get_tableau_value( handle, L"drive_vendor", value, length )
-#else
-#define libtableau_get_tableau_value_drive_vendor( handle, value, length ) \
-        libtableau_get_tableau_value( handle, "drive_vendor", value, length )
-#endif
+#define libtableau_get_tableau_value_drive_vendor( handle, value, length, error ) \
+        libtableau_get_tableau_value( handle, "drive_vendor", value, length, error )
 
 /* Retrieves the tableau value drive model
  * Returns 1 if successful, 0 if value not present or -1 on error
  */
-#if defined( LIBTABLEAU_WIDE_CHARACTER_TYPE )
-#define libtableau_get_tableau_value_drive_model( handle, value, length ) \
-        libtableau_get_tableau_value( handle, L"drive_model", value, length )
-#else
-#define libtableau_get_tableau_value_drive_model( handle, value, length ) \
-        libtableau_get_tableau_value( handle, "drive_model", value, length )
-#endif
+#define libtableau_get_tableau_value_drive_model( handle, value, length, error ) \
+        libtableau_get_tableau_value( handle, "drive_model", value, length, error )
 
 /* Retrieves the tableau value drive serial number
  * Returns 1 if successful, 0 if value not present or -1 on error
  */
-#if defined( LIBTABLEAU_WIDE_CHARACTER_TYPE )
-#define libtableau_get_tableau_value_drive_serial_number( handle, value, length ) \
-        libtableau_get_tableau_value( handle, L"drive_serial_number", value, length )
-#else
-#define libtableau_get_tableau_value_drive_serial_number( handle, value, length ) \
-        libtableau_get_tableau_value( handle, "drive_serial_number", value, length )
-#endif
+#define libtableau_get_tableau_value_drive_serial_number( handle, value, length, error ) \
+        libtableau_get_tableau_value( handle, "drive_serial_number", value, length, error )
 
 /* Retrieves the tableau value drive revision number
  * Returns 1 if successful, 0 if value not present or -1 on error
  */
-#if defined( LIBTABLEAU_WIDE_CHARACTER_TYPE )
-#define libtableau_get_tableau_value_drive_revision_number( handle, value, length ) \
-        libtableau_get_tableau_value( handle, L"drive_revision_number", value, length )
-#else
-#define libtableau_get_tableau_value_drive_revision_number( handle, value, length ) \
-        libtableau_get_tableau_value( handle, "drive_revision_number", value, length )
-#endif
+#define libtableau_get_tableau_value_drive_revision_number( handle, value, length, error ) \
+        libtableau_get_tableau_value( handle, "drive_revision_number", value, length, error )
 
 /* Retrieves the tableau value drive HPA support
  * Returns 1 if successful, 0 if value not present or -1 on error
  */
-#if defined( LIBTABLEAU_WIDE_CHARACTER_TYPE )
-#define libtableau_get_tableau_value_drive_hpa_support( handle, value, length ) \
-        libtableau_get_tableau_value( handle, L"drive_hpa_support", value, length )
-#else
-#define libtableau_get_tableau_value_drive_hpa_support( handle, value, length ) \
-        libtableau_get_tableau_value( handle, "drive_hpa_support", value, length )
-#endif
+#define libtableau_get_tableau_value_drive_hpa_support( handle, value, length, error ) \
+        libtableau_get_tableau_value( handle, "drive_hpa_support", value, length, error )
 
 /* Retrieves the tableau value drive HPA in use
  * Returns 1 if successful, 0 if value not present or -1 on error
  */
-#if defined( LIBTABLEAU_WIDE_CHARACTER_TYPE )
-#define libtableau_get_tableau_value_drive_hpa_in_use( handle, value, length ) \
-        libtableau_get_tableau_value( handle, L"drive_hpa_in_use", value, length )
-#else
-#define libtableau_get_tableau_value_drive_hpa_in_use( handle, value, length ) \
-        libtableau_get_tableau_value( handle, "drive_hpa_in_use", value, length )
-#endif
+#define libtableau_get_tableau_value_drive_hpa_in_use( handle, value, length, error ) \
+        libtableau_get_tableau_value( handle, "drive_hpa_in_use", value, length, error )
 
 /* Retrieves the tableau value drive DCO support
  * Returns 1 if successful, 0 if value not present or -1 on error
  */
-#if defined( LIBTABLEAU_WIDE_CHARACTER_TYPE )
-#define libtableau_get_tableau_value_drive_dco_support( handle, value, length ) \
-        libtableau_get_tableau_value( handle, L"drive_dco_support", value, length )
-#else
-#define libtableau_get_tableau_value_drive_dco_support( handle, value, length ) \
-        libtableau_get_tableau_value( handle, "drive_dco_support", value, length )
-#endif
+#define libtableau_get_tableau_value_drive_dco_support( handle, value, length, error ) \
+        libtableau_get_tableau_value( handle, "drive_dco_support", value, length, error )
 
 /* Retrieves the tableau value drive DCO in use
  * Returns 1 if successful, 0 if value not present or -1 on error
  */
-#if defined( LIBTABLEAU_WIDE_CHARACTER_TYPE )
-#define libtableau_get_tableau_value_drive_dco_in_use( handle, value, length ) \
-        libtableau_get_tableau_value( handle, L"drive_dco_in_use", value, length )
-#else
-#define libtableau_get_tableau_value_drive_dco_in_use( handle, value, length ) \
-        libtableau_get_tableau_value( handle, "drive_dco_in_use", value, length )
-#endif
+#define libtableau_get_tableau_value_drive_dco_in_use( handle, value, length, error ) \
+        libtableau_get_tableau_value( handle, "drive_dco_in_use", value, length, error )
 
 /* Retrieves the tableau value drive security support
  * Returns 1 if successful, 0 if value not present or -1 on error
  */
-#if defined( LIBTABLEAU_WIDE_CHARACTER_TYPE )
-#define libtableau_get_tableau_value_drive_security_support( handle, value, length ) \
-        libtableau_get_tableau_value( handle, L"drive_security_support", value, length )
-#else
-#define libtableau_get_tableau_value_drive_security_support( handle, value, length ) \
-        libtableau_get_tableau_value( handle, "drive_security_support", value, length )
-#endif
+#define libtableau_get_tableau_value_drive_security_support( handle, value, length, error ) \
+        libtableau_get_tableau_value( handle, "drive_security_support", value, length, error )
 
 /* Retrieves the tableau value drive security in use
  * Returns 1 if successful, 0 if value not present or -1 on error
  */
-#if defined( LIBTABLEAU_WIDE_CHARACTER_TYPE )
-#define libtableau_get_tableau_value_drive_security_in_use( handle, value, length ) \
-        libtableau_get_tableau_value( handle, L"drive_security_in_use", value, length )
-#else
-#define libtableau_get_tableau_value_drive_security_in_use( handle, value, length ) \
-        libtableau_get_tableau_value( handle, "drive_security_in_use", value, length )
-#endif
+#define libtableau_get_tableau_value_drive_security_in_use( handle, value, length, error ) \
+        libtableau_get_tableau_value( handle, "drive_security_in_use", value, length, error )
 
 #if defined( __cplusplus )
 }

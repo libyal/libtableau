@@ -182,10 +182,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\libtableau\libtableau_interface.c"
-				>
-			</File>
-			<File
 				RelativePath="..\..\libtableau\libtableau_io.c"
 				>
 			</File>
@@ -195,6 +191,10 @@
 			</File>
 			<File
 				RelativePath="..\..\libtableau\libtableau_query.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\libtableau\libtableau_security_values.c"
 				>
 			</File>
 			<File
@@ -233,10 +233,6 @@
 			</File>
 			<File
 				RelativePath="..\..\libtableau\libtableau_handle.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\libtableau\libtableau_interface.h"
 				>
 			</File>
 			<File

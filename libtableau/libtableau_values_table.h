@@ -72,7 +72,7 @@ int32_t libtableau_values_table_get_index(
 int libtableau_values_table_get_identifier(
      libtableau_values_table_t *values_table,
      uint32_t index,
-     const char *identifier,
+     char *identifier,
      size_t length,
      libcerror_error_t **error );
 
