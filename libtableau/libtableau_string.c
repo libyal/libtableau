@@ -9,17 +9,18 @@
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This software is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this software.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include <common.h>
+#include <narrow_string.h>
 #include <types.h>
 
 #include "libtableau_libcerror.h"
@@ -98,10 +99,10 @@ ssize_t libtableau_string_trim_copy(
 	}
 	last_character -= first_character - 1;
 
-	if( string_copy_from_char(
+	if( narrow_string_copy(
 	     destination,
 	     &( source[ first_character ] ),
-	     last_character ) != 1 )
+	     last_character ) != NULL )
 	{
 		libcerror_error_set(
 		 error,
@@ -112,7 +113,7 @@ ssize_t libtableau_string_trim_copy(
 
 		return( -1 );
 	}
-	destination[ last_character + 1 ] = (uint8_t) '\0';
+	destination[ last_character + 1 ] = 0;
 
 	return( last_character );
 }

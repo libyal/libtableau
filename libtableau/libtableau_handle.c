@@ -9,12 +9,12 @@
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This software is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this software.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -153,7 +153,6 @@ int libtableau_handle_initialize(
 		goto on_error;
 	}
 	internal_handle->file_descriptor = -1;
-	internal_handle->filename        = NULL;
 
 	*handle = (libtableau_handle_t *) internal_handle;
 
@@ -223,11 +222,6 @@ int libtableau_handle_free(
 				result = -1;
 			}
 		}
-		if( internal_handle->filename != NULL )
-		{
-			memory_free(
-			 internal_handle->filename );
-		}
 		if( internal_handle->tableau_values != NULL )
 		{
 			if( libtableau_values_table_free(
@@ -272,11 +266,11 @@ int libtableau_handle_free(
 int libtableau_handle_open(
      libtableau_handle_t *handle,
      const char *filename,
+     int access_flags,
      libcerror_error_t **error )
 {
 	libtableau_internal_handle_t *internal_handle = NULL;
 	static char *function                         = "libtableau_handle_open";
-	size_t string_length                          = 0;
 
 	if( handle == NULL )
 	{
@@ -302,28 +296,19 @@ int libtableau_handle_open(
 	}
 	internal_handle = (libtableau_internal_handle_t *) handle;
 
-/* TODO change string functions */
-	string_length = system_string_length(
-	                 filename );
-
-/* TODO determine if filename needs to be preserved */
-	internal_handle->filename = system_string_duplicate(
-	                             filename,
-	                             string_length );
-
-	if( internal_handle->filename == NULL )
+	if( internal_handle->file_descriptor != -1 )
 	{
 		libcerror_error_set(
 		 error,
-		 LIBCERROR_ERROR_DOMAIN_MEMORY,
-		 LIBCERROR_MEMORY_ERROR_INSUFFICIENT,
-		 "%s: unable to create filename.",
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_VALUE_ALREADY_SET,
+		 "%s: invalid handle - file descriptor already set.",
 		 function );
 
-		goto on_error;
+		return( -1 );
 	}
 	internal_handle->file_descriptor = scsi_pt_open_device(
-	                                    internal_handle->filename,
+	                                    filename,
 	                                    1,
 	                                    libcnotify_verbose );
 
@@ -336,19 +321,9 @@ int libtableau_handle_open(
 		 "%s: unable to open file.",
 		 function );
 
-		goto on_error;
+		return( -1 );
 	}
 	return( 1 );
-
-on_error:
-	if( internal_handle->filename != NULL )
-	{
-		memory_free(
-		 internal_handle->filename );
-
-		internal_handle->filename = NULL;
-	}
-	return( -1 );
 }
 
 /* Closes a device
@@ -494,7 +469,11 @@ int libtableau_query(
              internal_handle->tableau_values,
 	     error ) != 1 )
 	{
-		notify_warning_printf( "%s: unable to parse tableau header.\n",
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_GENERIC,
+		 "%s: unable to parse tableau header.",
 		 function );
 
 		return( -1 );
@@ -512,7 +491,11 @@ int libtableau_query(
 		     internal_handle->security_values,
 		     error ) != 1 )
 		{
-			notify_warning_printf( "%s: unable to parse tableau page.\n",
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			 LIBCERROR_RUNTIME_ERROR_GENERIC,
+			 "%s: unable to parse tableau page.",
 			 function );
 
 			return( -1 );

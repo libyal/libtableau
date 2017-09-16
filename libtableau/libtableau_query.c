@@ -9,12 +9,12 @@
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This software is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this software.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -48,14 +48,15 @@ int libtableau_query_parse_tableau_header(
 {
 	uint8_t value_string[ 32 ];
 
-	const char *bridge_channel_type = "Unknown";
-	static char *function           = "libtableau_query_parse_tableau_header";
-	char *true_false_string         = NULL;
-	size_t true_false_string_length = 0;
-	ssize_t value_string_length     = 0;
-	uint8_t digit                   = 0;
-	int value_iterator              = 0;
-	int value_string_iterator       = 0;
+	const char *bridge_channel_type   = "Unknown";
+	static char *function             = "libtableau_query_parse_tableau_header";
+	char *true_false_string           = NULL;
+	size_t bridge_channel_type_length = 0;
+	size_t true_false_string_length   = 0;
+	ssize_t value_string_length       = 0;
+	uint8_t digit                     = 0;
+	int value_iterator                = 0;
+	int value_string_iterator         = 0;
 
 	if( tableau_header == NULL )
 	{
@@ -100,8 +101,14 @@ int libtableau_query_parse_tableau_header(
 	if( ( tableau_header->signature[ 0 ] != 0x0e )
 	 || ( tableau_header->signature[ 1 ] != 0xcc ) )
 	{
-		notify_warning_printf( "%s: unsupported tableau header signature: 0x%02x 0x%02x.\n",
-		 function, tableau_header->signature[ 0 ], tableau_header->signature[ 1 ] );
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_UNSUPPORTED_VALUE,
+		 "%s: unsupported tableau header signature: 0x%02x 0x%02x.",
+		 function,
+		 tableau_header->signature[ 0 ],
+		 tableau_header->signature[ 1 ] );
 
 		return( -1 );
 	}
@@ -177,25 +184,29 @@ int libtableau_query_parse_tableau_header(
 	 */
 	if( ( tableau_header->channel_data & 0xf ) == TABLEAU_HEADER_CHANNEL_TYPE_PATA )
 	{
-		bridge_channel_type = "PATA";
+		bridge_channel_type        = "PATA";
+		bridge_channel_type_length = 4;
 	}
 	else if( ( tableau_header->channel_data & 0xf ) == TABLEAU_HEADER_CHANNEL_TYPE_SATA )
 	{
-		bridge_channel_type = "SATA";
+		bridge_channel_type        = "SATA";
+		bridge_channel_type_length = 4;
 	}
 	else if( ( tableau_header->channel_data & 0xf ) == TABLEAU_HEADER_CHANNEL_TYPE_SCSI )
 	{
-		bridge_channel_type = "SCSI";
+		bridge_channel_type        = "SCSI";
+		bridge_channel_type_length = 4;
 	}
 	else if( ( tableau_header->channel_data & 0xf ) == TABLEAU_HEADER_CHANNEL_TYPE_USB )
 	{
-		bridge_channel_type = "USB";
+		bridge_channel_type        = "USB";
+		bridge_channel_type_length = 3;
 	}
 	if( libtableau_values_table_set_value(
 	     tableau_values,
 	     "bridge_channel_type",
-	     bridge_channel_type,
-	     4,
+	     (char *) bridge_channel_type,
+	     bridge_channel_type_length,
 	     error ) != 1 )
 	{
 		libcerror_error_set(
@@ -209,7 +220,7 @@ int libtableau_query_parse_tableau_header(
 	}
 	/* Bridge debug firmware
 	 */
-	if( ( tableau_header->flags & TABLEAU_HEADER_FLAG_DEBUG_FIRMWARE ) == TABLEAU_HEADER_FLAG_DEBUG_FIRMWARE )
+	if( ( tableau_header->flags & TABLEAU_HEADER_FLAG_DEBUG_FIRMWARE ) != 0 )
 	{
 		true_false_string        = "true";
 		true_false_string_length = 4;
@@ -237,7 +248,7 @@ int libtableau_query_parse_tableau_header(
 	}
 	/* Bridge read only mode
 	 */
-	if( ( tableau_header->flags & TABLEAU_HEADER_FLAG_WRITE_PERMITTED ) == TABLEAU_HEADER_FLAG_WRITE_PERMITTED )
+	if( ( tableau_header->flags & TABLEAU_HEADER_FLAG_WRITE_PERMITTED ) != 0 )
 	{
 		true_false_string        = "false";
 		true_false_string_length = 5;
@@ -265,7 +276,7 @@ int libtableau_query_parse_tableau_header(
 	}
 	/* Bridge read only reporting
 	 */
-	if( ( tableau_header->flags & TABLEAU_HEADER_FLAG_WRITE_BLOCKED_REPORTING ) == TABLEAU_HEADER_FLAG_WRITE_BLOCKED_REPORTING )
+	if( ( tableau_header->flags & TABLEAU_HEADER_FLAG_WRITE_BLOCKED_REPORTING ) != 0 )
 	{
 		true_false_string        = "true";
 		true_false_string_length = 4;
@@ -293,7 +304,7 @@ int libtableau_query_parse_tableau_header(
 	}
 	/* Bridge write error reporting
 	 */
-	if( ( tableau_header->flags & TABLEAU_HEADER_FLAG_WRITE_ERROR_REPORTING ) == TABLEAU_HEADER_FLAG_WRITE_ERROR_REPORTING )
+	if( ( tableau_header->flags & TABLEAU_HEADER_FLAG_WRITE_ERROR_REPORTING ) != 0 )
 	{
 		true_false_string        = "true";
 		true_false_string_length = 4;
@@ -374,7 +385,11 @@ int libtableau_query_parse_tableau_header(
 
 	if( value_string_length < 0 )
 	{
-		notify_warning_printf( "%s: unable to trim bridge vendor value.\n",
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
+		 "%s: unable to trim bridge vendor value.",
 		 function );
 
 		return( -1 );
@@ -405,7 +420,11 @@ int libtableau_query_parse_tableau_header(
 
 	if( value_string_length < 0 )
 	{
-		notify_warning_printf( "%s: unable to trim bridge model value.\n",
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
+		 "%s: unable to trim bridge model value.",
 		 function );
 
 		return( -1 );
@@ -436,7 +455,11 @@ int libtableau_query_parse_tableau_header(
 
 	if( value_string_length < 0 )
 	{
-		notify_warning_printf( "%s: unable to trim bridge firmware date value.\n",
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
+		 "%s: unable to trim bridge firmware date value.",
 		 function );
 
 		return( -1 );
@@ -467,7 +490,11 @@ int libtableau_query_parse_tableau_header(
 
 	if( value_string_length < 0 )
 	{
-		notify_warning_printf( "%s: unable to trim bridge firmware time value.\n",
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
+		 "%s: unable to trim bridge firmware time value.",
 		 function );
 
 		return( -1 );
@@ -498,7 +525,11 @@ int libtableau_query_parse_tableau_header(
 
 	if( value_string_length < 0 )
 	{
-		notify_warning_printf( "%s: unable to trim drive vendor value.\n",
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
+		 "%s: unable to trim drive vendor value.",
 		 function );
 
 		return( -1 );
@@ -529,7 +560,11 @@ int libtableau_query_parse_tableau_header(
 
 	if( value_string_length < 0 )
 	{
-		notify_warning_printf( "%s: unable to trim drive model value.\n",
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
+		 "%s: unable to trim drive model value.",
 		 function );
 
 		return( -1 );
@@ -560,7 +595,11 @@ int libtableau_query_parse_tableau_header(
 
 	if( value_string_length < 0 )
 	{
-		notify_warning_printf( "%s: unable to trim drive serial number value.\n",
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
+		 "%s: unable to trim drive serial number value.",
 		 function );
 
 		return( -1 );
@@ -591,7 +630,11 @@ int libtableau_query_parse_tableau_header(
 
 	if( value_string_length < 0 )
 	{
-		notify_warning_printf( "%s: unable to trim drive revision number value.\n",
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
+		 "%s: unable to trim drive revision number value.",
 		 function );
 
 		return( -1 );
@@ -666,7 +709,11 @@ int libtableau_query_parse_tableau_page(
 	{
 		if( tableau_page->size != (uint8_t) ( sizeof( tableau_page_t ) + sizeof( tableau_page_data_hpa_dco_t ) ) )
 		{
-			notify_warning_printf( "%s: unsupported tableau HPA/DCO page size.\n",
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			 LIBCERROR_RUNTIME_ERROR_UNSUPPORTED_VALUE,
+			 "%s: unsupported tableau HPA/DCO page size.",
 			 function );
 
 			return( -1 );
@@ -677,7 +724,11 @@ int libtableau_query_parse_tableau_page(
 		     security_values,
 		     error ) != 1 )
 		{
-			notify_warning_printf( "%s: unable to parse tableau HPA/DCO page data.\n",
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			 LIBCERROR_RUNTIME_ERROR_GENERIC,
+			 "%s: unable to parse tableau HPA/DCO page data.",
 			 function );
 
 			return( -1 );
@@ -739,27 +790,27 @@ int libtableau_query_parse_tableau_page_data_hpa_dco(
 
 		return( -1 );
 	}
-	if( ( tableau_page_data_hpa_dco->flags & TABLEAU_PAGE_DATA_HPA_DCO_FLAG_HPA_SUPPORT ) == TABLEAU_PAGE_DATA_HPA_DCO_FLAG_HPA_SUPPORT )
+	if( ( tableau_page_data_hpa_dco->flags & TABLEAU_PAGE_DATA_HPA_DCO_FLAG_HPA_SUPPORT ) != 0 )
 	{
 		security_values->hpa_support = 1;
 	}
-	if( ( tableau_page_data_hpa_dco->flags & TABLEAU_PAGE_DATA_HPA_DCO_FLAG_HPA_IN_USE ) == TABLEAU_PAGE_DATA_HPA_DCO_FLAG_HPA_IN_USE )
+	if( ( tableau_page_data_hpa_dco->flags & TABLEAU_PAGE_DATA_HPA_DCO_FLAG_HPA_IN_USE ) != 0 )
 	{
 		security_values->hpa_in_use = 1;
 	}
-	if( ( tableau_page_data_hpa_dco->flags & TABLEAU_PAGE_DATA_HPA_DCO_FLAG_DCO_SUPPORT ) == TABLEAU_PAGE_DATA_HPA_DCO_FLAG_DCO_SUPPORT )
+	if( ( tableau_page_data_hpa_dco->flags & TABLEAU_PAGE_DATA_HPA_DCO_FLAG_DCO_SUPPORT ) != 0 )
 	{
 		security_values->dco_support = 1;
 	}
-	if( ( tableau_page_data_hpa_dco->flags & TABLEAU_PAGE_DATA_HPA_DCO_FLAG_DCO_IN_USE ) == TABLEAU_PAGE_DATA_HPA_DCO_FLAG_DCO_IN_USE )
+	if( ( tableau_page_data_hpa_dco->flags & TABLEAU_PAGE_DATA_HPA_DCO_FLAG_DCO_IN_USE ) != 0 )
 	{
 		security_values->dco_in_use = 1;
 	}
-	if( ( tableau_page_data_hpa_dco->flags & TABLEAU_PAGE_DATA_HPA_DCO_FLAG_SECURITY_SUPPORT ) == TABLEAU_PAGE_DATA_HPA_DCO_FLAG_SECURITY_SUPPORT )
+	if( ( tableau_page_data_hpa_dco->flags & TABLEAU_PAGE_DATA_HPA_DCO_FLAG_SECURITY_SUPPORT ) != 0 )
 	{
 		security_values->security_support = 1;
 	}
-	if( ( tableau_page_data_hpa_dco->flags & TABLEAU_PAGE_DATA_HPA_DCO_FLAG_SECURITY_IN_USE ) == TABLEAU_PAGE_DATA_HPA_DCO_FLAG_SECURITY_IN_USE )
+	if( ( tableau_page_data_hpa_dco->flags & TABLEAU_PAGE_DATA_HPA_DCO_FLAG_SECURITY_IN_USE ) != 0 )
 	{
 		security_values->security_in_use = 1;
 	}

@@ -33,6 +33,8 @@
 #include "tableau_test_memory.h"
 #include "tableau_test_unused.h"
 
+#include "../libtableau/libtableau_handle.h"
+
 /* Tests the libtableau_handle_initialize function
  * Returns 1 if successful or 0 if not
  */
