@@ -124,6 +124,7 @@ stamp-h[1-9]
 /tests/*.exe
 /tests/tableau_test_error
 /tests/tableau_test_handle
+/tests/tableau_test_notify
 /tests/tableau_test_security_values
 /tests/tableau_test_support
 /tests/tableau_test_values_table

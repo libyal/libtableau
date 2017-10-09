@@ -1,17 +1,17 @@
 Name: libtableau
 Version: @VERSION@
 Release: 1
-Summary: Library to provide access to the Tableau(TM) forensic bridges (write blockers)
+Summary: Library to support the Tableau(TM) forensic bridge (write blocker)
 Group: System Environment/Libraries
 License: LGPL
 Source: %{name}-%{version}.tar.gz
-URL: https://github.com/libyal/libtableau/
+URL: https://github.com/libyal/libtableau
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: sg3_utils-devel
-Requires: sg3_utils-libs
+Requires: @ax_libcerror_spec_requires@ @ax_libcnotify_spec_requires@ sg3_utils-devel
+BuildRequires: @ax_libcerror_spec_build_requires@ @ax_libcnotify_spec_build_requires@ sg3_utils-libs
 
 %description
-libtableau is a library to provide access to the Tableau(TM) forensic bridges (write blockers)
+Library to support the Tableau(TM) forensic bridge (write blocker)
 
 %package devel
 Summary: Header files and libraries for developing applications for libtableau
@@ -22,12 +22,12 @@ Requires: libtableau = %{version}-%{release}
 Header files and libraries for developing applications for libtableau.
 
 %package tools
-Summary: Several tools for accessing Tableau(TM) forensic bridges (write blockers)
+Summary: Several tools for reading Tableau(TM) forensic bridges (write blockers)
 Group: Applications/System
 Requires: libtableau = %{version}-%{release}
 
 %description tools
-Several tools for accessing Tableau(TM) forensic bridges (write blockers)
+Several tools for reading Tableau(TM) forensic bridges (write blockers)
 
 %prep
 %setup -q
@@ -37,11 +37,11 @@ Several tools for accessing Tableau(TM) forensic bridges (write blockers)
 make %{?_smp_mflags}
 
 %install
-rm -rf ${RPM_BUILD_ROOT}
-make DESTDIR=${RPM_BUILD_ROOT} install
+rm -rf %{buildroot}
+%make_install
 
 %clean
-rm -rf ${RPM_BUILD_ROOT}
+rm -rf %{buildroot}
 
 %post -p /sbin/ldconfig
 
@@ -65,8 +65,7 @@ rm -rf ${RPM_BUILD_ROOT}
 %files tools
 %defattr(644,root,root,755)
 %doc AUTHORS COPYING NEWS README
-%attr(755,root,root) %{_bindir}/tableaucontrol
-%attr(755,root,root) %{_bindir}/tableauinfo
+%attr(755,root,root) %{_bindir}/*
 %{_mandir}/man1/*
 
 %changelog
