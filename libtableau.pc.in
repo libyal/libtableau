@@ -7,6 +7,6 @@ Name: libtableau
 Description: Library to support the Tableau(TM) forensic bridge (write blocker)
 Version: @VERSION@
 Libs: -L${libdir} -ltableau
-Libs.private: @ax_libcerror_pc_libs_private@ @ax_libcnotify_pc_libs_private@
+Libs.private: @ax_libcerror_pc_libs_private@ @ax_libclocale_pc_libs_private@ @ax_libcnotify_pc_libs_private@ @ax_libcthreads_pc_libs_private@ @ax_libuna_pc_libs_private@ @ax_pthread_pc_libs_private@
 Cflags: -I${includedir}
 

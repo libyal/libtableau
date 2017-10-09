@@ -2,7 +2,11 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/include \
 	-I$(top_srcdir)/common \
 	@LIBCERROR_CPPFLAGS@ \
-	@LIBCNOTIFY_CPPFLAGS@
+	@LIBCTHREADS_CPPFLAGS@ \
+	@LIBCLOCALE_CPPFLAGS@ \
+	@LIBCNOTIFY_CPPFLAGS@ \
+	@LIBUNA_CPPFLAGS@ \
+	@PTHREAD_CPPFLAGS@
 
 lib_LTLIBRARIES = libtableau.la
 
@@ -30,7 +34,11 @@ libtableau_la_SOURCES = \
 
 libtableau_la_LIBADD = \
 	@LIBCERROR_LIBADD@ \
-	@LIBCNOTIFY_LIBADD@
+	@LIBCTHREADS_LIBADD@ \
+	@LIBCLOCALE_LIBADD@ \
+	@LIBCNOTIFY_LIBADD@ \
+	@LIBUNA_LIBADD@ \
+	@PTHREAD_LIBADD@
 
 libtableau_la_LDFLAGS = -no-undefined -version-info 1:0:0
 

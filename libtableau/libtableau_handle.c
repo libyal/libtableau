@@ -159,20 +159,20 @@ int libtableau_handle_initialize(
 	return( 1 );
 
 on_error:
-	if( internal_handle->security_values != NULL )
-	{
-		libtableau_security_values_free(
-		 &( internal_handle->security_values ),
-		 NULL );
-	}
-	if( internal_handle->tableau_values != NULL )
-	{
-		libtableau_values_table_free(
-		 &( internal_handle->tableau_values ),
-		 NULL );
-	}
 	if( internal_handle != NULL )
 	{
+		if( internal_handle->security_values != NULL )
+		{
+			libtableau_security_values_free(
+			 &( internal_handle->security_values ),
+			 NULL );
+		}
+		if( internal_handle->tableau_values != NULL )
+		{
+			libtableau_values_table_free(
+			 &( internal_handle->tableau_values ),
+			 NULL );
+		}
 		memory_free(
 		 internal_handle );
 	}

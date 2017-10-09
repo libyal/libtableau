@@ -57,10 +57,19 @@ AX_COMMON_CHECK_LOCAL
 dnl Check if libcerror or required headers and functions are available
 AX_LIBCERROR_CHECK_ENABLE
 
+dnl Check if libcthreads or required headers and functions are available
+AX_LIBCTHREADS_CHECK_ENABLE
+
+dnl Check if libclocale or required headers and functions are available
+AX_LIBCLOCALE_CHECK_ENABLE
+
 dnl Check if libcnotify or required headers and functions are available
 AX_LIBCNOTIFY_CHECK_ENABLE
 
-dnl Check if sgutils2 required headers and functions are available
+dnl Check if libuna or required headers and functions are available
+AX_LIBUNA_CHECK_ENABLE
+
+dnl Check if sgutils2 or required headers and functions are available
 AX_SGUTILS2_CHECK_ENABLE
 
 dnl Check if libtableau required headers and functions are available
@@ -104,7 +113,7 @@ CFLAGS="$CFLAGS -Wall";
 
 dnl Check if requires and build requires should be set in spec file
 AS_IF(
- [test "x$ac_cv_libcerror" = xyes || test "x$ac_cv_libcnotify" = xyes],
+ [test "x$ac_cv_libcerror" = xyes || test "x$ac_cv_libclocale" = xyes || test "x$ac_cv_libcnotify" = xyes || test "x$ac_cv_libuna" = xyes],
  [AC_SUBST(
   [libtableau_spec_requires],
   [Requires:])
@@ -128,7 +137,10 @@ AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([include/Makefile])
 AC_CONFIG_FILES([common/Makefile])
 AC_CONFIG_FILES([libcerror/Makefile])
+AC_CONFIG_FILES([libcthreads/Makefile])
+AC_CONFIG_FILES([libclocale/Makefile])
 AC_CONFIG_FILES([libcnotify/Makefile])
+AC_CONFIG_FILES([libuna/Makefile])
 AC_CONFIG_FILES([libtableau/Makefile])
 AC_CONFIG_FILES([tableautools/Makefile])
 AC_CONFIG_FILES([po/Makefile.in])
@@ -157,10 +169,14 @@ dnl Print a summary
 AC_MSG_NOTICE([
 Building:
    libcerror support:                            $ac_cv_libcerror
+   libcthreads support:                          $ac_cv_libcthreads
+   libclocale support:                           $ac_cv_libclocale
    libcnotify support:                           $ac_cv_libcnotify
+   libuna support:                               $ac_cv_libuna
    sgutils2 support:                             $ac_cv_sgutils2
 
 Features:
+   Multi-threading support:                      $ac_cv_libcthreads_multi_threading
    Wide character type support:                  $ac_cv_enable_wide_character_type
    tableautools are build as static executables: $ac_cv_enable_static_executables
    Verbose output:                               $ac_cv_enable_verbose_output

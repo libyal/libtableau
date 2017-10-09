@@ -2,7 +2,9 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/include \
 	-I$(top_srcdir)/common \
 	@LIBCERROR_CPPFLAGS@ \
+	@LIBCLOCALE_CPPFLAGS@ \
 	@LIBCNOTIFY_CPPFLAGS@ \
+	@LIBUNA_CPPFLAGS@ \
 	@LIBTABLEAU_DLL_IMPORT@
 
 TESTS = \
@@ -35,12 +37,16 @@ tableau_test_error_LDADD = \
 tableau_test_handle_SOURCES = \
 	tableau_test_handle.c \
 	tableau_test_libcerror.h \
+	tableau_test_libclocale.h \
+	tableau_test_libuna.h \
 	tableau_test_libtableau.h \
 	tableau_test_macros.h \
 	tableau_test_memory.c tableau_test_memory.h \
 	tableau_test_unused.h
 
 tableau_test_handle_LDADD = \
+	@LIBUNA_LIBADD@ \
+	@LIBCLOCALE_LIBADD@ \
 	../libtableau/libtableau.la \
 	@LIBCERROR_LIBADD@
 
