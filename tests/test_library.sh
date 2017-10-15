@@ -7,8 +7,8 @@ EXIT_SUCCESS=0;
 EXIT_FAILURE=1;
 EXIT_IGNORE=77;
 
-LIBRARY_TESTS="error handle notify security_values support values_table";
-LIBRARY_TESTS_WITH_INPUT="";
+LIBRARY_TESTS="error notify security_values support values_table";
+LIBRARY_TESTS_WITH_INPUT="handle";
 OPTION_SETS="";
 
 INPUT_GLOB="*";

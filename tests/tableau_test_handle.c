@@ -667,7 +667,7 @@ int tableau_test_handle_initialize(
 
 	handle = NULL;
 
-#if defined( HAVE_TABLEAU_TEST_MEMORY )
+#if defined( HAVE_TABLEAU_TEST_MEMORY ) && defined( OPTIMIZATION_DISABLED )
 
 	for( test_number = 0;
 	     test_number < number_of_malloc_fail_tests;
@@ -753,7 +753,7 @@ int tableau_test_handle_initialize(
 			 &error );
 		}
 	}
-#endif /* defined( HAVE_TABLEAU_TEST_MEMORY ) */
+#endif /* defined( HAVE_TABLEAU_TEST_MEMORY ) && defined( OPTIMIZATION_DISABLED ) */
 
 	return( 1 );
 

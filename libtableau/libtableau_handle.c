@@ -326,6 +326,79 @@ int libtableau_handle_open(
 	return( 1 );
 }
 
+#if defined( HAVE_WIDE_CHARACTER_TYPE )
+
+/* Opens a device
+ * Returns 1 if successful or -1 on error
+ */
+int libtableau_handle_open_wide(
+     libtableau_handle_t *handle,
+     const wchar_t *filename,
+     int access_flags,
+     libcerror_error_t **error )
+{
+	libtableau_internal_handle_t *internal_handle = NULL;
+	static char *function                         = "libtableau_handle_open_wide";
+
+	if( handle == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
+		 "%s: invalid handle.",
+		 function );
+
+		return( -1 );
+	}
+	if( filename == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
+		 "%s: invalid filename.",
+		 function );
+
+		return( -1 );
+	}
+	internal_handle = (libtableau_internal_handle_t *) handle;
+
+	if( internal_handle->file_descriptor != -1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_VALUE_ALREADY_SET,
+		 "%s: invalid handle - file descriptor already set.",
+		 function );
+
+		return( -1 );
+	}
+/* TODO convert wide character string to narrow
+	internal_handle->file_descriptor = scsi_pt_open_device(
+	                                    filename,
+	                                    1,
+	                                    libcnotify_verbose );
+
+	if( internal_handle->file_descriptor == -1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_MEMORY,
+		 LIBCERROR_MEMORY_ERROR_INSUFFICIENT,
+		 "%s: unable to open file.",
+		 function );
+
+		return( -1 );
+	}
+	return( 1 );
+*/
+	return( -1 );
+}
+
+#endif /* defined( HAVE_WIDE_CHARACTER_TYPE ) */
+
 /* Closes a device
  * Returns 0 if successful or -1 on error
  */

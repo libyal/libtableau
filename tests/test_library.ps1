@@ -6,8 +6,8 @@ $ExitSuccess = 0
 $ExitFailure = 1
 $ExitIgnore = 77
 
-$LibraryTests = "error handle notify security_values support values_table"
-$LibraryTestsWithInput = ""
+$LibraryTests = "error notify security_values support values_table"
+$LibraryTestsWithInput = "handle"
 
 Function GetTestToolDirectory
 {
