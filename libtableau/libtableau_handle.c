@@ -539,6 +539,34 @@ int libtableau_handle_query(
 
 		return( -1 );
 	}
+	if( memory_set(
+	     recv_buffer,
+	     0,
+	     LIBTABLEAU_RECV_SIZE ) == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_MEMORY,
+		 LIBCERROR_MEMORY_ERROR_SET_FAILED,
+		 "%s: unable to clear recv buffer.",
+		 function );
+
+		return( -1 );
+	}
+	if( memory_set(
+	     sense_buffer,
+	     0,
+	     LIBTABLEAU_SENSE_SIZE ) == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_MEMORY,
+		 LIBCERROR_MEMORY_ERROR_SET_FAILED,
+		 "%s: unable to clear sense buffer.",
+		 function );
+
+		return( -1 );
+	}
 	tableau_query.opcode        = TABLEAU_QUERY_SCSI_OPCODE;
 	tableau_query.subcommand    = TABLEAU_QUERY_SUBCOMMAND_QUERY;
 	tableau_query.response_size = LIBTABLEAU_RECV_SIZE;
