@@ -1,5 +1,5 @@
 /*
- * Common input functions for the tableau tools
+ * The internal libclocale header
  *
  * Copyright (C) 2008-2017, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -19,31 +19,32 @@
  * along with this software.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#if !defined( _TABLEAUINPUT_H )
-#define _TABLEAUINPUT_H
+#if !defined( _TABLEAUTOOLS_LIBCLOCALE_H )
+#define _TABLEAUTOOLS_LIBCLOCALE_H
 
 #include <common.h>
-#include <character_string.h>
 
-#if defined( __cplusplus )
-extern "C" {
+/* Define HAVE_LOCAL_LIBCLOCALE for local use of libclocale
+ */
+#if defined( HAVE_LOCAL_LIBCLOCALE )
+
+#include <libclocale_codepage.h>
+#include <libclocale_definitions.h>
+#include <libclocale_locale.h>
+#include <libclocale_support.h>
+
+#else
+
+/* If libtool DLL support is enabled set LIBCLOCALE_DLL_IMPORT
+ * before including libclocale.h
+ */
+#if defined( _WIN32 ) && defined( DLL_IMPORT ) && !defined( HAVE_STATIC_EXECUTABLES )
+#define LIBCLOCALE_DLL_IMPORT
 #endif
 
-extern character_t *tableauinput_yes_no[ 2 ];
+#include <libclocale.h>
 
-int tableauinput_determine_yes_no(
-     const character_t *argument );
+#endif /* defined( HAVE_LOCAL_LIBCLOCALE ) */
 
-character_t *tableauinput_get_fixed_value(
-              FILE *stream,
-              character_t *request_string,
-              character_t **values,
-              int amount,
-              int default_value );
-
-#if defined( __cplusplus )
-}
-#endif
-
-#endif /* !defined( _TABLEAUINPUT_H ) */
+#endif /* !defined( _TABLEAUTOOLS_LIBCLOCALE_H ) */
 

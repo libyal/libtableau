@@ -9,6 +9,7 @@ SUBDIRS = \
 	libcnotify \
 	libuna \
 	libtableau \
+	tableautools \
 	po \
 	manuals \
 	tests \
@@ -84,6 +85,7 @@ splint:
 	(cd $(srcdir)/libcnotify && $(MAKE) splint $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libuna && $(MAKE) splint $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libtableau && $(MAKE) splint $(AM_MAKEFLAGS))
+	(cd $(srcdir)/tableautools && $(MAKE) splint $(AM_MAKEFLAGS))
 	(cd $(srcdir)/po && $(MAKE) splint $(AM_MAKEFLAGS))
 	(cd $(srcdir)/tests && $(MAKE) splint $(AM_MAKEFLAGS))
 

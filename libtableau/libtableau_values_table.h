@@ -37,7 +37,7 @@ struct libtableau_values_table
 {
 	/* The number of values
 	 */
-	uint32_t number_of_values;
+	int number_of_values;
 
 	/* The value identifiers
 	 */
@@ -50,7 +50,7 @@ struct libtableau_values_table
 
 int libtableau_values_table_initialize(
      libtableau_values_table_t **values_table,
-     uint32_t number_of_values,
+     int number_of_values,
      libcerror_error_t **error );
 
 int libtableau_values_table_free(
@@ -60,18 +60,18 @@ int libtableau_values_table_free(
 /* TODO: refactor to resize */
 int libtableau_values_table_realloc(
      libtableau_values_table_t *values_table,
-     uint32_t previous_number_of_values,
-     uint32_t new_number_of_values,
+     int previous_number_of_values,
+     int new_number_of_values,
      libcerror_error_t **error );
 
-int32_t libtableau_values_table_get_index(
-         libtableau_values_table_t *values_table,
-         const char *identifier,
-         libcerror_error_t **error );
+int libtableau_values_table_get_index(
+     libtableau_values_table_t *values_table,
+     const char *identifier,
+     libcerror_error_t **error );
 
 int libtableau_values_table_get_identifier(
      libtableau_values_table_t *values_table,
-     uint32_t index,
+     int value_index,
      char *identifier,
      size_t length,
      libcerror_error_t **error );

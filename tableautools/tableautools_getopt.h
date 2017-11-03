@@ -1,5 +1,5 @@
 /*
- * Common output functions for the tableautools
+ * GetOpt functions
  *
  * Copyright (C) 2008-2017, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -19,37 +19,50 @@
  * along with this software.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#if !defined( _TABLEAUTOOLS_OUTPUT_H )
-#define _TABLEAUTOOLS_OUTPUT_H
+#if !defined( _TABLEAUTOOLS_GETOPT_H )
+#define _TABLEAUTOOLS_GETOPT_H
 
 #include <common.h>
-#include <file_stream.h>
 #include <types.h>
 
-#include "tableautools_libcerror.h"
+/* unistd.h is included here to export getopt, optarg, optind and optopt
+ */
+#if defined( HAVE_UNISTD_H )
+#include <unistd.h>
+#endif
 
 #if defined( __cplusplus )
 extern "C" {
 #endif
 
-int tableautools_output_initialize(
-     int stdio_mode,
-     libcerror_error_t **error );
+#if defined( HAVE_GETOPT )
+#define tableautools_getopt( argument_count, argument_values, options_string ) \
+	getopt( argument_count, argument_values, options_string )
 
-void tableauoutput_copyright_fprint(
-      FILE *stream );
+#else
 
-void tableauoutput_version_fprint(
-      FILE *stream,
-      const char *program );
+#if !defined( __CYGWIN__ )
+extern int optind;
+extern system_character_t *optarg;
+extern system_integer_t optopt;
 
-void tableauoutput_version_detailed_fprint(
-      FILE *stream,
-      const char *program );
+#else
+int optind;
+system_character_t *optarg;
+system_integer_t optopt;
+
+#endif /* !defined( __CYGWIN__ ) */
+
+system_integer_t tableautools_getopt(
+                  int argument_count,
+                  system_character_t * const argument_values[],
+                  const system_character_t *options_string );
+
+#endif /* defined( HAVE_GETOPT ) */
 
 #if defined( __cplusplus )
 }
 #endif
 
-#endif /* !defined( _TABLEAUTOOLS_OUTPUT_H ) */
+#endif /* !defined( _TABLEAUTOOLS_GETOPT_H ) */
 

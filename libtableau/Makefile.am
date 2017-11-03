@@ -24,8 +24,8 @@ libtableau_la_SOURCES = \
 	libtableau_security_values.c libtableau_security_values.h \
 	libtableau_string.c libtableau_string.h \
 	libtableau_support.c libtableau_support.h \
-	libtableau_tableau_values.c libtableau_tableau_values.h \
 	libtableau_types.h \
+	libtableau_values.c libtableau_values.h \
 	libtableau_values_table.c libtableau_values_table.h \
 	libtableau_unused.h \
 	tableau_header.h \

@@ -25,8 +25,6 @@
 #include <system_string.h>
 #include <types.h>
 
-#include <stdio.h>
-
 #if defined( HAVE_UNISTD_H )
 #include <unistd.h>
 #endif
@@ -35,7 +33,12 @@
 #include <stdlib.h>
 #endif
 
-#include "tableauinput.h"
+#include <stdio.h>
+
+#include "tableautools_input.h"
+#include "tableautools_libcerror.h"
+#include "tableautools_libclocale.h"
+#include "tableautools_libcnotify.h"
 #include "tableautools_libtableau.h"
 #include "tableautools_output.h"
 
@@ -57,24 +60,40 @@ void usage_fprint(
 
 /* The main program
  */
-#if defined( HAVE_WIDE_CHARACTER_SUPPORT_FUNCTIONS )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 int wmain( int argc, wchar_t * const argv[] )
 #else
 int main( int argc, char * const argv[] )
 #endif
 {
-	libtableau_handle_t *handle      = NULL;
-	character_t *program             = _CHARACTER_T_STRING( "tableaucontrol" );
-	character_t *user_input          = NULL;
-#if defined( HAVE_STRERROR_R ) || defined( HAVE_STRERROR )
-	system_character_t *error_string = NULL;
-#endif
+	system_character_t input_buffer[ 64 ];
 
-	system_integer_t option          = 0;
-	int input_confirmed              = -1;
-	int verbose                      = 0;
-	int result                       = 0;
+	libcerror_error_t *error                  = NULL;
+	libtableau_handle_t *handle               = NULL;
+	system_character_t *fixed_string_variable = NULL;
+	system_character_t *program               = _SYSTEM_STRING( "tableaucontrol" );
+	system_character_t *source                = NULL;
+	system_integer_t option                   = 0;
+	int8_t input_confirmed                    = -1;
+	int result                                = 0;
+	int verbose                               = 0;
 
+	libcnotify_stream_set(
+	 stderr,
+	 NULL );
+	libcnotify_verbose_set(
+	 1 );
+
+	if( libclocale_initialize(
+	     "tableautools",
+	     &error ) != 1 )
+	{
+		fprintf(
+		 stderr,
+		 "Unable to initialize locale values.\n" );
+
+		goto on_error;
+	}
 	if( tableautools_output_initialize(
 	     _IONBF,
 	     &error ) != 1 )
@@ -92,13 +111,15 @@ int main( int argc, char * const argv[] )
 	while( ( option = getopt(
 	                   argc,
 	                   argv,
-	                   _SYSTEM_CHARACTER_T_STRING( "hvV" ) ) ) != (system_integer_t) -1 )
+	                   _SYSTEM_STRING( "hvV" ) ) ) != (system_integer_t) -1 )
 	{
 		switch( option )
 		{
 			case (system_integer_t) '?':
 			default:
-				fprintf( stderr, "Invalid argument: %s\n",
+				fprintf(
+				 stderr,
+				 "Invalid argument: %s\n",
 				 argv[ optind ] );
 
 				usage_fprint(
@@ -126,80 +147,71 @@ int main( int argc, char * const argv[] )
 	}
 	if( optind == argc )
 	{
-		fprintf( stderr, "Missing source device.\n" );
+		fprintf(
+		 stderr,
+		 "Missing source device.\n" );
 
 		usage_fprint(
 		 stdout );
 
 		return( EXIT_FAILURE );
 	}
-	libtableau_set_notify_values(
+	source = argv[ optind ];
+
+	libcnotify_verbose_set(
+	 verbose );
+	libtableau_notify_set_stream(
 	 stderr,
+	 NULL );
+	libtableau_notify_set_verbose(
 	 verbose );
 
 	if( libtableau_handle_initialize(
-	     &handle ) != 1 )
+	     &handle,
+	     &error ) != 1 )
 	{
-		fprintf( stderr, "Unable to initialize libtableau handle.\n" );
+		fprintf(
+		 stderr,
+		 "Unable to initialize libtableau handle.\n" );
 
 		return( EXIT_FAILURE );
 	}
 	/* Open the device
 	 */
-	if( libtableau_open(
+	if( libtableau_handle_open(
 	     handle,
-	     argv[ optind ] ) != 1 )
+	     source,
+	     LIBTABLEAU_OPEN_READ,
+	     &error ) != 1 )
 	{
-#if defined( HAVE_STRERROR_R ) || defined( HAVE_STRERROR )
-		if( errno != 0 )
-		{
-			error_string = tableauoutput_strerror(
-			                errno );
-		}
-		if( error_string != NULL )
-		{
-			fprintf( stderr, "Error opening device: %" PRIs_SYSTEM " with failure: %" PRIs_SYSTEM ".\n",
-			 argv[ optind ], error_string );
+		fprintf(
+		 stderr,
+		 "Error opening device: %" PRIs_SYSTEM ".\n",
+		 source );
 
-			memory_free(
-			 error_string );
-		}
-		else
-		{
-			fprintf( stderr, "Error opening device: %" PRIs_SYSTEM ".\n",
-			 argv[ optind ] );
-		}
-#else
-		fprintf( stderr, "Error opening device: %" PRIs_SYSTEM ".\n",
-		 argv[ optind ] );
-#endif
-		return( EXIT_FAILURE );
+		goto on_error;
 	}
-	if( libtableau_query(
-	     handle ) != 1 )
+	if( libtableau_handle_query(
+	     handle,
+	     &error ) != 1 )
 	{
-		fprintf( stderr, "Unable to query Tableau.\n" );
+		fprintf(
+		 stderr,
+		 "Unable to query Tableau.\n" );
 
-		libtableau_close(
-		 handle );
-		libtableau_handle_free(
-		 &handle );
-
-		return( EXIT_FAILURE );
+		goto on_error;
 	}
-	result = libtableau_detected_dco(
-	          handle );
+	result = libtableau_handle_detected_dco(
+	          handle,
+	          &error );
 
 	if( result == -1 )
 	{
-		fprintf( stderr, "Unable to detect DCO.\n" );
+		fprintf(
+		 stderr,
+		 "Unable to detect DCO.\n" );
 
-		libtableau_close(
-		 handle );
-		libtableau_handle_free(
-		 &handle );
-
-		return( EXIT_FAILURE );
+		goto on_error;
 	}
 	else if( result != 0 )
 	{
@@ -207,80 +219,108 @@ int main( int argc, char * const argv[] )
 		 */
 		while( input_confirmed == -1 )
 		{
-			user_input = tableauinput_get_fixed_value(
-			              stdout,
-			              _CHARACTER_T_STRING( "Remove DCO from connected drive" ),
-			              tableauinput_yes_no,
-			              2,
-			              1 );
+			result = tableautools_input_get_fixed_string_variable(
+			          stdout,
+			          input_buffer,
+			          64,
+			          _SYSTEM_STRING( "Remove DCO from connected drive" ),
+			          tableautools_input_yes_no,
+			          2,
+			          0,
+			          &fixed_string_variable,
+			          &error );
 
-			input_confirmed = tableauinput_determine_yes_no(
-			                   user_input );
+			if( result == -1 )
+			{
+				libcnotify_print_error_backtrace(
+				 error );
+				libcerror_error_free(
+				 &error );
 
-	                memory_free(
-        	         user_input );
+				fprintf(
+				 stdout,
+				 "Unable to determine answer.\n" );
+			}
+			else
+			{
+				result = tableautools_input_determine_yes_no(
+					  fixed_string_variable,
+					  (uint8_t *) &input_confirmed,
+					  &error );
 
-	                if( input_confirmed <= -1 )
-	                {
-        	                fprintf( stdout, "Selected option not supported, please try again or terminate using Ctrl^C.\n" );
-	                }
+				if( result != 1 )
+				{
+					libcnotify_print_error_backtrace(
+					 error );
+					libcerror_error_free(
+					 &error );
+
+					fprintf(
+					 stdout,
+					 "Selected option not supported, please try again or terminate using Ctrl^C.\n" );
+				}
+			}
 	        }
 		if( input_confirmed != 0 )
 		{
-			if( libtableau_remove_dco(
-			     handle ) != 1 )
+			if( libtableau_handle_remove_dco(
+			     handle,
+			     &error ) != 1 )
 			{
-				fprintf( stderr, "Unable to remove DCO.\n" );
+				fprintf(
+				 stderr,
+				 "Unable to remove DCO.\n" );
 
-				libtableau_close(
-				 handle );
-				libtableau_handle_free(
-				 &handle );
-
-				return( EXIT_FAILURE );
+				goto on_error;
 			}
-			fprintf( stdout, "Power cycle the drive to make sure the changes are detected.\n" );
+			fprintf(
+			 stdout,
+			 "Power cycle the drive to make sure the changes are detected.\n" );
 		}
 	}
 	else
 	{
-		fprintf( stdout, "No DCO detected.\n" );
+		fprintf(
+		 stdout,
+		 "No DCO detected.\n" );
 	}
-	if( libtableau_close(
-	     handle ) != 0 )
+	if( libtableau_handle_close(
+	     handle,
+	     &error ) != 0 )
 	{
-#if defined( HAVE_STRERROR_R ) || defined( HAVE_STRERROR )
-		if( errno != 0 )
-		{
-			error_string = tableauoutput_strerror(
-			                errno );
-		}
-		if( error_string != NULL )
-		{
-			fprintf( stderr, "Error closing device: %" PRIs_SYSTEM " with failure: %" PRIs_SYSTEM ".\n",
-			 argv[ optind ], error_string );
+		fprintf(
+		 stderr,
+		 "Error closing device: %" PRIs_SYSTEM ".\n",
+		 source );
 
-			memory_free(
-			 error_string );
-		}
-		else
-		{
-			fprintf( stderr, "Error closing device: %" PRIs_SYSTEM ".\n",
-			 argv[ optind ] );
-		}
-#else
-		fprintf( stderr, "Error closing device: %" PRIs_SYSTEM ".\n",
-		 argv[ optind ] );
-#endif
-		return( EXIT_FAILURE );
+		goto on_error;
 	}
 	if( libtableau_handle_free(
-	     &handle ) != 1 )
+	     &handle,
+	     &error ) != 1 )
 	{
-		fprintf( stderr, "Unable to free libtableau handle.\n" );
+		fprintf(
+		 stderr,
+		 "Unable to free libtableau handle.\n" );
 
-		return( EXIT_FAILURE );
+		goto on_error;
 	}
 	return( EXIT_SUCCESS );
+
+on_error:
+	if( error != NULL )
+	{
+		libcnotify_print_error_backtrace(
+		 error );
+		libcerror_error_free(
+		 &error );
+	}
+	if( handle != NULL )
+	{
+		libtableau_handle_free(
+		 &handle,
+		 NULL );
+	}
+	return( EXIT_FAILURE );
 }
 

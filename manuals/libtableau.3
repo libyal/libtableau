@@ -1,4 +1,4 @@
-.Dd October  9, 2017
+.Dd November  3, 2017
 .Dt libtableau 3
 .Os libtableau
 .Sh NAME
@@ -57,11 +57,11 @@ Handle functions
 .Ft int
 .Fn libtableau_handle_get_dco_number_of_sectors "libtableau_handle_t *handle, uint32_t *number_of_sectors, libtableau_error_t **error"
 .Ft int
-.Fn libtableau_handle_get_number_of_tableau_values "libtableau_handle_t *handle, uint32_t *number_of_values, libtableau_error_t **error"
+.Fn libtableau_handle_get_number_of_values "libtableau_handle_t *handle, uint32_t *number_of_values, libtableau_error_t **error"
 .Ft int
-.Fn libtableau_handle_get_tableau_value_identifier "libtableau_handle_t *handle, uint32_t index, char *value, size_t length, libtableau_error_t **error"
+.Fn libtableau_handle_get_value_identifier "libtableau_handle_t *handle, uint32_t index, char *value, size_t length, libtableau_error_t **error"
 .Ft int
-.Fn libtableau_handle_get_tableau_value "libtableau_handle_t *handle, const char *identifier, char *value, size_t length, libtableau_error_t **error"
+.Fn libtableau_handle_get_value "libtableau_handle_t *handle, const char *identifier, char *value, size_t length, libtableau_error_t **error"
 .Pp
 Available when compiled with wide character string support:
 .Ft int

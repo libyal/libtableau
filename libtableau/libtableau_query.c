@@ -43,7 +43,7 @@
  */
 int libtableau_query_parse_tableau_header(
      tableau_header_t *tableau_header,
-     libtableau_values_table_t *tableau_values,
+     libtableau_values_table_t *values_table,
      libcerror_error_t **error )
 {
 	uint8_t value_string[ 32 ];
@@ -69,13 +69,13 @@ int libtableau_query_parse_tableau_header(
 
 		return( -1 );
 	}
-	if( tableau_values == NULL )
+	if( values_table == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid tableau values.",
+		 "%s: invalid values table.",
 		 function );
 
 		return( -1 );
@@ -92,11 +92,16 @@ int libtableau_query_parse_tableau_header(
 		return( -1 );
 	}
 #if defined( HAVE_DEBUG_OUTPUT )
-	notify_verbose_printf( "Tableau header:\n" );
-
-	notify_dump_data(
-	 tableau_header,
-	 sizeof( tableau_header_t ) );
+	if( libcnotify_verbose != 0 )
+	{
+		libcnotify_printf(
+		 "%s: Tableau header:\n",
+		 function );
+		libcnotify_print_data(
+		 (uint8_t *) tableau_header,
+		 sizeof( tableau_header_t ),
+		 0 );
+	}
 #endif
 	if( ( tableau_header->signature[ 0 ] != 0x0e )
 	 || ( tableau_header->signature[ 1 ] != 0xcc ) )
@@ -134,7 +139,7 @@ int libtableau_query_parse_tableau_header(
 	value_string[ value_string_iterator ]   = (uint8_t) '\0';
 
 	if( libtableau_values_table_set_value(
-	     tableau_values,
+	     values_table,
 	     "bridge_firmware_stepping",
 	     (char *) value_string,
 	     value_string_iterator,
@@ -165,7 +170,7 @@ int libtableau_query_parse_tableau_header(
 	value_string[ value_string_iterator ]   = (uint8_t) '\0';
 
 	if( libtableau_values_table_set_value(
-	     tableau_values,
+	     values_table,
 	     "bridge_channel_index",
 	     (char *) value_string,
 	     value_string_iterator,
@@ -203,7 +208,7 @@ int libtableau_query_parse_tableau_header(
 		bridge_channel_type_length = 3;
 	}
 	if( libtableau_values_table_set_value(
-	     tableau_values,
+	     values_table,
 	     "bridge_channel_type",
 	     (char *) bridge_channel_type,
 	     bridge_channel_type_length,
@@ -231,7 +236,7 @@ int libtableau_query_parse_tableau_header(
 		true_false_string_length = 5;
 	}
 	if( libtableau_values_table_set_value(
-	     tableau_values,
+	     values_table,
 	     "bridge_debug_firmware",
 	     true_false_string,
 	     true_false_string_length,
@@ -259,7 +264,7 @@ int libtableau_query_parse_tableau_header(
 		true_false_string_length = 4;
 	}
 	if( libtableau_values_table_set_value(
-	     tableau_values,
+	     values_table,
 	     "bridge_mode_read_only",
 	     true_false_string,
 	     true_false_string_length,
@@ -287,7 +292,7 @@ int libtableau_query_parse_tableau_header(
 		true_false_string_length = 5;
 	}
 	if( libtableau_values_table_set_value(
-	     tableau_values,
+	     values_table,
 	     "bridge_report_read_only",
 	     true_false_string,
 	     true_false_string_length,
@@ -315,7 +320,7 @@ int libtableau_query_parse_tableau_header(
 		true_false_string_length = 5;
 	}
 	if( libtableau_values_table_set_value(
-	     tableau_values,
+	     values_table,
 	     "bridge_report_write_error",
 	     true_false_string,
 	     true_false_string_length,
@@ -360,7 +365,7 @@ int libtableau_query_parse_tableau_header(
 	value_string[ value_string_iterator ] = (uint8_t) '\0';
 
 	if( libtableau_values_table_set_value(
-	     tableau_values,
+	     values_table,
 	     "bridge_serial_number",
 	     (char *) value_string,
 	     value_string_iterator,
@@ -395,7 +400,7 @@ int libtableau_query_parse_tableau_header(
 		return( -1 );
 	}
 	else if( libtableau_values_table_set_value(
-	          tableau_values,
+	          values_table,
 	          "bridge_vendor",
 	          (char *) value_string,
 	          value_string_length,
@@ -430,7 +435,7 @@ int libtableau_query_parse_tableau_header(
 		return( -1 );
 	}
 	else if( libtableau_values_table_set_value(
-	          tableau_values,
+	          values_table,
 	          "bridge_model",
 	          (char *) value_string,
 	          value_string_length,
@@ -465,7 +470,7 @@ int libtableau_query_parse_tableau_header(
 		return( -1 );
 	}
 	else if( libtableau_values_table_set_value(
-	          tableau_values,
+	          values_table,
 	          "bridge_firmware_date",
 	          (char *) value_string,
 	          value_string_length,
@@ -500,7 +505,7 @@ int libtableau_query_parse_tableau_header(
 		return( -1 );
 	}
 	else if( libtableau_values_table_set_value(
-	          tableau_values,
+	          values_table,
 	          "bridge_firmware_time",
 	          (char *) value_string,
 	          value_string_length,
@@ -535,7 +540,7 @@ int libtableau_query_parse_tableau_header(
 		return( -1 );
 	}
 	else if( libtableau_values_table_set_value(
-	          tableau_values,
+	          values_table,
 	          "drive_vendor",
 	          (char *) value_string,
 	          value_string_length,
@@ -570,7 +575,7 @@ int libtableau_query_parse_tableau_header(
 		return( -1 );
 	}
 	else if( libtableau_values_table_set_value(
-	          tableau_values,
+	          values_table,
 	          "drive_model",
 	          (char *) value_string,
 	          value_string_length,
@@ -605,7 +610,7 @@ int libtableau_query_parse_tableau_header(
 		return( -1 );
 	}
 	else if( libtableau_values_table_set_value(
-	          tableau_values,
+	          values_table,
 	          "drive_serial_number",
 	          (char *) value_string,
 	          value_string_length,
@@ -640,7 +645,7 @@ int libtableau_query_parse_tableau_header(
 		return( -1 );
 	}
 	else if( libtableau_values_table_set_value(
-	          tableau_values,
+	          values_table,
 	          "drive_revision_number",
 	          (char *) value_string,
 	          value_string_length,
@@ -664,7 +669,7 @@ int libtableau_query_parse_tableau_header(
 int libtableau_query_parse_tableau_page(
      tableau_page_t *tableau_page,
      const uint8_t *tableau_page_data,
-     libtableau_values_table_t *tableau_values,
+     libtableau_values_table_t *values_table,
      libtableau_security_values_t *security_values,
      libcerror_error_t **error )
 {
@@ -693,17 +698,24 @@ int libtableau_query_parse_tableau_page(
 		return( -1 );
 	}
 #if defined( HAVE_DEBUG_OUTPUT )
-	notify_verbose_printf( "Tableau page header:\n" );
+	if( libcnotify_verbose != 0 )
+	{
+		libcnotify_printf(
+		 "%s: Tableau page header:\n",
+		 function );
+		libcnotify_print_data(
+		 (uint8_t *) tableau_page,
+		 sizeof( tableau_page_t ),
+		 0 );
 
-	notify_dump_data(
-	 tableau_page,
-	 sizeof( tableau_page_t ) );
-
-	notify_verbose_printf( "Tableau page data:\n" );
-
-	notify_dump_data(
-	 tableau_page_data,
-	 tableau_page->size );
+		libcnotify_printf(
+		 "%s: Tableau page data:\n",
+		 function );
+		libcnotify_print_data(
+		 tableau_page_data,
+		 tableau_page->size,
+		 0 );
+	}
 #endif
 	if( tableau_page->identifier == TABLEAU_PAGE_IDENTIFIER_HPA_DCO )
 	{
@@ -720,7 +732,7 @@ int libtableau_query_parse_tableau_page(
 		}
 		if( libtableau_query_parse_tableau_page_data_hpa_dco(
 		     (tableau_page_data_hpa_dco_t *) tableau_page_data,
-		     tableau_values,
+		     values_table,
 		     security_values,
 		     error ) != 1 )
 		{
@@ -734,13 +746,15 @@ int libtableau_query_parse_tableau_page(
 			return( -1 );
 		}
 	}
-	else
+#if defined( HAVE_DEBUG_OUTPUT )
+	else if( libcnotify_verbose != 0 )
 	{
-#if defined( HAVE_VERBOSE_OUTPUT )
-		notify_verbose_printf( "%s: unsupported tableau page identifier: 0x%02x.\n",
-		 function, tableau_page->identifier );
-#endif
+		libcnotify_printf(
+		 "%s: unsupported tableau page identifier: 0x%02x.\n",
+		 function,
+		 tableau_page->identifier );
 	}
+#endif
 	return( 1 );
 }
 
@@ -749,7 +763,7 @@ int libtableau_query_parse_tableau_page(
  */
 int libtableau_query_parse_tableau_page_data_hpa_dco(
      tableau_page_data_hpa_dco_t *tableau_page_data_hpa_dco,
-     libtableau_values_table_t *tableau_values,
+     libtableau_values_table_t *values_table,
      libtableau_security_values_t *security_values,
      libcerror_error_t **error )
 {
@@ -768,7 +782,7 @@ int libtableau_query_parse_tableau_page_data_hpa_dco(
 
 		return( -1 );
 	}
-	if( tableau_values == NULL )
+	if( values_table == NULL )
 	{
 		libcerror_error_set(
 		 error,
@@ -853,7 +867,7 @@ int libtableau_query_parse_tableau_page_data_hpa_dco(
 		true_false_string_length = 5;
 	}
 	if( libtableau_values_table_set_value(
-	     tableau_values,
+	     values_table,
 	     "drive_hpa_support",
 	     true_false_string,
 	     true_false_string_length,
@@ -881,7 +895,7 @@ int libtableau_query_parse_tableau_page_data_hpa_dco(
 		true_false_string_length = 5;
 	}
 	if( libtableau_values_table_set_value(
-	     tableau_values,
+	     values_table,
 	     "drive_hpa_in_use",
 	     true_false_string,
 	     true_false_string_length,
@@ -909,7 +923,7 @@ int libtableau_query_parse_tableau_page_data_hpa_dco(
 		true_false_string_length = 5;
 	}
 	if( libtableau_values_table_set_value(
-	     tableau_values,
+	     values_table,
 	     "drive_dco_support",
 	     true_false_string,
 	     true_false_string_length,
@@ -937,7 +951,7 @@ int libtableau_query_parse_tableau_page_data_hpa_dco(
 		true_false_string_length = 5;
 	}
 	if( libtableau_values_table_set_value(
-	     tableau_values,
+	     values_table,
 	     "drive_dco_in_use",
 	     true_false_string,
 	     true_false_string_length,
@@ -965,7 +979,7 @@ int libtableau_query_parse_tableau_page_data_hpa_dco(
 		true_false_string_length = 5;
 	}
 	if( libtableau_values_table_set_value(
-	     tableau_values,
+	     values_table,
 	     "drive_security_support",
 	     true_false_string,
 	     true_false_string_length,
@@ -993,7 +1007,7 @@ int libtableau_query_parse_tableau_page_data_hpa_dco(
 		true_false_string_length = 5;
 	}
 	if( libtableau_values_table_set_value(
-	     tableau_values,
+	     values_table,
 	     "drive_security_in_use",
 	     true_false_string,
 	     true_false_string_length,

@@ -25,13 +25,8 @@
 #include <types.h>
 
 #include "tableautools_i18n.h"
-#include "tableautools_libbfio.h"
 #include "tableautools_libcerror.h"
-#include "tableautools_libfdatetime.h"
-#include "tableautools_libfguid.h"
-#include "tableautools_libfwsi.h"
-#include "tableautools_liblnk.h"
-#include "tableautools_libuna.h"
+#include "tableautools_libtableau.h"
 #include "tableautools_output.h"
 
 /* Initializes output settings
@@ -94,7 +89,7 @@ int tableautools_output_initialize(
 
 /* Prints the copyright information
  */
-void lnkoutput_copyright_fprint(
+void tableauoutput_copyright_fprint(
       FILE *stream )
 {
 	if( stream == NULL )
@@ -126,7 +121,7 @@ void lnkoutput_copyright_fprint(
 
 /* Prints the version information
  */
-void lnkoutput_version_fprint(
+void tableauoutput_version_fprint(
       FILE *stream,
       const char *program )
 {
@@ -142,12 +137,12 @@ void lnkoutput_version_fprint(
 	 stream,
 	 "%s %s\n\n",
          program,
-	 LIBLNK_VERSION_STRING );
+	 LIBTABLEAU_VERSION_STRING );
 }
 
 /* Prints the detailed version information
  */
-void lnkoutput_version_detailed_fprint(
+void tableauoutput_version_detailed_fprint(
       FILE *stream,
       const char *program )
 {
@@ -161,35 +156,10 @@ void lnkoutput_version_detailed_fprint(
 	}
         fprintf(
 	 stream,
-	 "%s %s (liblnk %s",
+	 "%s %s (libtableau %s",
          program,
-	 LIBLNK_VERSION_STRING,
-	 LIBLNK_VERSION_STRING );
-
-	fprintf(
-	 stream,
-	 ", libuna %s",
-	 LIBUNA_VERSION_STRING );
-
-	fprintf(
-	 stream,
-	 ", libbfio %s",
-	 LIBBFIO_VERSION_STRING );
-
-	fprintf(
-	 stream,
-	 ", libfdatetime %s",
-	 LIBFDATETIME_VERSION_STRING );
-
-	fprintf(
-	 stream,
-	 ", libfguid %s",
-	 LIBFGUID_VERSION_STRING );
-
-	fprintf(
-	 stream,
-	 ", libfwsi %s",
-	 LIBFWSI_VERSION_STRING );
+	 LIBTABLEAU_VERSION_STRING,
+	 LIBTABLEAU_VERSION_STRING );
 
         fprintf(
 	 stream,

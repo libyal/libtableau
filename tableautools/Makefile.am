@@ -2,6 +2,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/include \
 	-I$(top_srcdir)/common \
 	@LIBCERROR_CPPFLAGS@ \
+	@LIBCLOCALE_CPPFLAGS@ \
+	@LIBCNOTIFY_CPPFLAGS@ \
 	@LIBTABLEAU_DLL_IMPORT@
 
 AM_LDFLAGS = @STATIC_LDFLAGS@
@@ -14,12 +16,17 @@ tableaucontrol_SOURCES = \
 	tableaucontrol.c \
 	tableautools_getopt.c tableautools_getopt.h \
 	tableautools_i18n.h \
+	tableautools_input.c tableautools_input.h \
 	tableautools_libcerror.h \
+	tableautools_libclocale.h \
+	tableautools_libcnotify.h \
 	tableautools_libtableau.h \
 	tableautools_output.c tableautools_output.h \
 	tableautools_unused.h
 
 tableaucontrol_LDADD = \
+	@LIBCNOTIFY_LIBADD@ \
+	@LIBCLOCALE_LIBADD@ \
 	../libtableau/libtableau.la \
 	@LIBCERROR_LIBADD@ \
 	@LIBINTL@
@@ -29,11 +36,15 @@ tableauinfo_SOURCES = \
 	tableautools_getopt.c tableautools_getopt.h \
 	tableautools_i18n.h \
 	tableautools_libcerror.h \
+	tableautools_libclocale.h \
+	tableautools_libcnotify.h \
 	tableautools_libtableau.h \
 	tableautools_output.c tableautools_output.h \
 	tableautools_unused.h
 
 tableauinfo_LDADD = \
+	@LIBCNOTIFY_LIBADD@ \
+	@LIBCLOCALE_LIBADD@ \
 	../libtableau/libtableau.la \
 	@LIBCERROR_LIBADD@ \
 	@LIBINTL@

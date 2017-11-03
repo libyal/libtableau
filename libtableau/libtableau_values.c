@@ -1,5 +1,5 @@
 /*
- * libtableau Tableau values
+ * Tableau bridge values
  *
  * Copyright (C) 2008-2017, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -31,17 +31,17 @@
 #endif
 
 #include "libtableau_libcerror.h"
-#include "libtableau_tableau_values.h"
+#include "libtableau_values.h"
 #include "libtableau_values_table.h"
 
-/* Initializes the tableau values
+/* Initializes the values
  * Returns 1 if successful, or -1 otherwise
  */
-int libtableau_tableau_values_initialize(
+int libtableau_values_initialize(
      libtableau_values_table_t *values_table,
      libcerror_error_t **error )
 {
-	static char *function = "libtableau_tableau_values_initialize";
+	static char *function = "libtableau_values_initialize";
 
 	if( values_table == NULL )
 	{

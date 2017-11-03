@@ -1,5 +1,5 @@
 /*
- * Common output functions for the tableau tools
+ * The internal libcnotify header
  *
  * Copyright (C) 2008-2017, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -19,40 +19,32 @@
  * along with this software.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#if !defined( _TABLEAUOUTPUT_H )
-#define _TABLEAUOUTPUT_H
+#if !defined( _TABLEAUTOOLS_LIBCNOTIFY_H )
+#define _TABLEAUTOOLS_LIBCNOTIFY_H
 
 #include <common.h>
-#include <error_string.h>
 
-#include <errno.h>
+/* Define HAVE_LOCAL_LIBCNOTIFY for local use of libcnotify
+ */
+#if defined( HAVE_LOCAL_LIBCNOTIFY )
 
-#include <stdio.h>
-
-#if defined( __cplusplus )
-extern "C" {
-#endif
-
-#if defined( HAVE_WIDE_SYSTEM_CHARACTER_T )
-#define tableauoutput_strerror( error_number ) \
-        error_string_wcserror( error_number )
+#include <libcnotify_definitions.h>
+#include <libcnotify_print.h>
+#include <libcnotify_stream.h>
+#include <libcnotify_verbose.h>
 
 #else
-#define tableauoutput_strerror( error_number ) \
-        error_string_strerror( error_number )
 
+/* If libtool DLL support is enabled set LIBCNOTIFY_DLL_IMPORT
+ * before including libcnotify.h
+ */
+#if defined( _WIN32 ) && defined( DLL_IMPORT ) && !defined( HAVE_STATIC_EXECUTABLES )
+#define LIBCNOTIFY_DLL_IMPORT
 #endif
 
-void tableauoutput_copyright_fprint(
-      FILE *stream );
+#include <libcnotify.h>
 
-void tableauoutput_version_fprint(
-      FILE *stream,
-      const character_t *program );
+#endif /* defined( HAVE_LOCAL_LIBCNOTIFY ) */
 
-#if defined( __cplusplus )
-}
-#endif
-
-#endif /* !defined( _TABLEAUOUTPUT_H ) */
+#endif /* !defined( _TABLEAUTOOLS_LIBCNOTIFY_H ) */
 

@@ -1,7 +1,10 @@
 MSVSCPP_FILES = \
 	libcerror/libcerror.vcproj \
+	libclocale/libclocale.vcproj \
 	libcnotify/libcnotify.vcproj \
+	libcthreads/libcthreads.vcproj \
 	libtableau/libtableau.vcproj \
+	libuna/libuna.vcproj \
 	tableau_test_error/tableau_test_error.vcproj \
 	tableau_test_handle/tableau_test_handle.vcproj \
 	tableau_test_notify/tableau_test_notify.vcproj \

@@ -34,6 +34,10 @@
 #error Missing SCSI support
 #endif
 
+#if defined( HAVE_ERRNO_H )
+#include <errno.h>
+#endif
+
 #include "libtableau_definitions.h"
 #include "libtableau_handle.h"
 #include "libtableau_io.h"
@@ -41,7 +45,7 @@
 #include "libtableau_libcnotify.h"
 #include "libtableau_query.h"
 #include "libtableau_security_values.h"
-#include "libtableau_tableau_values.h"
+#include "libtableau_values.h"
 #include "libtableau_values_table.h"
 
 #include "tableau_header.h"
@@ -113,7 +117,7 @@ int libtableau_handle_initialize(
 		return( -1 );
 	}
 	if( libtableau_values_table_initialize(
-	     &( internal_handle->tableau_values ),
+	     &( internal_handle->values_table ),
 	     LIBTABLEAU_DEFAULT_NUMBER_OF_TABLEAU_VALUES,
 	     error ) != 1 )
 	{
@@ -121,20 +125,20 @@ int libtableau_handle_initialize(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
-		 "%s: unable to create tableau values table.",
+		 "%s: unable to create values table.",
 		 function );
 
 		goto on_error;
 	}
-	if( libtableau_tableau_values_initialize(
-	     internal_handle->tableau_values,
+	if( libtableau_values_initialize(
+	     internal_handle->values_table,
 	     error ) != 1 )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
-		 "%s: unable to initialize tableau values.",
+		 "%s: unable to initialize values.",
 		 function );
 
 		goto on_error;
@@ -167,10 +171,10 @@ on_error:
 			 &( internal_handle->security_values ),
 			 NULL );
 		}
-		if( internal_handle->tableau_values != NULL )
+		if( internal_handle->values_table != NULL )
 		{
 			libtableau_values_table_free(
-			 &( internal_handle->tableau_values ),
+			 &( internal_handle->values_table ),
 			 NULL );
 		}
 		memory_free(
@@ -222,17 +226,17 @@ int libtableau_handle_free(
 				result = -1;
 			}
 		}
-		if( internal_handle->tableau_values != NULL )
+		if( internal_handle->values_table != NULL )
 		{
 			if( libtableau_values_table_free(
-			     &( internal_handle->tableau_values ),
+			     &( internal_handle->values_table ),
 			     error ) != 1 )
 			{
 				libcerror_error_set(
 				 error,
 				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 				 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
-				 "%s: unable to free tableau values.",
+				 "%s: unable to free values table.",
 				 function );
 
 				result = -1;
@@ -283,17 +287,6 @@ int libtableau_handle_open(
 
 		return( -1 );
 	}
-	if( filename == NULL )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid filename.",
-		 function );
-
-		return( -1 );
-	}
 	internal_handle = (libtableau_internal_handle_t *) handle;
 
 	if( internal_handle->file_descriptor != -1 )
@@ -307,6 +300,28 @@ int libtableau_handle_open(
 
 		return( -1 );
 	}
+	if( filename == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
+		 "%s: invalid filename.",
+		 function );
+
+		return( -1 );
+	}
+	if( ( access_flags & LIBTABLEAU_ACCESS_FLAG_READ ) == 0 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_UNSUPPORTED_VALUE,
+		 "%s: unsupported accesss flags.",
+		 function );
+
+		return( -1 );
+	}
 	internal_handle->file_descriptor = scsi_pt_open_device(
 	                                    filename,
 	                                    1,
@@ -314,10 +329,11 @@ int libtableau_handle_open(
 
 	if( internal_handle->file_descriptor == -1 )
 	{
-		libcerror_error_set(
+		libcerror_system_set_error(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_MEMORY,
 		 LIBCERROR_MEMORY_ERROR_INSUFFICIENT,
+		 errno,
 		 "%s: unable to open file.",
 		 function );
 
@@ -351,17 +367,6 @@ int libtableau_handle_open_wide(
 
 		return( -1 );
 	}
-	if( filename == NULL )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid filename.",
-		 function );
-
-		return( -1 );
-	}
 	internal_handle = (libtableau_internal_handle_t *) handle;
 
 	if( internal_handle->file_descriptor != -1 )
@@ -375,6 +380,28 @@ int libtableau_handle_open_wide(
 
 		return( -1 );
 	}
+	if( filename == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
+		 "%s: invalid filename.",
+		 function );
+
+		return( -1 );
+	}
+	if( ( access_flags & LIBTABLEAU_ACCESS_FLAG_READ ) == 0 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_UNSUPPORTED_VALUE,
+		 "%s: unsupported accesss flags.",
+		 function );
+
+		return( -1 );
+	}
 /* TODO convert wide character string to narrow
 	internal_handle->file_descriptor = scsi_pt_open_device(
 	                                    filename,
@@ -383,10 +410,11 @@ int libtableau_handle_open_wide(
 
 	if( internal_handle->file_descriptor == -1 )
 	{
-		libcerror_error_set(
+		libcerror_system_set_error(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_MEMORY,
 		 LIBCERROR_MEMORY_ERROR_INSUFFICIENT,
+		 errno,
 		 "%s: unable to open file.",
 		 function );
 
@@ -439,10 +467,11 @@ int libtableau_handle_close(
 
 	if( result != 0 )
 	{
-		libcerror_error_set(
+		libcerror_system_set_error(
 		 error,
-		 LIBCERROR_ERROR_DOMAIN_IO,
-		 LIBCERROR_IO_ERROR_CLOSE_FAILED,
+		 LIBCERROR_ERROR_DOMAIN_MEMORY,
+		 LIBCERROR_MEMORY_ERROR_INSUFFICIENT,
+		 errno,
 		 "%s: unable to close file descriptor.",
 		 function );
 
@@ -456,7 +485,7 @@ int libtableau_handle_close(
 /* Queries the opened device for Tableau information
  * Returns 1 if successful or -1 on error
  */
-int libtableau_query(
+int libtableau_handle_query(
      libtableau_handle_t *handle,
      libcerror_error_t **error )
 {
@@ -468,7 +497,7 @@ int libtableau_query(
 	libtableau_internal_handle_t *internal_handle = NULL;
 	tableau_header_t *tableau_header              = NULL;
 	tableau_page_t *tableau_page                  = NULL;
-	static char *function                         = "libtableau_query";
+	static char *function                         = "libtableau_handle_query";
 	ssize_t recv_buffer_offset                    = 0;
 	int result                                    = 0;
 
@@ -539,7 +568,7 @@ int libtableau_query(
 
 	if( libtableau_query_parse_tableau_header(
 	     tableau_header,
-             internal_handle->tableau_values,
+             internal_handle->values_table,
 	     error ) != 1 )
 	{
 		libcerror_error_set(
@@ -560,7 +589,7 @@ int libtableau_query(
 		if( libtableau_query_parse_tableau_page(
 		     tableau_page,
 		     &( recv_buffer[ recv_buffer_offset + sizeof( tableau_page_t ) ] ),
-		     internal_handle->tableau_values,
+		     internal_handle->values_table,
 		     internal_handle->security_values,
 		     error ) != 1 )
 		{
@@ -575,10 +604,12 @@ int libtableau_query(
 		}
 		recv_buffer_offset += (size_t) tableau_page->size;
 	}
-#if defined( HAVE_VERBOSE_OUTPUT )
-	if( recv_buffer_offset < (ssize_t) sizeof( tableau_header_t ) )
+#if defined( HAVE_DEBUG_OUTPUT )
+	if( ( libcnotify_verbose != 0 )
+	 && ( recv_buffer_offset < (ssize_t) sizeof( tableau_header_t ) ) )
 	{
-		notify_verbose_printf( "%s: detected trailing data.\n",
+		libcnotify_printf(
+		 "%s: detected trailing data.\n",
 		 function );
 	}
 #endif
@@ -717,16 +748,16 @@ int libtableau_handle_get_dco_number_of_sectors(
 	return( 1 );
 }
 
-/* Retrieves the number of tableau values
- * Returns 1 if successful, 0 if no tableau values are present or -1 on error
+/* Retrieves the number of values
+ * Returns 1 if successful, 0 if no values are present or -1 on error
  */
-int libtableau_handle_get_number_of_tableau_values(
+int libtableau_handle_get_number_of_values(
      libtableau_handle_t *handle,
-     uint32_t *number_of_values,
+     int *number_of_values,
      libcerror_error_t **error )
 {
 	libtableau_internal_handle_t *internal_handle = NULL;
-	static char *function                         = "libtableau_handle_get_number_of_tableau_values";
+	static char *function                         = "libtableau_handle_get_number_of_values";
 
 	if( handle == NULL )
 	{
@@ -753,27 +784,28 @@ int libtableau_handle_get_number_of_tableau_values(
 
 		return( -1 );
 	}
-	if( internal_handle->tableau_values == NULL )
+	if( internal_handle->values_table == NULL )
 	{
 		return( 0 );
 	}
-	*number_of_values = internal_handle->tableau_values->number_of_values;
+	*number_of_values = internal_handle->values_table->number_of_values;
 
 	return( 1 );
 }
 
-/* Retrieves the tableau value identifier specified by its index
+/* Retrieves the value identifier specified by its index
  * Returns 1 if successful, 0 if value not present or -1 on error
  */
-int libtableau_handle_get_tableau_value_identifier(
+int libtableau_handle_get_value_identifier(
      libtableau_handle_t *handle,
-     uint32_t index,
+     int value_index,
      char *value,
      size_t length,
      libcerror_error_t **error )
 {
 	libtableau_internal_handle_t *internal_handle = NULL;
-	static char *function                         = "libtableau_handle_get_tableau_value_identifier";
+	static char *function                         = "libtableau_handle_get_value_identifier";
+	int result                                    = 0;
 
 	if( handle == NULL )
 	{
@@ -788,23 +820,35 @@ int libtableau_handle_get_tableau_value_identifier(
 	}
 	internal_handle = (libtableau_internal_handle_t *) handle;
 
-	if( internal_handle->tableau_values == NULL )
+	if( internal_handle->values_table == NULL )
 	{
 		return( 0 );
 	}
-/* TODO set error */
-	return( libtableau_values_table_get_identifier(
-	         internal_handle->tableau_values,
-	         index,
-	         value,
-	         length,
-	         error ) );
+	result = libtableau_values_table_get_identifier(
+	          internal_handle->values_table,
+	          value_index,
+	          value,
+	          length,
+	          error );
+
+	if( result == -1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
+		 "%s: unable to retrieve value identifier.",
+		 function );
+
+		return( -1 );
+	}
+	return( result );
 }
 
-/* Retrieves the tableau value specified by the identifier
+/* Retrieves the value specified by the identifier
  * Returns 1 if successful, 0 if value not present or -1 on error
  */
-int libtableau_handle_get_tableau_value(
+int libtableau_handle_get_value(
      libtableau_handle_t *handle,
      const char *identifier,
      char *value,
@@ -812,7 +856,8 @@ int libtableau_handle_get_tableau_value(
      libcerror_error_t **error )
 {
 	libtableau_internal_handle_t *internal_handle = NULL;
-	static char *function                         = "libtableau_handle_get_tableau_value";
+	static char *function                         = "libtableau_handle_get_value";
+	int result                                    = 0;
 
 	if( handle == NULL )
 	{
@@ -849,17 +894,29 @@ int libtableau_handle_get_tableau_value(
 
 		return( -1 );
 	}
-	if( internal_handle->tableau_values == NULL )
+	if( internal_handle->values_table == NULL )
 	{
 		return( 0 );
 	}
-/* TODO set error */
-	return( libtableau_values_table_get_value(
-	         internal_handle->tableau_values,
-	         identifier,
-	         value,
-	         length,
-	         error ) );
+	result = libtableau_values_table_get_value(
+	          internal_handle->values_table,
+	          identifier,
+	          value,
+	          length,
+	          error );
+
+	if( result == -1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
+		 "%s: unable to retrieve value.",
+		 function );
+
+		return( -1 );
+	}
+	return( result );
 }
 
 /* Detects the DCO from the opened device
@@ -955,9 +1012,13 @@ int libtableau_handle_remove_dco(
 	 */
 	if( internal_handle->security_values->dco_number_of_sectors == internal_handle->security_values->hpa_number_of_sectors )
 	{
-#if defined( HAVE_VERBOSE_OUTPUT )
-		notify_verbose_printf( "%s: no DCO detected.\n",
-		 function );
+#if defined( HAVE_DEBUG_OUTPUT )
+		if( libcnotify_verbose != 0 )
+		{
+			libcnotify_printf(
+			 "%s: no DCO detected.\n",
+			 function );
+		}
 #endif
 		return( 0 );
 	}

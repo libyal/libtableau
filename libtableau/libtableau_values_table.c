@@ -43,7 +43,7 @@
  */
 int libtableau_values_table_initialize(
      libtableau_values_table_t **values_table,
-     uint32_t number_of_values,
+     int number_of_values,
      libcerror_error_t **error )
 {
 	static char *function    = "libtableau_values_table_initialize";
@@ -67,6 +67,17 @@ int libtableau_values_table_initialize(
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_VALUE_ALREADY_SET,
 		 "%s: invalid values table value already set.",
+		 function );
+
+		return( -1 );
+	}
+	if( number_of_values <= 0 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_VALUE_ZERO_OR_LESS,
+		 "%s: invalid number of values value zero or less.",
 		 function );
 
 		return( -1 );
@@ -259,8 +270,8 @@ int libtableau_values_table_free(
  */
 int libtableau_values_table_realloc(
      libtableau_values_table_t *values_table,
-     uint32_t previous_number_of_values,
-     uint32_t new_number_of_values,
+     int previous_number_of_values,
+     int new_number_of_values,
      libcerror_error_t **error )
 {
 	static char *function = "libtableau_values_table_realloc";
@@ -279,19 +290,29 @@ int libtableau_values_table_realloc(
 
 		return( -1 );
 	}
-	if( ( previous_number_of_values > (uint32_t) INT32_MAX )
-	 || ( new_number_of_values > (uint32_t) INT32_MAX ) )
+	if( previous_number_of_values <= 0 )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_VALUE_EXCEEDS_MAXIMUM,
-		 "%s: invalid number of values value exceeds maximum.",
+		 LIBCERROR_ARGUMENT_ERROR_VALUE_ZERO_OR_LESS,
+		 "%s: invalid previous number of values value zero or less.",
 		 function );
 
 		return( -1 );
 	}
-	if( previous_number_of_values >= new_number_of_values )
+	if( new_number_of_values <= 0 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_VALUE_ZERO_OR_LESS,
+		 "%s: invalid new number of values value zero or less.",
+		 function );
+
+		return( -1 );
+	}
+	if( new_number_of_values <= previous_number_of_values )
 	{
 		libcerror_error_set(
 		 error,
@@ -382,17 +403,17 @@ int libtableau_values_table_realloc(
 }
 
 /* Retrieves the value index number, or -1 on error
- * The index number will be larger than the number_of_values when the identifier is not present in the values table
+ * The value index will be larger than the number_of_values when the identifier is not present in the values table
  */
-int32_t libtableau_values_table_get_index(
-         libtableau_values_table_t *values_table,
-         const char *identifier,
-         libcerror_error_t **error )
+int libtableau_values_table_get_index(
+     libtableau_values_table_t *values_table,
+     const char *identifier,
+     libcerror_error_t **error )
 {
 	static char *function    = "libtableau_values_table_get_index";
 	size_t string_length     = 0;
 	size_t identifier_length = 0;
-	int32_t value_index      = 0;
+	int value_index          = 0;
 
 	if( values_table == NULL )
 	{
@@ -401,6 +422,17 @@ int32_t libtableau_values_table_get_index(
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
 		 "%s: invalid values table.",
+		 function );
+
+		return( -1 );
+	}
+	if( values_table->number_of_values <= 0 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_VALUE_ZERO_OR_LESS,
+		 "%s: invalid values table - number of values value zero or less.",
 		 function );
 
 		return( -1 );
@@ -430,19 +462,8 @@ int32_t libtableau_values_table_get_index(
 
 		return( -1 );
 	}
-	if( values_table->number_of_values > (uint32_t) INT32_MAX )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-		 LIBCERROR_RUNTIME_ERROR_VALUE_OUT_OF_BOUNDS,
-		 "%s: invalid values table number of values value exceeds maximum.",
-		 function );
-
-		return( -1 );
-	}
 	for( value_index = 0;
-	     value_index < (int32_t) values_table->number_of_values;
+	     value_index < values_table->number_of_values;
 	     value_index++ )
 	{
 		if( values_table->identifiers[ value_index ] == NULL )
@@ -493,7 +514,7 @@ int32_t libtableau_values_table_get_index(
  */
 int libtableau_values_table_get_identifier(
      libtableau_values_table_t *values_table,
-     uint32_t index,
+     int value_index,
      char *identifier,
      size_t length,
      libcerror_error_t **error )
@@ -527,31 +548,31 @@ int libtableau_values_table_get_identifier(
 	{
 		return( 0 );
 	}
-	if( index >= values_table->number_of_values )
+	if( value_index >= values_table->number_of_values )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_VALUE_OUT_OF_BOUNDS,
-		 "%s: invalid index value out of bounds.",
+		 "%s: invalid value index value out of bounds.",
 		 function );
 
 		return( -1 );
 	}
-	if( values_table->identifiers[ index ] == NULL )
+	if( values_table->identifiers[ value_index ] == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_VALUE_MISSING,
-		 "%s: missing identifier for index: %" PRIu32 ".",
+		 "%s: missing identifier for value index: %" PRIu32 ".",
 		 function,
-		 index );
+		 value_index );
 
 		return( -1 );
 	}
 	identifier_length = narrow_string_length(
-	                     values_table->identifiers[ index ] );
+	                     values_table->identifiers[ value_index ] );
 
 	/* Don't bother with empty values
 	 */
@@ -576,7 +597,7 @@ int libtableau_values_table_get_identifier(
 	}
 	if( narrow_string_copy(
 	     identifier,
-	     values_table->identifiers[ index ],
+	     values_table->identifiers[ value_index ],
 	     identifier_length ) == NULL )
 	{
 		libcerror_error_set(
@@ -606,7 +627,7 @@ int libtableau_values_table_get_value(
 {
 	static char *function = "libtableau_values_table_get_value";
 	size_t value_length   = 0;
-	int32_t index         = 0;
+	int value_index       = 0;
 
 	if( value == NULL )
 	{
@@ -619,33 +640,33 @@ int libtableau_values_table_get_value(
 
 		return( -1 );
 	}
-	index = libtableau_values_table_get_index(
-	         values_table,
-	         identifier,
-	         error );
+	value_index = libtableau_values_table_get_index(
+	               values_table,
+	               identifier,
+	               error );
 
-	if( index <= -1 )
+	if( value_index < 0 )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
-		 "%s: unable to find index for: %s.",
+		 "%s: unable to find value index for: %s.",
 		 function,
 		 identifier );
 
 		return( -1 );
 	}
-	if( (uint32_t) index >= values_table->number_of_values )
+	if( value_index >= values_table->number_of_values )
 	{
 		return( 0 );
 	}
-	if( values_table->values[ index ] == NULL )
+	if( values_table->values[ value_index ] == NULL )
 	{
 		return( 0 );
 	}
 	value_length = narrow_string_length(
-	                values_table->values[ index ] );
+	                values_table->values[ value_index ] );
 
 	/* Don't bother with empty values
 	 */
@@ -670,7 +691,7 @@ int libtableau_values_table_get_value(
 	}
 	if( narrow_string_copy(
 	     value,
-	     values_table->values[ index ],
+	     values_table->values[ value_index ],
 	     value_length ) == NULL )
 	{
 		libcerror_error_set(
@@ -701,26 +722,26 @@ int libtableau_values_table_set_value(
 {
 	static char *function = "libtableau_values_table_set_value";
 	size_t string_length  = 0;
-	int32_t index         = 0;
+	int value_index       = 0;
 
-	index = libtableau_values_table_get_index(
-	         values_table,
-	         identifier,
-	         error );
+	value_index = libtableau_values_table_get_index(
+	               values_table,
+	               identifier,
+	               error );
 
-	if( index <= -1 )
+	if( value_index < 0 )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
-		 "%s: unable to find index for: %s.",
+		 "%s: unable to find value index for: %s.",
 		 function,
 		 identifier );
 
 		return( -1 );
 	}
-	if( (uint32_t) index >= values_table->number_of_values )
+	if( value_index >= values_table->number_of_values )
 	{
 		string_length = narrow_string_length(
 		                 identifier );
@@ -739,7 +760,7 @@ int libtableau_values_table_set_value(
 		if( libtableau_values_table_realloc(
 		     values_table,
 		     values_table->number_of_values,
-		     index + 1,
+		     value_index + 1,
 		     error ) != 1 )
 		{
 			libcerror_error_set(
@@ -751,11 +772,11 @@ int libtableau_values_table_set_value(
 
 			goto on_error;
 		}
-		values_table->identifiers[ index ] = strndup(
-		                                      identifier,
-		                                      string_length );
+		values_table->identifiers[ value_index ] = strndup(
+		                                            identifier,
+		                                            string_length );
 
-		if( values_table->identifiers[ index ] == NULL )
+		if( values_table->identifiers[ value_index ] == NULL )
 		{
 			libcerror_error_set(
 			 error,
@@ -769,12 +790,12 @@ int libtableau_values_table_set_value(
 	}
 	/* Clear the buffer of the previous value
 	 */
-	if( values_table->values[ index ] != NULL )
+	if( values_table->values[ value_index ] != NULL )
 	{
 		memory_free(
-		 values_table->values[ index ] );
+		 values_table->values[ value_index ] );
 
-		values_table->values[ index ] = NULL;
+		values_table->values[ value_index ] = NULL;
 	}
 	/* Don't bother with empty values
 	 */
@@ -786,11 +807,11 @@ int libtableau_values_table_set_value(
 	{
 		return( 1 );
 	}
-	values_table->values[ index ] = strndup(
-	                                 value,
-	                                 length );
+	values_table->values[ value_index ] = strndup(
+	                                       value,
+	                                       length );
 
-	if( values_table->values[ index ] == NULL )
+	if( values_table->values[ value_index ] == NULL )
 	{
 		libcerror_error_set(
 		 error,
@@ -804,19 +825,19 @@ int libtableau_values_table_set_value(
 	return( 1 );
 
 on_error:
-	if( values_table->identifiers[ index ] != NULL )
+	if( values_table->identifiers[ value_index ] != NULL )
 	{
 		memory_free(
-		 values_table->identifiers[ index ] );
+		 values_table->identifiers[ value_index ] );
 
-		values_table->identifiers[ index ] = NULL;
+		values_table->identifiers[ value_index ] = NULL;
 	}
-	if( values_table->values[ index ] != NULL )
+	if( values_table->values[ value_index ] != NULL )
 	{
 		memory_free(
-		 values_table->values[ index ] );
+		 values_table->values[ value_index ] );
 
-		values_table->values[ index ] = NULL;
+		values_table->values[ value_index ] = NULL;
 	}
 	return( -1 );
 }

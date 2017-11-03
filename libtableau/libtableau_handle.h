@@ -50,9 +50,9 @@ struct libtableau_internal_handle
 	 */
 	char *filename;
 
-	/* Tableau values
+	/* The values table
 	 */
-	libtableau_values_table_t *tableau_values;
+	libtableau_values_table_t *values_table;
 
 	/* Security values
 	 */
@@ -116,21 +116,21 @@ int libtableau_handle_get_dco_number_of_sectors(
      libcerror_error_t **error );
 
 LIBTABLEAU_EXTERN \
-int libtableau_handle_get_number_of_tableau_values(
+int libtableau_handle_get_number_of_values(
      libtableau_handle_t *handle,
-     uint32_t *number_of_values,
+     int *number_of_values,
      libcerror_error_t **error );
 
 LIBTABLEAU_EXTERN \
-int libtableau_handle_get_tableau_value_identifier(
+int libtableau_handle_get_value_identifier(
      libtableau_handle_t *handle,
-     uint32_t index,
+     int value_index,
      char *value,
      size_t length,
      libcerror_error_t **error );
 
 LIBTABLEAU_EXTERN \
-int libtableau_handle_get_tableau_value(
+int libtableau_handle_get_value(
      libtableau_handle_t *handle,
      const char *identifier,
      char *value,

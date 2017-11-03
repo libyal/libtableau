@@ -121,6 +121,7 @@ stamp-h[1-9]
 /libtableau/libtableau_definitions.h
 /tableautools/*.exe
 /tableautools/tableaucontrol
+/tableautools/tableauinfo
 /tests/*.exe
 /tests/tableau_test_error
 /tests/tableau_test_handle
