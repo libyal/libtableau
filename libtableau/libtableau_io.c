@@ -38,6 +38,8 @@
 #include "libtableau_libcerror.h"
 #include "libtableau_libcnotify.h"
 
+#define LIBTABLEAU_IO_TIMEOUT_NUMBER_OF_SECONDS		5
+
 /* Sends a Tableau IO command to the file descriptor
  * Returns 1 if successful or -1 on error
  */
@@ -160,10 +162,18 @@ int libtableau_io_send_command(
 	 response,
 	 size_response );
 
+#if defined( HAVE_DEBUG_OUTPUT )
+	if( libcnotify_verbose != 0 )
+	{
+		libcnotify_printf(
+		 "%s: sending SCSI command.\n",
+		 function );
+	}
+#endif
 	result = do_scsi_pt(
 	          sg_scsi_pt_obj,
 	          file_descriptor,
-	          30000,
+	          LIBTABLEAU_IO_TIMEOUT_NUMBER_OF_SECONDS,
 	          libcnotify_verbose );
 
 	if( result == SCSI_PT_DO_BAD_PARAMS )

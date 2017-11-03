@@ -2,7 +2,7 @@ AC_PREREQ( 2.59 )
 
 AC_INIT(
  [libtableau],
- [20171015],
+ [20171103],
  [joachim.metz@gmail.com])
 
 AC_CONFIG_SRCDIR(
@@ -113,7 +113,7 @@ CFLAGS="$CFLAGS -Wall";
 
 dnl Check if requires and build requires should be set in spec file
 AS_IF(
- [test "x$ac_cv_libcerror" = xyes || test "x$ac_cv_libclocale" = xyes || test "x$ac_cv_libcnotify" = xyes || test "x$ac_cv_libuna" = xyes],
+ [test "x$ac_cv_libcerror" = xyes || test "x$ac_cv_libcthreads" = xyes || test "x$ac_cv_libclocale" = xyes || test "x$ac_cv_libcnotify" = xyes || test "x$ac_cv_libuna" = xyes],
  [AC_SUBST(
   [libtableau_spec_requires],
   [Requires:])
