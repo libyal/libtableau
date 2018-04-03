@@ -59,13 +59,15 @@ tableau_test_handle_LDADD = \
 	@PTHREAD_LIBADD@
 
 tableau_test_notify_SOURCES = \
+	tableau_test_libcerror.h \
 	tableau_test_libtableau.h \
 	tableau_test_macros.h \
 	tableau_test_notify.c \
 	tableau_test_unused.h
 
 tableau_test_notify_LDADD = \
-	../libtableau/libtableau.la
+	../libtableau/libtableau.la \
+	@LIBCERROR_LIBADD@
 
 tableau_test_security_values_SOURCES = \
 	tableau_test_libcerror.h \

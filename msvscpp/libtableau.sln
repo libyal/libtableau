@@ -19,6 +19,7 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tableau_test_notify", "tableau_test_notify\tableau_test_notify.vcproj", "{0CAA46C7-AB6C-4D12-98EC-F4BD1842D2BA}"
 	ProjectSection(ProjectDependencies) = postProject
 		{E28DE84E-17E2-49A1-8C3A-7303BF6F1E29} = {E28DE84E-17E2-49A1-8C3A-7303BF6F1E29}
+		{C021C4E8-E9BF-42AE-97CB-F258CFDA6E2E} = {C021C4E8-E9BF-42AE-97CB-F258CFDA6E2E}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tableau_test_security_values", "tableau_test_security_values\tableau_test_security_values.vcproj", "{68D0B7E0-4832-4760-B54E-B4206ED3A832}"
