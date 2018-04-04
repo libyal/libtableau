@@ -29,9 +29,6 @@
 
 #if defined( HAVE_SCSI_SG_PT_H )
 #include <scsi/sg_pt.h>
-
-#else
-#error Missing SCSI support
 #endif
 
 #include "libtableau_io.h"

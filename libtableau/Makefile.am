@@ -18,7 +18,9 @@ libtableau_la_SOURCES = \
 	libtableau_handle.c libtableau_handle.h \
 	libtableau_io.c libtableau_io.h \
 	libtableau_libcerror.h \
+	libtableau_libclocale.h \
 	libtableau_libcnotify.h \
+	libtableau_libuna.h \
 	libtableau_notify.c libtableau_notify.h \
 	libtableau_query.c libtableau_query.h \
 	libtableau_security_values.c libtableau_security_values.h \

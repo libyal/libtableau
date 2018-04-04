@@ -21,7 +21,9 @@
 
 #include <common.h>
 #include <memory.h>
+#include <narrow_string.h>
 #include <types.h>
+#include <wide_string.h>
 
 #if defined( HAVE_SYS_IOCTL_H )
 #include <sys/ioctl.h>
@@ -29,9 +31,6 @@
 
 #if defined( HAVE_SCSI_SG_PT_H )
 #include <scsi/sg_pt.h>
-
-#else
-#error Missing SCSI support
 #endif
 
 #if defined( HAVE_ERRNO_H )
@@ -42,7 +41,9 @@
 #include "libtableau_handle.h"
 #include "libtableau_io.h"
 #include "libtableau_libcerror.h"
+#include "libtableau_libclocale.h"
 #include "libtableau_libcnotify.h"
+#include "libtableau_libuna.h"
 #include "libtableau_query.h"
 #include "libtableau_security_values.h"
 #include "libtableau_values.h"
@@ -322,6 +323,7 @@ int libtableau_handle_open(
 
 		return( -1 );
 	}
+#if defined( HAVE_SCSI_SG_PT_H )
 	internal_handle->file_descriptor = scsi_pt_open_device(
 	                                    filename,
 	                                    1,
@@ -331,8 +333,8 @@ int libtableau_handle_open(
 	{
 		libcerror_system_set_error(
 		 error,
-		 LIBCERROR_ERROR_DOMAIN_MEMORY,
-		 LIBCERROR_MEMORY_ERROR_INSUFFICIENT,
+		 LIBCERROR_ERROR_DOMAIN_IO,
+		 LIBCERROR_IO_ERROR_OPEN_FAILED,
 		 errno,
 		 "%s: unable to open file.",
 		 function );
@@ -340,6 +342,18 @@ int libtableau_handle_open(
 		return( -1 );
 	}
 	return( 1 );
+#else
+	libcerror_system_set_error(
+	 error,
+	 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+	 LIBCERROR_RUNTIME_ERROR_GENERIC,
+	 errno,
+	 "%s: missing scsi support.",
+	 function );
+
+	return( -1 );
+
+#endif /* defined( HAVE_SCSI_SG_PT_H ) */
 }
 
 #if defined( HAVE_WIDE_CHARACTER_TYPE )
@@ -355,6 +369,13 @@ int libtableau_handle_open_wide(
 {
 	libtableau_internal_handle_t *internal_handle = NULL;
 	static char *function                         = "libtableau_handle_open_wide";
+
+#if defined( HAVE_SCSI_SG_PT_H )
+	char *narrow_filename                         = NULL;
+	size_t filename_length                        = 0;
+	size_t narrow_filename_size                   = 0;
+	int result                                    = 0;
+#endif
 
 	if( handle == NULL )
 	{
@@ -402,9 +423,120 @@ int libtableau_handle_open_wide(
 
 		return( -1 );
 	}
-/* TODO convert wide character string to narrow
+#if defined( HAVE_SCSI_SG_PT_H )
+	filename_length = wide_string_length(
+	                   filename );
+
+	if( libclocale_codepage == 0 )
+	{
+#if SIZEOF_WCHAR_T == 4
+		result = libuna_utf8_string_size_from_utf32(
+		          (libuna_utf32_character_t *) filename,
+		          filename_length + 1,
+		          &narrow_filename_size,
+		          error );
+#elif SIZEOF_WCHAR_T == 2
+		result = libuna_utf8_string_size_from_utf16(
+		          (libuna_utf16_character_t *) filename,
+		          filename_length + 1,
+		          &narrow_filename_size,
+		          error );
+#endif /* SIZEOF_WCHAR_T */
+	}
+	else
+	{
+#if SIZEOF_WCHAR_T == 4
+		result = libuna_byte_stream_size_from_utf32(
+		          (libuna_utf32_character_t *) filename,
+		          filename_length + 1,
+		          libclocale_codepage,
+		          &narrow_filename_size,
+		          error );
+#elif SIZEOF_WCHAR_T == 2
+		result = libuna_byte_stream_size_from_utf16(
+		          (libuna_utf16_character_t *) filename,
+		          filename_length + 1,
+		          libclocale_codepage,
+		          &narrow_filename_size,
+		          error );
+#endif /* SIZEOF_WCHAR_T */
+	}
+	if( result != 1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_CONVERSION,
+		 LIBCERROR_CONVERSION_ERROR_GENERIC,
+		 "%s: unable to determine narrow filename size.",
+		 function );
+
+		goto on_error;
+	}
+	narrow_filename = narrow_string_allocate(
+	                   narrow_filename_size );
+
+	if( narrow_filename == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_MEMORY,
+		 LIBCERROR_MEMORY_ERROR_INSUFFICIENT,
+		 "%s: unable to create narrow filename.",
+		 function );
+
+		goto on_error;
+	}
+	if( libclocale_codepage == 0 )
+	{
+#if SIZEOF_WCHAR_T == 4
+		result = libuna_utf8_string_copy_from_utf32(
+		          (libuna_utf8_character_t *) narrow_filename,
+		          narrow_filename_size,
+		          (libuna_utf32_character_t *) filename,
+		          filename_length + 1,
+		          error );
+#elif SIZEOF_WCHAR_T == 2
+		result = libuna_utf8_string_copy_from_utf16(
+		          (libuna_utf8_character_t *) narrow_filename,
+		          narrow_filename_size,
+		          (libuna_utf16_character_t *) filename,
+		          filename_length + 1,
+		          error );
+#endif /* SIZEOF_WCHAR_T */
+	}
+	else
+	{
+#if SIZEOF_WCHAR_T == 4
+		result = libuna_byte_stream_copy_from_utf32(
+		          (uint8_t *) narrow_filename,
+		          narrow_filename_size,
+		          libclocale_codepage,
+		          (libuna_utf32_character_t *) filename,
+		          filename_length + 1,
+		          error );
+#elif SIZEOF_WCHAR_T == 2
+		result = libuna_byte_stream_copy_from_utf16(
+		          (uint8_t *) narrow_filename,
+		          narrow_filename_size,
+		          libclocale_codepage,
+		          (libuna_utf16_character_t *) filename,
+		          filename_length + 1,
+		          error );
+#endif /* SIZEOF_WCHAR_T */
+	}
+	if( result != 1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_CONVERSION,
+		 LIBCERROR_CONVERSION_ERROR_GENERIC,
+		 "%s: unable to set narrow filename.",
+		 function );
+
+		return( -1 );
+	}
 	internal_handle->file_descriptor = scsi_pt_open_device(
-	                                    filename,
+	                                    narrow_filename,
 	                                    1,
 	                                    libcnotify_verbose );
 
@@ -412,17 +544,35 @@ int libtableau_handle_open_wide(
 	{
 		libcerror_system_set_error(
 		 error,
-		 LIBCERROR_ERROR_DOMAIN_MEMORY,
-		 LIBCERROR_MEMORY_ERROR_INSUFFICIENT,
+		 LIBCERROR_ERROR_DOMAIN_IO,
+		 LIBCERROR_IO_ERROR_OPEN_FAILED,
 		 errno,
 		 "%s: unable to open file.",
 		 function );
 
-		return( -1 );
+		goto on_error;
 	}
 	return( 1 );
-*/
+
+on_error:
+	if( narrow_filename != NULL )
+	{
+		memory_free(
+		 narrow_filename );
+	}
 	return( -1 );
+#else
+	libcerror_system_set_error(
+	 error,
+	 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+	 LIBCERROR_RUNTIME_ERROR_GENERIC,
+	 errno,
+	 "%s: missing scsi support.",
+	 function );
+
+	return( -1 );
+
+#endif /* defined( HAVE_SCSI_SG_PT_H ) */
 }
 
 #endif /* defined( HAVE_WIDE_CHARACTER_TYPE ) */
@@ -462,6 +612,7 @@ int libtableau_handle_close(
 
 		return( -1 );
 	}
+#if defined( HAVE_SCSI_SG_PT_H )
 	result = scsi_pt_close_device(
 	          internal_handle->file_descriptor );
 
@@ -480,6 +631,18 @@ int libtableau_handle_close(
 	internal_handle->file_descriptor = -1;
 
 	return( 0 );
+#else
+	libcerror_system_set_error(
+	 error,
+	 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+	 LIBCERROR_RUNTIME_ERROR_GENERIC,
+	 errno,
+	 "%s: missing scsi support.",
+	 function );
+
+	return( -1 );
+
+#endif /* defined( HAVE_SCSI_SG_PT_H ) */
 }
 
 /* Queries the opened device for Tableau information
