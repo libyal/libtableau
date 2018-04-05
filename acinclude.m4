@@ -7,6 +7,9 @@ AC_DEFUN([AX_LIBTABLEAU_CHECK_LOCAL],
   [dnl Check for internationalization functions in libtableau/libtableau_i18n.c
   AC_CHECK_FUNCS([bindtextdomain])
 
+  dnl Headers included in libtableau/libtableau_handle.c
+  AC_CHECK_HEADERS([errno.h])
+
   dnl Check if library should be build with verbose output
   AX_COMMON_CHECK_ENABLE_VERBOSE_OUTPUT
 
