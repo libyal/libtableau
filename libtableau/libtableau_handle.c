@@ -343,12 +343,11 @@ int libtableau_handle_open(
 	}
 	return( 1 );
 #else
-	libcerror_system_set_error(
+	libcerror_error_set(
 	 error,
 	 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 	 LIBCERROR_RUNTIME_ERROR_GENERIC,
-	 errno,
-	 "%s: missing scsi support.",
+	 "%s: missing SCSI support.",
 	 function );
 
 	return( -1 );
@@ -562,12 +561,11 @@ on_error:
 	}
 	return( -1 );
 #else
-	libcerror_system_set_error(
+	libcerror_error_set(
 	 error,
 	 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 	 LIBCERROR_RUNTIME_ERROR_GENERIC,
-	 errno,
-	 "%s: missing scsi support.",
+	 "%s: missing SCSI support.",
 	 function );
 
 	return( -1 );
@@ -586,7 +584,10 @@ int libtableau_handle_close(
 {
 	libtableau_internal_handle_t *internal_handle = NULL;
 	static char *function                         = "libtableau_handle_close";
+
+#if defined( HAVE_SCSI_SG_PT_H )
 	int result                                    = 0;
+#endif
 
 	if( handle == NULL )
 	{
@@ -632,12 +633,11 @@ int libtableau_handle_close(
 
 	return( 0 );
 #else
-	libcerror_system_set_error(
+	libcerror_error_set(
 	 error,
 	 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 	 LIBCERROR_RUNTIME_ERROR_GENERIC,
-	 errno,
-	 "%s: missing scsi support.",
+	 "%s: missing SCSI support.",
 	 function );
 
 	return( -1 );

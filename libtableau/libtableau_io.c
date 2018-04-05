@@ -50,9 +50,12 @@ int libtableau_io_send_command(
      size_t size_sense,
      libcerror_error_t **error )
 {
-	void *sg_scsi_pt_obj  = NULL;
 	static char *function = "libtableau_io_send_command";
 	int result            = 0;
+
+#if defined( HAVE_SCSI_SG_PT_H )
+	void *sg_scsi_pt_obj  = NULL;
+#endif
 
 	if( file_descriptor == -1 )
 	{
@@ -131,6 +134,7 @@ int libtableau_io_send_command(
 
 		return( -1 );
 	}
+#if defined( HAVE_SCSI_SG_PT_H )
 	sg_scsi_pt_obj = construct_scsi_pt_obj();
 
 	if( sg_scsi_pt_obj == NULL )
@@ -182,7 +186,7 @@ int libtableau_io_send_command(
 		 "%s: invalid data send to device.",
 		 function );
 
-		return( -1 );
+		goto on_error;
 	}
 	else if( result == SCSI_PT_DO_TIMEOUT )
 	{
@@ -193,7 +197,7 @@ int libtableau_io_send_command(
 		 "%s: communication with device timed out.",
 		 function );
 
-		return( -1 );
+		goto on_error;
 	}
 	else if( result != SCSI_PT_DO_START_OK )
 	{
@@ -204,8 +208,31 @@ int libtableau_io_send_command(
 		 "%s: unable to communicate with device.",
 		 function );
 
-		return( -1 );
+		goto on_error;
 	}
+	destruct_scsi_pt_obj(
+	 sg_scsi_pt_obj );
+
 	return( 1 );
+
+on_error:
+	if( sg_scsi_pt_obj != NULL )
+	{
+		destruct_scsi_pt_obj(
+		 sg_scsi_pt_obj );
+	}
+	return( -1 );
+
+#else
+	libcerror_error_set(
+	 error,
+	 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+	 LIBCERROR_RUNTIME_ERROR_GENERIC,
+	 "%s: missing SCSI support.",
+	 function );
+
+	return( -1 );
+
+#endif /* defined( HAVE_SCSI_SG_PT_H ) */
 }
 
