@@ -9,6 +9,8 @@ Homepage: https://github.com/libyal/libtableau
 Package: libtableau
 Architecture: any
 Depends: libsgutils2, ${shlibs:Depends}, ${misc:Depends}
+Conflicts: libtableau1
+Replaces: libtableau1
 Suggests: libtableau-dbg
 Description: Library to support the Tableau(TM) forensic bridge (write blocker)
  libtableau is a library to support the Tableau(TM) forensic bridge (write blocker).
@@ -31,6 +33,8 @@ Package: libtableau-tools
 Section: utils
 Architecture: any
 Depends: libtableau (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Conflicts: libtableau-utils
+Replaces: libtableau-utils
 Description: Several tools for reading Tableau(TM) forensic bridges (write blockers)
  Several tools for reading Tableau(TM) forensic bridges (write blockers).
 

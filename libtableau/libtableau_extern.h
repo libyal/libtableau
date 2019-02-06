@@ -1,7 +1,7 @@
 /*
  * The internal extern definition
  *
- * Copyright (C) 2008-2018, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2008-2019, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -28,17 +28,13 @@
  */
 #if !defined( HAVE_LOCAL_LIBTABLEAU )
 
-/* If libtool DLL support is enabled set LIBTABLEAU_DLL_EXPORT
- * before including libtableau/extern.h
- */
-#if defined( _WIN32 ) && defined( DLL_EXPORT )
-#define LIBTABLEAU_DLL_EXPORT
-#endif
-
 #include <libtableau/extern.h>
 
+#define LIBTABLEAU_EXTERN_VARIABLE	LIBTABLEAU_EXTERN
+
 #else
-#define LIBTABLEAU_EXTERN	/* extern */
+#define LIBTABLEAU_EXTERN		/* extern */
+#define LIBTABLEAU_EXTERN_VARIABLE	extern
 
 #endif /* !defined( HAVE_LOCAL_LIBTABLEAU ) */
 

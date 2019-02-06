@@ -7,26 +7,34 @@ License: LGPL
 Source: %{name}-%{version}.tar.gz
 URL: https://github.com/libyal/libtableau
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Requires: @ax_libcerror_spec_requires@ @ax_libclocale_spec_requires@ @ax_libcnotify_spec_requires@ @ax_libuna_spec_requires@ sg3_utils-devel
-BuildRequires: @ax_libcerror_spec_build_requires@ @ax_libclocale_spec_build_requires@ @ax_libcnotify_spec_build_requires@ @ax_libuna_spec_build_requires@ sg3_utils-libs
+Requires: @ax_libcerror_spec_requires@ @ax_libclocale_spec_requires@ @ax_libcnotify_spec_requires@ @ax_libcthreads_spec_requires@ @ax_libuna_spec_requires@ sg3_utils-devel
+BuildRequires: gcc @ax_libcerror_spec_build_requires@ @ax_libclocale_spec_build_requires@ @ax_libcnotify_spec_build_requires@ @ax_libcthreads_spec_build_requires@ @ax_libuna_spec_build_requires@ sg3_utils-libs
 
-%description
+%description -n libtableau
 Library to support the Tableau(TM) forensic bridge (write blocker)
 
-%package devel
+%package -n libtableau-static
+Summary: Library to support the Tableau(TM) forensic bridge (write blocker)
+Group: Development/Libraries
+Requires: libtableau = %{version}-%{release}
+
+%description -n libtableau-static
+Static library version of libtableau.
+
+%package -n libtableau-devel
 Summary: Header files and libraries for developing applications for libtableau
 Group: Development/Libraries
 Requires: libtableau = %{version}-%{release}
 
-%description devel
+%description -n libtableau-devel
 Header files and libraries for developing applications for libtableau.
 
-%package tools
+%package -n libtableau-tools
 Summary: Several tools for reading Tableau(TM) forensic bridges (write blockers)
 Group: Applications/System
 Requires: libtableau = %{version}-%{release}
 
-%description tools
+%description -n libtableau-tools
 Several tools for reading Tableau(TM) forensic bridges (write blockers)
 
 %prep
@@ -47,24 +55,29 @@ rm -rf %{buildroot}
 
 %postun -p /sbin/ldconfig
 
-%files
+%files -n libtableau
 %defattr(644,root,root,755)
 %license COPYING
 %doc AUTHORS README
 %attr(755,root,root) %{_libdir}/*.so.*
 
-%files devel
+%files -n libtableau-static
 %defattr(644,root,root,755)
 %license COPYING
-%doc AUTHORS README ChangeLog
-%{_libdir}/*.a
+%doc AUTHORS README
+%attr(755,root,root) %{_libdir}/*.a
+
+%files -n libtableau-devel
+%defattr(644,root,root,755)
+%license COPYING
+%doc AUTHORS README
 %{_libdir}/*.la
 %{_libdir}/*.so
 %{_libdir}/pkgconfig/libtableau.pc
 %{_includedir}/*
 %{_mandir}/man3/*
 
-%files tools
+%files -n libtableau-tools
 %defattr(644,root,root,755)
 %license COPYING
 %doc AUTHORS README
