@@ -1,11 +1,9 @@
-.Dd November  3, 2017
+.Dd May  8, 2019
 .Dt libtableau 3
 .Os libtableau
 .Sh NAME
 .Nm libtableau.h
 .Nd Library to support the Tableau(TM) forensic bridge (write blocker)
-.Sh LIBRARY
-.Lb libtableau
 .Sh SYNOPSIS
 .In libtableau.h
 .Pp
@@ -17,9 +15,9 @@ Notify functions
 .Ft void
 .Fn libtableau_notify_set_verbose "int verbose"
 .Ft int
-.Fn libtableau_notify_set_stream "FILE *stream, libtableau_error_t **error"
+.Fn libtableau_notify_set_stream "FILE *stream" "libtableau_error_t **error"
 .Ft int
-.Fn libtableau_notify_stream_open "const char *filename, libtableau_error_t **error"
+.Fn libtableau_notify_stream_open "const char *filename" "libtableau_error_t **error"
 .Ft int
 .Fn libtableau_notify_stream_close "libtableau_error_t **error"
 .Pp
@@ -27,45 +25,45 @@ Error functions
 .Ft void
 .Fn libtableau_error_free "libtableau_error_t **error"
 .Ft int
-.Fn libtableau_error_fprint "libtableau_error_t *error, FILE *stream"
+.Fn libtableau_error_fprint "libtableau_error_t *error" "FILE *stream"
 .Ft int
-.Fn libtableau_error_sprint "libtableau_error_t *error, char *string, size_t size"
+.Fn libtableau_error_sprint "libtableau_error_t *error" "char *string" "size_t size"
 .Ft int
-.Fn libtableau_error_backtrace_fprint "libtableau_error_t *error, FILE *stream"
+.Fn libtableau_error_backtrace_fprint "libtableau_error_t *error" "FILE *stream"
 .Ft int
-.Fn libtableau_error_backtrace_sprint "libtableau_error_t *error, char *string, size_t size"
+.Fn libtableau_error_backtrace_sprint "libtableau_error_t *error" "char *string" "size_t size"
 .Pp
 Handle functions
 .Ft int
-.Fn libtableau_handle_initialize "libtableau_handle_t **handle, libtableau_error_t **error"
+.Fn libtableau_handle_initialize "libtableau_handle_t **handle" "libtableau_error_t **error"
 .Ft int
-.Fn libtableau_handle_free "libtableau_handle_t **handle, libtableau_error_t **error"
+.Fn libtableau_handle_free "libtableau_handle_t **handle" "libtableau_error_t **error"
 .Ft int
-.Fn libtableau_handle_open "libtableau_handle_t *handle, const char *filename, int access_flags, libtableau_error_t **error"
+.Fn libtableau_handle_open "libtableau_handle_t *handle" "const char *filename" "int access_flags" "libtableau_error_t **error"
 .Ft int
-.Fn libtableau_handle_close "libtableau_handle_t *handle, libtableau_error_t **error"
+.Fn libtableau_handle_close "libtableau_handle_t *handle" "libtableau_error_t **error"
 .Ft int
-.Fn libtableau_handle_query "libtableau_handle_t *handle, libtableau_error_t **error"
+.Fn libtableau_handle_query "libtableau_handle_t *handle" "libtableau_error_t **error"
 .Ft int
-.Fn libtableau_handle_detected_dco "libtableau_handle_t *handle, libtableau_error_t **error"
+.Fn libtableau_handle_detected_dco "libtableau_handle_t *handle" "libtableau_error_t **error"
 .Ft int
-.Fn libtableau_handle_remove_dco "libtableau_handle_t *handle, libtableau_error_t **error"
+.Fn libtableau_handle_remove_dco "libtableau_handle_t *handle" "libtableau_error_t **error"
 .Ft int
-.Fn libtableau_handle_get_drive_number_of_sectors "libtableau_handle_t *handle, uint32_t *number_of_sectors, libtableau_error_t **error"
+.Fn libtableau_handle_get_drive_number_of_sectors "libtableau_handle_t *handle" "uint32_t *number_of_sectors" "libtableau_error_t **error"
 .Ft int
-.Fn libtableau_handle_get_hpa_number_of_sectors "libtableau_handle_t *handle, uint32_t *number_of_sectors, libtableau_error_t **error"
+.Fn libtableau_handle_get_hpa_number_of_sectors "libtableau_handle_t *handle" "uint32_t *number_of_sectors" "libtableau_error_t **error"
 .Ft int
-.Fn libtableau_handle_get_dco_number_of_sectors "libtableau_handle_t *handle, uint32_t *number_of_sectors, libtableau_error_t **error"
+.Fn libtableau_handle_get_dco_number_of_sectors "libtableau_handle_t *handle" "uint32_t *number_of_sectors" "libtableau_error_t **error"
 .Ft int
-.Fn libtableau_handle_get_number_of_values "libtableau_handle_t *handle, int *number_of_values, libtableau_error_t **error"
+.Fn libtableau_handle_get_number_of_values "libtableau_handle_t *handle" "int *number_of_values" "libtableau_error_t **error"
 .Ft int
-.Fn libtableau_handle_get_value_identifier "libtableau_handle_t *handle, int value_index, char *value, size_t length, libtableau_error_t **error"
+.Fn libtableau_handle_get_value_identifier "libtableau_handle_t *handle" "int value_index" "char *value" "size_t length" "libtableau_error_t **error"
 .Ft int
-.Fn libtableau_handle_get_value "libtableau_handle_t *handle, const char *identifier, char *value, size_t length, libtableau_error_t **error"
+.Fn libtableau_handle_get_value "libtableau_handle_t *handle" "const char *identifier" "char *value" "size_t length" "libtableau_error_t **error"
 .Pp
 Available when compiled with wide character string support:
 .Ft int
-.Fn libtableau_handle_open_wide "libtableau_handle_t *handle, const wchar_t *filename, int access_flags, libtableau_error_t **error"
+.Fn libtableau_handle_open_wide "libtableau_handle_t *handle" "const wchar_t *filename" "int access_flags" "libtableau_error_t **error"
 .Sh DESCRIPTION
 The
 .Fn libtableau_get_version
@@ -78,8 +76,8 @@ None
 .Sh FILES
 None
 .Sh NOTES
-libtableau allows to be compiled with wide character support (wchar_t).
-
+libtableau can be compiled with wide character support (wchar_t).
+.sp
 To compile libtableau with wide character support use:
 .Ar ./configure --enable-wide-character-type=yes
  or define:
@@ -87,7 +85,7 @@ To compile libtableau with wide character support use:
  or
 .Ar UNICODE
  during compilation.
-
+.sp
 .Ar LIBTABLEAU_WIDE_CHARACTER_TYPE
  in libtableau/features.h can be used to determine if libtableau was compiled with wide character support.
 .Sh BUGS
@@ -96,7 +94,7 @@ Please report bugs of any kind on the project issue tracker: https://github.com/
 These man pages are generated from "libtableau.h".
 .Sh COPYRIGHT
 Copyright (C) 2008-2019, Joachim Metz <joachim.metz@gmail.com>.
-
+.sp
 This is free software; see the source for copying conditions.
 There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 .Sh SEE ALSO

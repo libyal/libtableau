@@ -1,5 +1,5 @@
 /*
- * The internal libclocale header
+ * The libclocale header wrapper
  *
  * Copyright (C) 2008-2019, Joachim Metz <joachim.metz@gmail.com>
  *

@@ -2,7 +2,7 @@ AC_PREREQ( 2.59 )
 
 AC_INIT(
  [libtableau],
- [20190206],
+ [20190508],
  [joachim.metz@gmail.com])
 
 AC_CONFIG_SRCDIR(

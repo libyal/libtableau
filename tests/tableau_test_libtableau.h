@@ -1,5 +1,5 @@
 /*
- * The internal libtableau header
+ * The libtableau header wrapper
  *
  * Copyright (C) 2008-2019, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -23,13 +23,6 @@
 #define _TABLEAU_TEST_LIBTABLEAU_H
 
 #include <common.h>
-
-/* If Cygwin libtool DLL support is enabled and do not want to create static
- * executables set LIBTABLEAU_DLL_IMPORT before including libtableau.h
- */
-#if defined( _WIN32 ) && defined( DLL_EXPORT ) && !defined( HAVE_STATIC_EXECUTABLES )
-#define LIBTABLEAU_DLL_IMPORT
-#endif
 
 #include <libtableau.h>
 
