@@ -17,7 +17,7 @@ apt-get install -y locales software-properties-common;
 locale-gen en_US.UTF-8;
 
 # Install packages essential for building.
-apt-get install -y autoconf automake build-essential git libtool pkg-config autopoint libsgutils2-dev;
+apt-get install -y autoconf automake autopoint build-essential git libsgutils2-dev libtool pkg-config;
 
 export LANG="en_US.UTF-8";
 
