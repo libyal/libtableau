@@ -141,6 +141,7 @@ int libtableau_query_parse_tableau_header(
 	if( libtableau_values_table_set_value(
 	     values_table,
 	     "bridge_firmware_stepping",
+	     24,
 	     (char *) value_string,
 	     value_string_iterator,
 	     error ) != 1 )
@@ -172,6 +173,7 @@ int libtableau_query_parse_tableau_header(
 	if( libtableau_values_table_set_value(
 	     values_table,
 	     "bridge_channel_index",
+	     20,
 	     (char *) value_string,
 	     value_string_iterator,
 	     error ) != 1 )
@@ -210,6 +212,7 @@ int libtableau_query_parse_tableau_header(
 	if( libtableau_values_table_set_value(
 	     values_table,
 	     "bridge_channel_type",
+	     19,
 	     (char *) bridge_channel_type,
 	     bridge_channel_type_length,
 	     error ) != 1 )
@@ -238,6 +241,7 @@ int libtableau_query_parse_tableau_header(
 	if( libtableau_values_table_set_value(
 	     values_table,
 	     "bridge_debug_firmware",
+	     21,
 	     true_false_string,
 	     true_false_string_length,
 	     error ) != 1 )
@@ -266,6 +270,7 @@ int libtableau_query_parse_tableau_header(
 	if( libtableau_values_table_set_value(
 	     values_table,
 	     "bridge_mode_read_only",
+	     21,
 	     true_false_string,
 	     true_false_string_length,
 	     error ) != 1 )
@@ -294,6 +299,7 @@ int libtableau_query_parse_tableau_header(
 	if( libtableau_values_table_set_value(
 	     values_table,
 	     "bridge_report_read_only",
+	     23,
 	     true_false_string,
 	     true_false_string_length,
 	     error ) != 1 )
@@ -322,6 +328,7 @@ int libtableau_query_parse_tableau_header(
 	if( libtableau_values_table_set_value(
 	     values_table,
 	     "bridge_report_write_error",
+	     25,
 	     true_false_string,
 	     true_false_string_length,
 	     error ) != 1 )
@@ -367,6 +374,7 @@ int libtableau_query_parse_tableau_header(
 	if( libtableau_values_table_set_value(
 	     values_table,
 	     "bridge_serial_number",
+	     20,
 	     (char *) value_string,
 	     value_string_iterator,
 	     error ) != 1 )
@@ -402,6 +410,7 @@ int libtableau_query_parse_tableau_header(
 	else if( libtableau_values_table_set_value(
 	          values_table,
 	          "bridge_vendor",
+	          13,
 	          (char *) value_string,
 	          value_string_length,
 	          error ) != 1 )
@@ -437,6 +446,7 @@ int libtableau_query_parse_tableau_header(
 	else if( libtableau_values_table_set_value(
 	          values_table,
 	          "bridge_model",
+	          12,
 	          (char *) value_string,
 	          value_string_length,
 	          error ) != 1 )
@@ -472,6 +482,7 @@ int libtableau_query_parse_tableau_header(
 	else if( libtableau_values_table_set_value(
 	          values_table,
 	          "bridge_firmware_date",
+	          20,
 	          (char *) value_string,
 	          value_string_length,
 	          error ) != 1 )
@@ -507,6 +518,7 @@ int libtableau_query_parse_tableau_header(
 	else if( libtableau_values_table_set_value(
 	          values_table,
 	          "bridge_firmware_time",
+	          20,
 	          (char *) value_string,
 	          value_string_length,
 	          error ) != 1 )
@@ -542,6 +554,7 @@ int libtableau_query_parse_tableau_header(
 	else if( libtableau_values_table_set_value(
 	          values_table,
 	          "drive_vendor",
+	          12,
 	          (char *) value_string,
 	          value_string_length,
 	          error ) != 1 )
@@ -577,6 +590,7 @@ int libtableau_query_parse_tableau_header(
 	else if( libtableau_values_table_set_value(
 	          values_table,
 	          "drive_model",
+	          11,
 	          (char *) value_string,
 	          value_string_length,
 	          error ) != 1 )
@@ -612,6 +626,7 @@ int libtableau_query_parse_tableau_header(
 	else if( libtableau_values_table_set_value(
 	          values_table,
 	          "drive_serial_number",
+	          19,
 	          (char *) value_string,
 	          value_string_length,
 	          error ) != 1 )
@@ -647,6 +662,7 @@ int libtableau_query_parse_tableau_header(
 	else if( libtableau_values_table_set_value(
 	          values_table,
 	          "drive_revision_number",
+	          21,
 	          (char *) value_string,
 	          value_string_length,
 	          error ) != 1 )
@@ -869,6 +885,7 @@ int libtableau_query_parse_tableau_page_data_hpa_dco(
 	if( libtableau_values_table_set_value(
 	     values_table,
 	     "drive_hpa_support",
+	     17,
 	     true_false_string,
 	     true_false_string_length,
 	     error ) != 1 )
@@ -897,6 +914,7 @@ int libtableau_query_parse_tableau_page_data_hpa_dco(
 	if( libtableau_values_table_set_value(
 	     values_table,
 	     "drive_hpa_in_use",
+	     16,
 	     true_false_string,
 	     true_false_string_length,
 	     error ) != 1 )
@@ -925,6 +943,7 @@ int libtableau_query_parse_tableau_page_data_hpa_dco(
 	if( libtableau_values_table_set_value(
 	     values_table,
 	     "drive_dco_support",
+	     17,
 	     true_false_string,
 	     true_false_string_length,
 	     error ) != 1 )
@@ -953,6 +972,7 @@ int libtableau_query_parse_tableau_page_data_hpa_dco(
 	if( libtableau_values_table_set_value(
 	     values_table,
 	     "drive_dco_in_use",
+	     16,
 	     true_false_string,
 	     true_false_string_length,
 	     error ) != 1 )
@@ -981,6 +1001,7 @@ int libtableau_query_parse_tableau_page_data_hpa_dco(
 	if( libtableau_values_table_set_value(
 	     values_table,
 	     "drive_security_support",
+	     22,
 	     true_false_string,
 	     true_false_string_length,
 	     error ) != 1 )
@@ -1009,6 +1030,7 @@ int libtableau_query_parse_tableau_page_data_hpa_dco(
 	if( libtableau_values_table_set_value(
 	     values_table,
 	     "drive_security_in_use",
+	     21,
 	     true_false_string,
 	     true_false_string_length,
 	     error ) != 1 )

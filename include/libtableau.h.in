@@ -231,7 +231,7 @@ int libtableau_handle_get_dco_number_of_sectors(
      libtableau_error_t **error );
 
 /* Retrieves the number of values
- * Returns 1 if successful, 0 if no values are present or -1 on error
+ * Returns 1 if successful or -1 on error
  */
 LIBTABLEAU_EXTERN \
 int libtableau_handle_get_number_of_values(
@@ -240,158 +240,158 @@ int libtableau_handle_get_number_of_values(
      libtableau_error_t **error );
 
 /* Retrieves the value identifier specified by its index
- * Returns 1 if successful, 0 if value not present or -1 on error
+ * Returns 1 if successful, 0 if not set or -1 on error
  */
 LIBTABLEAU_EXTERN \
 int libtableau_handle_get_value_identifier(
      libtableau_handle_t *handle,
      int value_index,
-     char *value,
-     size_t length,
+     char *string,
+     size_t string_size,
      libtableau_error_t **error );
 
 /* Retrieves the value specified by the identifier
- * Returns 1 if successful, 0 if value not present or -1 on error
+ * Returns 1 if successful, 0 if not set or -1 on error
  */
 LIBTABLEAU_EXTERN \
 int libtableau_handle_get_value(
      libtableau_handle_t *handle,
      const char *identifier,
-     char *value,
-     size_t length,
+     char *string,
+     size_t string_size,
      libtableau_error_t **error );
 
 /* Retrieves the value firmware stepping
- * Returns 1 if successful, 0 if value not present or -1 on error
+ * Returns 1 if successful, 0 if not set or -1 on error
  */
-#define libtableau_handle_get_value_bridge_firmware_stepping( handle, value, length, error ) \
-        libtableau_handle_get_value( handle, "bridge_firmware_stepping", value, length, error )
+#define libtableau_handle_get_value_bridge_firmware_stepping( handle, string, string_size, error ) \
+        libtableau_handle_get_value( handle, "bridge_firmware_stepping", string, string_size, error )
 
 /* Retrieves the value bridge channel index
- * Returns 1 if successful, 0 if value not present or -1 on error
+ * Returns 1 if successful, 0 if not set or -1 on error
  */
-#define libtableau_handle_get_value_bridge_channel_index( handle, value, length, error ) \
-        libtableau_handle_get_value( handle, "bridge_channel_index", value, length, error )
+#define libtableau_handle_get_value_bridge_channel_index( handle, string, string_size, error ) \
+        libtableau_handle_get_value( handle, "bridge_channel_index", string, string_size, error )
 
 /* Retrieves the value bridge channel type
- * Returns 1 if successful, 0 if value not present or -1 on error
+ * Returns 1 if successful, 0 if not set or -1 on error
  */
-#define libtableau_handle_get_value_bridge_channel_type( handle, value, length, error ) \
-        libtableau_handle_get_value( handle, "bridge_channel_type", value, length, error )
+#define libtableau_handle_get_value_bridge_channel_type( handle, string, string_size, error ) \
+        libtableau_handle_get_value( handle, "bridge_channel_type", string, string_size, error )
 
 /* Retrieves the value bridge debug firmware
- * Returns 1 if successful, 0 if value not present or -1 on error
+ * Returns 1 if successful, 0 if not set or -1 on error
  */
-#define libtableau_handle_get_value_bridge_debug_firmware( handle, value, length, error ) \
-        libtableau_handle_get_value( handle, "bridge_debug_firmware", value, length, error )
+#define libtableau_handle_get_value_bridge_debug_firmware( handle, string, string_size, error ) \
+        libtableau_handle_get_value( handle, "bridge_debug_firmware", string, string_size, error )
 
 /* Retrieves the value bridge read only mode
- * Returns 1 if successful, 0 if value not present or -1 on error
+ * Returns 1 if successful, 0 if not set or -1 on error
  */
-#define libtableau_handle_get_value_bridge_mode_read_only( handle, value, length, error ) \
-        libtableau_handle_get_value( handle, "bridge_mode_read_only", value, length, error )
+#define libtableau_handle_get_value_bridge_mode_read_only( handle, string, string_size, error ) \
+        libtableau_handle_get_value( handle, "bridge_mode_read_only", string, string_size, error )
 
 /* Retrieves the value bridge read only reporting
- * Returns 1 if successful, 0 if value not present or -1 on error
+ * Returns 1 if successful, 0 if not set or -1 on error
  */
-#define libtableau_handle_get_value_bridge_report_read_only( handle, value, length, error ) \
-        libtableau_handle_get_value( handle, "bridge_report_read_only", value, length, error )
+#define libtableau_handle_get_value_bridge_report_read_only( handle, string, string_size, error ) \
+        libtableau_handle_get_value( handle, "bridge_report_read_only", string, string_size, error )
 
 /* Retrieves the value bridge write error reporting
- * Returns 1 if successful, 0 if value not present or -1 on error
+ * Returns 1 if successful, 0 if not set or -1 on error
  */
-#define libtableau_handle_get_value_bridge_report_write_error( handle, value, length, error ) \
-        libtableau_handle_get_value( handle, "bridge_report_write_error", value, length, error )
+#define libtableau_handle_get_value_bridge_report_write_error( handle, string, string_size, error ) \
+        libtableau_handle_get_value( handle, "bridge_report_write_error", string, string_size, error )
 
 /* Retrieves the value bridge serial number
- * Returns 1 if successful, 0 if value not present or -1 on error
+ * Returns 1 if successful, 0 if not set or -1 on error
  */
-#define libtableau_handle_get_value_bridge_serial_number( handle, value, length, error ) \
-        libtableau_handle_get_value( handle, "bridge_serial_number", value, length, error )
+#define libtableau_handle_get_value_bridge_serial_number( handle, string, string_size, error ) \
+        libtableau_handle_get_value( handle, "bridge_serial_number", string, string_size, error )
 
 /* Retrieves the value bridge vendor
- * Returns 1 if successful, 0 if value not present or -1 on error
+ * Returns 1 if successful, 0 if not set or -1 on error
  */
-#define libtableau_handle_get_value_bridge_vendor( handle, value, length, error ) \
-        libtableau_handle_get_value( handle, "bridge_vendor", value, length, error )
+#define libtableau_handle_get_value_bridge_vendor( handle, string, string_size, error ) \
+        libtableau_handle_get_value( handle, "bridge_vendor", string, string_size, error )
 
 /* Retrieves the value bridge model
- * Returns 1 if successful, 0 if value not present or -1 on error
+ * Returns 1 if successful, 0 if not set or -1 on error
  */
-#define libtableau_handle_get_value_bridge_model( handle, value, length, error ) \
-        libtableau_handle_get_value( handle, "bridge_model", value, length, error )
+#define libtableau_handle_get_value_bridge_model( handle, string, string_size, error ) \
+        libtableau_handle_get_value( handle, "bridge_model", string, string_size, error )
 
 /* Retrieves the value bridge firmware date
- * Returns 1 if successful, 0 if value not present or -1 on error
+ * Returns 1 if successful, 0 if not set or -1 on error
  */
-#define libtableau_handle_get_value_bridge_firmware_date( handle, value, length, error ) \
-        libtableau_handle_get_value( handle, "bridge_firmware_date", value, length, error )
+#define libtableau_handle_get_value_bridge_firmware_date( handle, string, string_size, error ) \
+        libtableau_handle_get_value( handle, "bridge_firmware_date", string, string_size, error )
 
 /* Retrieves the value bridge firmware time
- * Returns 1 if successful, 0 if value not present or -1 on error
+ * Returns 1 if successful, 0 if not set or -1 on error
  */
-#define libtableau_handle_get_value_bridge_firmware_time( handle, value, length, error ) \
-        libtableau_handle_get_value( handle, "bridge_firmware_time", value, length, error )
+#define libtableau_handle_get_value_bridge_firmware_time( handle, string, string_size, error ) \
+        libtableau_handle_get_value( handle, "bridge_firmware_time", string, string_size, error )
 
 /* Retrieves the value drive vendor
- * Returns 1 if successful, 0 if value not present or -1 on error
+ * Returns 1 if successful, 0 if not set or -1 on error
  */
-#define libtableau_handle_get_value_drive_vendor( handle, value, length, error ) \
-        libtableau_handle_get_value( handle, "drive_vendor", value, length, error )
+#define libtableau_handle_get_value_drive_vendor( handle, string, string_size, error ) \
+        libtableau_handle_get_value( handle, "drive_vendor", string, string_size, error )
 
 /* Retrieves the value drive model
- * Returns 1 if successful, 0 if value not present or -1 on error
+ * Returns 1 if successful, 0 if not set or -1 on error
  */
-#define libtableau_handle_get_value_drive_model( handle, value, length, error ) \
-        libtableau_handle_get_value( handle, "drive_model", value, length, error )
+#define libtableau_handle_get_value_drive_model( handle, string, string_size, error ) \
+        libtableau_handle_get_value( handle, "drive_model", string, string_size, error )
 
 /* Retrieves the value drive serial number
- * Returns 1 if successful, 0 if value not present or -1 on error
+ * Returns 1 if successful, 0 if not set or -1 on error
  */
-#define libtableau_handle_get_value_drive_serial_number( handle, value, length, error ) \
-        libtableau_handle_get_value( handle, "drive_serial_number", value, length, error )
+#define libtableau_handle_get_value_drive_serial_number( handle, string, string_size, error ) \
+        libtableau_handle_get_value( handle, "drive_serial_number", string, string_size, error )
 
 /* Retrieves the value drive revision number
- * Returns 1 if successful, 0 if value not present or -1 on error
+ * Returns 1 if successful, 0 if not set or -1 on error
  */
-#define libtableau_handle_get_value_drive_revision_number( handle, value, length, error ) \
-        libtableau_handle_get_value( handle, "drive_revision_number", value, length, error )
+#define libtableau_handle_get_value_drive_revision_number( handle, string, string_size, error ) \
+        libtableau_handle_get_value( handle, "drive_revision_number", string, string_size, error )
 
 /* Retrieves the value drive HPA support
- * Returns 1 if successful, 0 if value not present or -1 on error
+ * Returns 1 if successful, 0 if not set or -1 on error
  */
-#define libtableau_handle_get_value_drive_hpa_support( handle, value, length, error ) \
-        libtableau_handle_get_value( handle, "drive_hpa_support", value, length, error )
+#define libtableau_handle_get_value_drive_hpa_support( handle, string, string_size, error ) \
+        libtableau_handle_get_value( handle, "drive_hpa_support", string, string_size, error )
 
 /* Retrieves the value drive HPA in use
- * Returns 1 if successful, 0 if value not present or -1 on error
+ * Returns 1 if successful, 0 if not set or -1 on error
  */
-#define libtableau_handle_get_value_drive_hpa_in_use( handle, value, length, error ) \
-        libtableau_handle_get_value( handle, "drive_hpa_in_use", value, length, error )
+#define libtableau_handle_get_value_drive_hpa_in_use( handle, string, string_size, error ) \
+        libtableau_handle_get_value( handle, "drive_hpa_in_use", string, string_size, error )
 
 /* Retrieves the value drive DCO support
- * Returns 1 if successful, 0 if value not present or -1 on error
+ * Returns 1 if successful, 0 if not set or -1 on error
  */
-#define libtableau_handle_get_value_drive_dco_support( handle, value, length, error ) \
-        libtableau_handle_get_value( handle, "drive_dco_support", value, length, error )
+#define libtableau_handle_get_value_drive_dco_support( handle, string, string_size, error ) \
+        libtableau_handle_get_value( handle, "drive_dco_support", string, string_size, error )
 
 /* Retrieves the value drive DCO in use
- * Returns 1 if successful, 0 if value not present or -1 on error
+ * Returns 1 if successful, 0 if not set or -1 on error
  */
-#define libtableau_handle_get_value_drive_dco_in_use( handle, value, length, error ) \
-        libtableau_handle_get_value( handle, "drive_dco_in_use", value, length, error )
+#define libtableau_handle_get_value_drive_dco_in_use( handle, string, string_size, error ) \
+        libtableau_handle_get_value( handle, "drive_dco_in_use", string, string_size, error )
 
 /* Retrieves the value drive security support
- * Returns 1 if successful, 0 if value not present or -1 on error
+ * Returns 1 if successful, 0 if not set or -1 on error
  */
-#define libtableau_handle_get_value_drive_security_support( handle, value, length, error ) \
-        libtableau_handle_get_value( handle, "drive_security_support", value, length, error )
+#define libtableau_handle_get_value_drive_security_support( handle, string, string_size, error ) \
+        libtableau_handle_get_value( handle, "drive_security_support", string, string_size, error )
 
 /* Retrieves the value drive security in use
- * Returns 1 if successful, 0 if value not present or -1 on error
+ * Returns 1 if successful, 0 if not set or -1 on error
  */
-#define libtableau_handle_get_value_drive_security_in_use( handle, value, length, error ) \
-        libtableau_handle_get_value( handle, "drive_security_in_use", value, length, error )
+#define libtableau_handle_get_value_drive_security_in_use( handle, string, string_size, error ) \
+        libtableau_handle_get_value( handle, "drive_security_in_use", string, string_size, error )
 
 #if defined( __cplusplus )
 }

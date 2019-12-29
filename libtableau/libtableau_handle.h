@@ -19,8 +19,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#if !defined( _LIBTABLEAU_INTERNAL_HANDLE_H )
-#define _LIBTABLEAU_INTERNAL_HANDLE_H
+#if !defined( _LIBTABLEAU_HANDLE_H )
+#define _LIBTABLEAU_HANDLE_H
 
 #include <common.h>
 #include <narrow_string.h>
@@ -125,25 +125,25 @@ LIBTABLEAU_EXTERN \
 int libtableau_handle_get_value_identifier(
      libtableau_handle_t *handle,
      int value_index,
-     char *value,
-     size_t length,
+     char *string,
+     size_t string_size,
      libcerror_error_t **error );
 
 LIBTABLEAU_EXTERN \
 int libtableau_handle_get_value(
      libtableau_handle_t *handle,
      const char *identifier,
-     char *value,
-     size_t length,
+     char *string,
+     size_t string_size,
      libcerror_error_t **error );
 
 LIBTABLEAU_EXTERN \
-int libtableau_detected_dco(
+int libtableau_handle_detected_dco(
      libtableau_handle_t *handle,
      libcerror_error_t **error );
 
 LIBTABLEAU_EXTERN \
-int libtableau_remove_dco(
+int libtableau_handle_remove_dco(
      libtableau_handle_t *handle,
      libcerror_error_t **error );
 
@@ -151,5 +151,5 @@ int libtableau_remove_dco(
 }
 #endif
 
-#endif /* !defined( _LIBTABLEAU_INTERNAL_HANDLE_H ) */
+#endif /* !defined( _LIBTABLEAU_HANDLE_H ) */
 

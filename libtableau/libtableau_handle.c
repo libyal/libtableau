@@ -227,37 +227,31 @@ int libtableau_handle_free(
 				result = -1;
 			}
 		}
-		if( internal_handle->values_table != NULL )
+		if( libtableau_values_table_free(
+		     &( internal_handle->values_table ),
+		     error ) != 1 )
 		{
-			if( libtableau_values_table_free(
-			     &( internal_handle->values_table ),
-			     error ) != 1 )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
-				 "%s: unable to free values table.",
-				 function );
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
+			 "%s: unable to free values table.",
+			 function );
 
-				result = -1;
-			}
+			result = -1;
 		}
-		if( internal_handle->security_values != NULL )
+		if( libtableau_security_values_free(
+		     &( internal_handle->security_values ),
+		     error ) != 1 )
 		{
-			if( libtableau_security_values_free(
-			     &( internal_handle->security_values ),
-			     error ) != 1 )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
-				 "%s: unable to free security values.",
-				 function );
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
+			 "%s: unable to free security values.",
+			 function );
 
-				result = -1;
-			}
+			result = -1;
 		}
 		memory_free(
 		 internal_handle );
@@ -963,35 +957,31 @@ int libtableau_handle_get_number_of_values(
 	}
 	internal_handle = (libtableau_internal_handle_t *) handle;
 
-/* TODO move into values table */
-	if( number_of_values == NULL )
+	if( libtableau_values_table_get_number_of_values(
+	     internal_handle->values_table,
+	     number_of_values,
+	     error ) != 1 )
 	{
 		libcerror_error_set(
 		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid number of values.",
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
+		 "%s: unable to retrieve number of values.",
 		 function );
 
 		return( -1 );
 	}
-	if( internal_handle->values_table == NULL )
-	{
-		return( 0 );
-	}
-	*number_of_values = internal_handle->values_table->number_of_values;
-
 	return( 1 );
 }
 
 /* Retrieves the value identifier specified by its index
- * Returns 1 if successful, 0 if value not present or -1 on error
+ * Returns 1 if successful, 0 if not set or -1 on error
  */
 int libtableau_handle_get_value_identifier(
      libtableau_handle_t *handle,
      int value_index,
-     char *value,
-     size_t length,
+     char *string,
+     size_t string_size,
      libcerror_error_t **error )
 {
 	libtableau_internal_handle_t *internal_handle = NULL;
@@ -1011,15 +1001,11 @@ int libtableau_handle_get_value_identifier(
 	}
 	internal_handle = (libtableau_internal_handle_t *) handle;
 
-	if( internal_handle->values_table == NULL )
-	{
-		return( 0 );
-	}
 	result = libtableau_values_table_get_identifier(
 	          internal_handle->values_table,
 	          value_index,
-	          value,
-	          length,
+	          string,
+	          string_size,
 	          error );
 
 	if( result == -1 )
@@ -1028,8 +1014,9 @@ int libtableau_handle_get_value_identifier(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
-		 "%s: unable to retrieve value identifier.",
-		 function );
+		 "%s: unable to retrieve value identifier: %d.",
+		 function,
+		 value_index );
 
 		return( -1 );
 	}
@@ -1037,17 +1024,18 @@ int libtableau_handle_get_value_identifier(
 }
 
 /* Retrieves the value specified by the identifier
- * Returns 1 if successful, 0 if value not present or -1 on error
+ * Returns 1 if successful, 0 if not set or -1 on error
  */
 int libtableau_handle_get_value(
      libtableau_handle_t *handle,
      const char *identifier,
-     char *value,
-     size_t length,
+     char *string,
+     size_t string_size,
      libcerror_error_t **error )
 {
 	libtableau_internal_handle_t *internal_handle = NULL;
 	static char *function                         = "libtableau_handle_get_value";
+	size_t identifier_length                      = 0;
 	int result                                    = 0;
 
 	if( handle == NULL )
@@ -1069,31 +1057,20 @@ int libtableau_handle_get_value(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid identifier.",
+		 "%s: invalid values identifier.",
 		 function );
 
 		return( -1 );
 	}
-	if( value == NULL )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid value.",
-		 function );
+	identifier_length = narrow_string_length(
+	                     identifier );
 
-		return( -1 );
-	}
-	if( internal_handle->values_table == NULL )
-	{
-		return( 0 );
-	}
-	result = libtableau_values_table_get_value(
+	result = libtableau_values_table_get_value_by_identifier(
 	          internal_handle->values_table,
 	          identifier,
-	          value,
-	          length,
+	          identifier_length,
+	          string,
+	          string_size,
 	          error );
 
 	if( result == -1 )

@@ -35,11 +35,18 @@
 #include <stdlib.h>
 #endif
 
+#include "info_handle.h"
+#include "tableautools_getopt.h"
 #include "tableautools_libcerror.h"
 #include "tableautools_libclocale.h"
 #include "tableautools_libcnotify.h"
 #include "tableautools_libtableau.h"
 #include "tableautools_output.h"
+#include "tableautools_signal.h"
+#include "tableautools_unused.h"
+
+info_handle_t *tableauinfo_info_handle = NULL;
+int tableauinfo_abort                  = 0;
 
 /* Prints the executable usage information
  */
@@ -57,6 +64,50 @@ void usage_fprint(
 	fprintf( stream, "\t-V: print version\n" );
 }
 
+/* Signal handler for tableauinfo
+ */
+void tableauinfo_signal_handler(
+      tableautools_signal_t signal TABLEAUTOOLS_ATTRIBUTE_UNUSED )
+{
+	libcerror_error_t *error = NULL;
+	static char *function    = "tableauinfo_signal_handler";
+
+	TABLEAUTOOLS_UNREFERENCED_PARAMETER( signal )
+
+	tableauinfo_abort = 1;
+
+	if( tableauinfo_info_handle != NULL )
+	{
+		if( info_handle_signal_abort(
+		     tableauinfo_info_handle,
+		     &error ) != 1 )
+		{
+			libcnotify_printf(
+			 "%s: unable to signal info handle to abort.\n",
+			 function );
+
+			libcnotify_print_error_backtrace(
+			 error );
+			libcerror_error_free(
+			 &error );
+		}
+	}
+	/* Force stdin to close otherwise any function reading it will remain blocked
+	 */
+#if defined( WINAPI ) && !defined( __CYGWIN__ )
+	if( _close(
+	     0 ) != 0 )
+#else
+	if( close(
+	     0 ) != 0 )
+#endif
+	{
+		libcnotify_printf(
+		 "%s: unable to close stdin.\n",
+		 function );
+	}
+}
+
 /* The main program
  */
 #if defined( HAVE_WIDE_SYSTEM_CHARACTER )
@@ -65,16 +116,11 @@ int wmain( int argc, wchar_t * const argv[] )
 int main( int argc, char * const argv[] )
 #endif
 {
-	system_character_t value_string[ 32 ];
-
-	libcerror_error_t *error    = NULL;
-	libtableau_handle_t *handle = NULL;
-	system_character_t *program = _SYSTEM_STRING( "tableauinfo" );
-	system_character_t *source  = NULL;
-	system_integer_t option     = 0;
-	uint32_t number_of_sectors  = 0;
-	int result                  = 0;
-	int verbose                 = 0;
+	libcerror_error_t *error   = NULL;
+	system_character_t *source = NULL;
+	char *program              = "tableauinfo";
+	system_integer_t option    = 0;
+	int verbose                = 0;
 
 	libcnotify_stream_set(
 	 stderr,
@@ -106,7 +152,7 @@ int main( int argc, char * const argv[] )
 	 stdout,
 	 program );
 
-	while( ( option = getopt(
+	while( ( option = tableautools_getopt(
 	                   argc,
 	                   argv,
 	                   _SYSTEM_STRING( "hvV" ) ) ) != (system_integer_t) -1 )
@@ -164,772 +210,55 @@ int main( int argc, char * const argv[] )
 	libtableau_notify_set_verbose(
 	 verbose );
 
-	if( libtableau_handle_initialize(
-	     &handle,
+	if( info_handle_initialize(
+	     &tableauinfo_info_handle,
 	     &error ) != 1 )
 	{
 		fprintf(
 		 stderr,
-		 "Unable to initialize libtableau handle.\n" );
+		 "Unable to initialize info handle.\n" );
 
 		goto on_error;
 	}
-	/* Open the device
-	 */
-	if( libtableau_handle_open(
-	     handle,
+	if( info_handle_open_input(
+	     tableauinfo_info_handle,
 	     source,
-	     LIBTABLEAU_OPEN_READ,
 	     &error ) != 1 )
 	{
 		fprintf(
 		 stderr,
-		 "Error opening device: %" PRIs_SYSTEM ".\n",
+		 "Unable to open: %" PRIs_SYSTEM ".\n",
 		 source );
 
 		goto on_error;
 	}
-	if( libtableau_handle_query(
-	     handle,
+	if( info_handle_device_fprint(
+	     tableauinfo_info_handle,
 	     &error ) != 1 )
 	{
 		fprintf(
 		 stderr,
-		 "Unable to query Tableau.\n" );
+		 "Unable to print device information.\n" );
 
 		goto on_error;
 	}
-	if( libtableau_handle_close(
-	     handle,
+	if( info_handle_close_input(
+	     tableauinfo_info_handle,
 	     &error ) != 0 )
 	{
 		fprintf(
 		 stderr,
-		 "Error closing device: %" PRIs_SYSTEM ".\n",
-		 source );
+		 "Unable to close info handle.\n" );
 
 		goto on_error;
 	}
-	fprintf(
-	 stdout,
-	 "Tableau forensic bridge information\n" );
-
-	fprintf(
-	 stdout,
-	 "\tVendor:" );
-
-	result = libtableau_handle_get_value_bridge_vendor(
-	          handle,
-	          value_string,
-	          32,
-	          &error );
-
-	if( result == -1 )
-	{
-		fprintf(
-		 stderr,
-		 "Unable to retrieve bridge vendor.\n" );
-
-		goto on_error;
-	}
-	else if( result == 1 )
-	{
-		fprintf(
-		 stdout,
-		 "\t\t\t%s",
-		 value_string );
-	}
-	fprintf(
-	 stdout,
-	 "\n" );
-
-	fprintf(
-	 stdout,
-	 "\tModel:" );
-
-	result = libtableau_handle_get_value_bridge_model(
-	          handle,
-	          value_string,
-	          32,
-	          &error );
-
-	if( result == -1 )
-	{
-		fprintf(
-		 stderr,
-		 "Unable to retrieve bridge model.\n" );
-
-		goto on_error;
-	}
-	else if( result == 1 )
-	{
-		fprintf(
-		 stdout,
-		 "\t\t\t%s",
-		 value_string );
-	}
-	fprintf(
-	 stdout,
-	 "\n" );
-
-	fprintf(
-	 stdout,
-	 "\tSerial number:" );
-
-	result = libtableau_handle_get_value_bridge_serial_number(
-	          handle,
-	          value_string,
-	          32,
-	          &error );
-
-	if( result == -1 )
-	{
-		fprintf(
-		 stderr,
-		 "Unable to retrieve bridge serial number.\n" );
-
-		goto on_error;
-	}
-	else if( result == 1 )
-	{
-		fprintf(
-		 stdout,
-		 "\t\t%s",
-		 value_string );
-	}
-	fprintf(
-	 stdout,
-	 "\n" );
-
-	fprintf(
-	 stdout,
-	 "\tFirmware date:" );
-
-	result = libtableau_handle_get_value_bridge_firmware_date(
-	          handle,
-	          value_string,
-	          32,
-	          &error );
-
-	if( result == -1 )
-	{
-		fprintf(
-		 stderr,
-		 "Unable to retrieve bridge firmware date.\n" );
-
-		goto on_error;
-	}
-	else if( result == 1 )
-	{
-		fprintf(
-		 stdout,
-		 "\t\t%s",
-		 value_string );
-	}
-	fprintf(
-	 stdout,
-	 "\n" );
-
-	fprintf(
-	 stdout,
-	 "\tFirmware time:" );
-
-	result = libtableau_handle_get_value_bridge_firmware_time(
-	          handle,
-	          value_string,
-	          32,
-	          &error );
-
-	if( result == -1 )
-	{
-		fprintf(
-		 stderr,
-		 "Unable to retrieve bridge firmware date and time.\n" );
-
-		goto on_error;
-	}
-	else if( result == 1 )
-	{
-		fprintf(
-		 stdout,
-		 "\t\t%s",
-		 value_string );
-	}
-	fprintf(
-	 stdout,
-	 "\n" );
-
-	fprintf(
-	 stdout,
-	 "\tFirmware stepping:" );
-
-	result = libtableau_handle_get_value_bridge_firmware_stepping(
-	          handle,
-	          value_string,
-	          32,
-	          &error );
-
-	if( result == -1 )
-	{
-		fprintf(
-		 stderr,
-		 "Unable to retrieve bridge firmware stepping.\n" );
-
-		goto on_error;
-	}
-	else if( result == 1 )
-	{
-		fprintf(
-		 stdout,
-		 "\t%s",
-		 value_string );
-	}
-	fprintf(
-	 stdout,
-	 "\n" );
-
-	fprintf(
-	 stdout,
-	 "\tDebug firmware:" );
-
-	result = libtableau_handle_get_value_bridge_debug_firmware(
-	          handle,
-	          value_string,
-	          32,
-	          &error );
-
-	if( result == -1 )
-	{
-		fprintf(
-		 stderr,
-		 "Unable to retrieve bridge debug firmware.\n" );
-
-		goto on_error;
-	}
-	else if( result == 1 )
-	{
-		fprintf(
-		 stdout,
-		 "\t\t%s",
-		 value_string );
-	}
-	fprintf(
-	 stdout,
-	 "\n" );
-
-	fprintf(
-	 stdout,
-	 "\tChannel index:" );
-
-	result = libtableau_handle_get_value_bridge_channel_index(
-	          handle,
-	          value_string,
-	          32,
-	          &error );
-
-	if( result == -1 )
-	{
-		fprintf(
-		 stderr,
-		 "Unable to retrieve bridge channel index.\n" );
-
-		goto on_error;
-	}
-	else if( result == 1 )
-	{
-		fprintf(
-		 stdout,
-		 "\t\t%s",
-		 value_string );
-	}
-	fprintf(
-	 stdout,
-	 "\n" );
-
-	fprintf(
-	 stdout,
-	 "\tChannel type:" );
-
-	result = libtableau_handle_get_value_bridge_channel_type(
-	          handle,
-	          value_string,
-	          32,
-	          &error );
-
-	if( result == -1 )
-	{
-		fprintf(
-		 stderr,
-		 "Unable to retrieve bridge channel type.\n" );
-
-		goto on_error;
-	}
-	else if( result == 1 )
-	{
-		fprintf(
-		 stdout,
-		 "\t\t%s",
-		 value_string );
-	}
-	fprintf(
-	 stdout,
-	 "\n" );
-
-	fprintf(
-	 stdout,
-	 "\tRead only mode:" );
-
-	result = libtableau_handle_get_value_bridge_mode_read_only(
-	          handle,
-	          value_string,
-	          32,
-	          &error );
-
-	if( result == -1 )
-	{
-		fprintf(
-		 stderr,
-		 "Unable to retrieve bridge mode read-only.\n" );
-
-		goto on_error;
-	}
-	else if( result == 1 )
-	{
-		fprintf(
-		 stdout,
-		 "\t\t%s",
-		 value_string );
-	}
-	fprintf(
-	 stdout,
-	 "\n" );
-
-	fprintf(
-	 stdout,
-	 "\tRead only reporting:" );
-
-	result = libtableau_handle_get_value_bridge_report_read_only(
-	          handle,
-	          value_string,
-	          32,
-	          &error );
-
-	if( result == -1 )
-	{
-		fprintf(
-		 stderr,
-		 "Unable to retrieve bridge report read-only.\n" );
-
-		goto on_error;
-	}
-	else if( result == 1 )
-	{
-		fprintf(
-		 stdout,
-		 "\t%s",
-		 value_string );
-	}
-	fprintf(
-	 stdout,
-	 "\n" );
-
-	fprintf(
-	 stdout,
-	 "\tWrite error reporting:" );
-
-	result = libtableau_handle_get_value_bridge_report_write_error(
-	          handle,
-	          value_string,
-	          32,
-	          &error );
-
-	if( result == -1 )
-	{
-		fprintf(
-		 stderr,
-		 "Unable to retrieve bridge report write-error.\n" );
-
-		goto on_error;
-	}
-	else if( result == 1 )
-	{
-		fprintf(
-		 stdout,
-		 "\t%s",
-		 value_string );
-	}
-	fprintf(
-	 stdout,
-	 "\n" );
-
-	fprintf(
-	 stdout,
-	 "\nDrive information\n" );
-
-	fprintf(
-	 stdout,
-	 "\tVendor:" );
-
-	result = libtableau_handle_get_value_drive_vendor(
-	          handle,
-	          value_string,
-	          32,
-	          &error );
-
-	if( result == -1 )
-	{
-		fprintf(
-		 stderr,
-		 "Unable to retrieve drive vendor.\n" );
-
-		goto on_error;
-	}
-	else if( result == 1 )
-	{
-		fprintf(
-		 stdout,
-		 "\t\t\t%s",
-		 value_string );
-	}
-	fprintf(
-	 stdout,
-	 "\n" );
-
-	fprintf(
-	 stdout,
-	 "\tModel:" );
-
-	result = libtableau_handle_get_value_drive_model(
-	          handle,
-	          value_string,
-	          32,
-	          &error );
-
-	if( result == -1 )
-	{
-		fprintf(
-		 stderr,
-		 "Unable to retrieve drive model.\n" );
-
-		goto on_error;
-	}
-	else if( result == 1 )
-	{
-		fprintf(
-		 stdout,
-		 "\t\t\t%s",
-		 value_string );
-	}
-	fprintf(
-	 stdout,
-	 "\n" );
-
-	fprintf(
-	 stdout,
-	 "\tSerial number:" );
-
-	result = libtableau_handle_get_value_drive_serial_number(
-	          handle,
-	          value_string,
-	          32,
-	          &error );
-
-	if( result == -1 )
-	{
-		fprintf(
-		 stderr,
-		 "Unable to retrieve drive serial number.\n" );
-
-		goto on_error;
-	}
-	else if( result == 1 )
-	{
-		fprintf(
-		 stdout,
-		 "\t\t%s",
-		 value_string );
-	}
-	fprintf(
-	 stdout,
-	 "\n" );
-
-	fprintf(
-	 stdout,
-	 "\tRevision number:" );
-
-	result = libtableau_handle_get_value_drive_revision_number(
-	          handle,
-	          value_string,
-	          32,
-	          &error );
-
-	if( result == -1 )
-	{
-		fprintf(
-		 stderr,
-		 "Unable to retrieve drive revision number.\n" );
-
-		goto on_error;
-	}
-	else if( result == 1 )
-	{
-		fprintf(
-		 stdout,
-		 "\t%s",
-		 value_string );
-	}
-	fprintf(
-	 stdout,
-	 "\n" );
-
-	fprintf(
-	 stdout,
-	 "\nDrive security information\n" );
-
-	fprintf(
-	stdout,
-	 "\tHPA support:" );
-
-	result = libtableau_handle_get_value_drive_hpa_support(
-	          handle,
-	          value_string,
-	          32,
-	          &error );
-
-	if( result == -1 )
-	{
-		fprintf(
-		 stderr,
-		 "Unable to retrieve drive HPA support.\n" );
-
-		goto on_error;
-	}
-	else if( result == 1 )
-	{
-		fprintf(
-		 stdout,
-		 "\t\t%s",
-		 value_string );
-	}
-	fprintf(
-	 stdout,
-	 "\n" );
-
-	fprintf(
-	 stdout,
-	 "\tHPA in use:" );
-
-	result = libtableau_handle_get_value_drive_hpa_in_use(
-	          handle,
-	          value_string,
-	          32,
-	          &error );
-
-	if( result == -1 )
-	{
-		fprintf(
-		 stderr,
-		 "Unable to retrieve drive HPA in use.\n" );
-
-		goto on_error;
-	}
-	else if( result == 1 )
-	{
-		fprintf(
-		 stdout,
-		 "\t\t%s",
-		 value_string );
-	}
-	fprintf(
-	 stdout,
-	 "\n" );
-
-	fprintf(
-	 stdout,
-	 "\tDCO support:" );
-
-	result = libtableau_handle_get_value_drive_dco_support(
-	          handle,
-	          value_string,
-	          32,
-	          &error );
-
-	if( result == -1 )
-	{
-		fprintf(
-		 stderr,
-		 "Unable to retrieve drive DCO support.\n" );
-
-		goto on_error;
-	}
-	else if( result == 1 )
-	{
-		fprintf(
-		 stdout,
-		 "\t\t%s",
-		 value_string );
-	}
-	fprintf(
-	 stdout,
-	 "\n" );
-
-	fprintf(
-	 stdout,
-	 "\tDCO in use:" );
-
-	result = libtableau_handle_get_value_drive_dco_in_use(
-	          handle,
-	          value_string,
-	          32,
-	          &error );
-
-	if( result == -1 )
-	{
-		fprintf(
-		 stderr,
-		 "Unable to retrieve drive DCO in use.\n" );
-
-		goto on_error;
-	}
-	else if( result == 1 )
-	{
-		fprintf(
-		 stdout,
-		 "\t\t%s",
-		 value_string );
-	}
-	fprintf(
-	 stdout,
-	 "\n" );
-
-	fprintf(
-	 stdout,
-	 "\tSecurity support:" );
-
-	result = libtableau_handle_get_value_drive_security_support(
-	          handle,
-	          value_string,
-	          32,
-	          &error );
-
-	if( result == -1 )
-	{
-		fprintf(
-		 stderr,
-		 "Unable to retrieve drive security support.\n" );
-
-		goto on_error;
-	}
-	else if( result == 1 )
-	{
-		fprintf(
-		 stdout,
-		 "\t%s",
-		 value_string );
-	}
-	fprintf(
-	 stdout,
-	 "\n" );
-
-	fprintf(
-	 stdout,
-	 "\tSecurity in use:" );
-
-	result = libtableau_handle_get_value_drive_security_in_use(
-	          handle,
-	          value_string,
-	          32,
-	          &error );
-
-	if( result == -1 )
-	{
-		fprintf(
-		 stderr,
-		 "Unable to retrieve drive security in use.\n" );
-
-		goto on_error;
-	}
-	else if( result == 1 )
-	{
-		fprintf(
-		 stdout,
-		 "\t%s",
-		 value_string );
-	}
-	fprintf(
-	 stdout,
-	 "\n" );
-
-	result = libtableau_handle_get_drive_number_of_sectors(
-	          handle,
-	          &number_of_sectors,
-	          &error );
-
-	if( result == -1 )
-	{
-		fprintf(
-		 stderr,
-		 "Unable to retrieve drive number of sectors.\n" );
-
-		goto on_error;
-	}
-	else if( result == 1 )
-	{
-        	fprintf(
-		 stdout,
-		 "\tNumber of sectors:\t%" PRIu32 "\n",
-	         number_of_sectors );
-	}
-	result = libtableau_handle_get_hpa_number_of_sectors(
-	          handle,
-	          &number_of_sectors,
-	          &error );
-
-	if( result == -1 )
-	{
-		fprintf(
-		 stderr,
-		 "Unable to retrieve HPA number of sectors.\n" );
-
-		goto on_error;
-	}
-	else if( result == 1 )
-	{
-        	fprintf(
-		 stdout,
-		 "\tHPA number of sectors:\t%" PRIu32 "\n",
-	         number_of_sectors );
-	}
-	result = libtableau_handle_get_dco_number_of_sectors(
-	          handle,
-	          &number_of_sectors,
-	          &error );
-
-	if( result == -1 )
-	{
-		fprintf(
-		 stderr,
-		 "Unable to retrieve DCO number of sectors.\n" );
-
-		goto on_error;
-	}
-	else if( result == 1 )
-	{
-        	fprintf(
-		 stdout,
-		 "\tDCO number of sectors:\t%" PRIu32 "\n",
-	         number_of_sectors );
-	}
-
-	/* TODO print additional Tableau information
-	 */
-	if( libtableau_handle_free(
-	     &handle,
+	if( info_handle_free(
+	     &tableauinfo_info_handle,
 	     &error ) != 1 )
 	{
 		fprintf(
 		 stderr,
-		 "Unable to free libtableau handle.\n" );
+		 "Unable to free info handle.\n" );
 
 		goto on_error;
 	}
@@ -943,10 +272,10 @@ on_error:
 		libcerror_error_free(
 		 &error );
 	}
-	if( handle != NULL )
+	if( tableauinfo_info_handle != NULL )
 	{
-		libtableau_handle_free(
-		 &handle,
+		info_handle_free(
+		 &tableauinfo_info_handle,
 		 NULL );
 	}
 	return( EXIT_FAILURE );

@@ -32,6 +32,7 @@ tableaucontrol_LDADD = \
 	@LIBINTL@
 
 tableauinfo_SOURCES = \
+	info_handle.c info_handle.h \
 	tableauinfo.c \
 	tableautools_getopt.c tableautools_getopt.h \
 	tableautools_i18n.h \
@@ -40,6 +41,7 @@ tableauinfo_SOURCES = \
 	tableautools_libcnotify.h \
 	tableautools_libtableau.h \
 	tableautools_output.c tableautools_output.h \
+	tableautools_signal.c tableautools_signal.h \
 	tableautools_unused.h
 
 tableauinfo_LDADD = \

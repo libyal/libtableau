@@ -54,94 +54,358 @@ int libtableau_values_initialize(
 
 		return( -1 );
 	}
-	values_table->identifiers[ 0 ] = strndup(
-	                                  "bridge_firmware_stepping",
-	                                  24 );
+	if( libtableau_values_table_set_identifier(
+	     values_table,
+	     0,
+	     "bridge_firmware_stepping",
+	     24,
+	     error ) != 1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
+		 "%s: unable to set identifier: 0.",
+		 function );
 
-	values_table->identifiers[ 1 ] = strndup(
-	                                  "bridge_channel_index",
-	                                  20 );
+		return( -1 );
+	}
+	if( libtableau_values_table_set_identifier(
+	     values_table,
+	     1,
+	     "bridge_channel_index",
+	     20,
+	     error ) != 1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
+		 "%s: unable to set identifier: 1.",
+		 function );
 
-	values_table->identifiers[ 2 ] = strndup(
-	                                  "bridge_channel_type",
-	                                  19 );
+		return( -1 );
+	}
+	if( libtableau_values_table_set_identifier(
+	     values_table,
+	     2,
+	     "bridge_channel_type",
+	     19,
+	     error ) != 1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
+		 "%s: unable to set identifier: 2.",
+		 function );
 
-	values_table->identifiers[ 3 ] = strndup(
-	                                  "bridge_debug_firmware",
-	                                  21 );
+		return( -1 );
+	}
+	if( libtableau_values_table_set_identifier(
+	     values_table,
+	     3,
+	     "bridge_debug_firmware",
+	     21,
+	     error ) != 1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
+		 "%s: unable to set identifier: 3.",
+		 function );
 
-	values_table->identifiers[ 4 ] = strndup(
-	                                  "bridge_mode_read_only",
-	                                  21 );
+		return( -1 );
+	}
+	if( libtableau_values_table_set_identifier(
+	     values_table,
+	     4,
+	     "bridge_mode_read_only",
+	     21,
+	     error ) != 1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
+		 "%s: unable to set identifier: 4.",
+		 function );
 
-	values_table->identifiers[ 5 ] = strndup(
-	                                  "bridge_report_read_only",
-	                                  23 );
+		return( -1 );
+	}
+	if( libtableau_values_table_set_identifier(
+	     values_table,
+	     5,
+	     "bridge_report_read_only",
+	     23,
+	     error ) != 1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
+		 "%s: unable to set identifier: 5.",
+		 function );
 
-	values_table->identifiers[ 6 ] = strndup(
-	                                  "bridge_report_write_error",
-	                                  25 );
+		return( -1 );
+	}
+	if( libtableau_values_table_set_identifier(
+	     values_table,
+	     6,
+	     "bridge_report_write_error",
+	     25,
+	     error ) != 1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
+		 "%s: unable to set identifier: 6.",
+		 function );
 
-	values_table->identifiers[ 7 ] = strndup(
-	                                  "bridge_serial_number",
-	                                  20 );
+		return( -1 );
+	}
+	if( libtableau_values_table_set_identifier(
+	     values_table,
+	     7,
+	     "bridge_serial_number",
+	     20,
+	     error ) != 1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
+		 "%s: unable to set identifier: 7.",
+		 function );
 
-	values_table->identifiers[ 8 ] = strndup(
-	                                  "bridge_vendor",
-	                                  13 );
+		return( -1 );
+	}
+	if( libtableau_values_table_set_identifier(
+	     values_table,
+	     8,
+	     "bridge_vendor",
+	     13,
+	     error ) != 1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
+		 "%s: unable to set identifier: 8.",
+		 function );
 
-	values_table->identifiers[ 9 ] = strndup(
-	                                  "bridge_model",
-	                                  12 );
+		return( -1 );
+	}
+	if( libtableau_values_table_set_identifier(
+	     values_table,
+	     9,
+	     "bridge_model",
+	     12,
+	     error ) != 1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
+		 "%s: unable to set identifier: 9.",
+		 function );
 
-	values_table->identifiers[ 10 ] = strndup(
-	                                   "bridge_firmware_date",
-	                                   20 );
+		return( -1 );
+	}
+	if( libtableau_values_table_set_identifier(
+	     values_table,
+	     10,
+	     "bridge_firmware_date",
+	     20,
+	     error ) != 1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
+		 "%s: unable to set identifier: 10.",
+		 function );
 
-	values_table->identifiers[ 11 ] = strndup(
-	                                   "bridge_firmware_time",
-	                                   20 );
+		return( -1 );
+	}
+	if( libtableau_values_table_set_identifier(
+	     values_table,
+	     11,
+	     "bridge_firmware_time",
+	     20,
+	     error ) != 1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
+		 "%s: unable to set identifier: 11.",
+		 function );
 
-	values_table->identifiers[ 12 ] = strndup(
-	                                   "drive_vendor",
-	                                   12 );
+		return( -1 );
+	}
+	if( libtableau_values_table_set_identifier(
+	     values_table,
+	     12,
+	     "drive_vendor",
+	     12,
+	     error ) != 1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
+		 "%s: unable to set identifier: 12.",
+		 function );
 
-	values_table->identifiers[ 13 ] = strndup(
-	                                   "drive_model",
-	                                   11 );
+		return( -1 );
+	}
+	if( libtableau_values_table_set_identifier(
+	     values_table,
+	     13,
+	     "drive_model",
+	     11,
+	     error ) != 1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
+		 "%s: unable to set identifier: 13.",
+		 function );
 
-	values_table->identifiers[ 14 ] = strndup(
-	                                   "drive_serial_number",
-	                                   19 );
+		return( -1 );
+	}
+	if( libtableau_values_table_set_identifier(
+	     values_table,
+	     14,
+	     "drive_serial_number",
+	     19,
+	     error ) != 1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
+		 "%s: unable to set identifier: 14.",
+		 function );
 
-	values_table->identifiers[ 15 ] = strndup(
-	                                   "drive_revision_number",
-	                                   21 );
+		return( -1 );
+	}
+	if( libtableau_values_table_set_identifier(
+	     values_table,
+	     15,
+	     "drive_revision_number",
+	     21,
+	     error ) != 1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
+		 "%s: unable to set identifier: 15.",
+		 function );
 
-	values_table->identifiers[ 16 ] = strndup(
-	                                   "drive_hpa_support",
-	                                   17 );
+		return( -1 );
+	}
+	if( libtableau_values_table_set_identifier(
+	     values_table,
+	     16,
+	     "drive_hpa_support",
+	     17,
+	     error ) != 1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
+		 "%s: unable to set identifier: 16.",
+		 function );
 
-	values_table->identifiers[ 17 ] = strndup(
-	                                   "drive_hpa_in_use",
-	                                   16 );
+		return( -1 );
+	}
+	if( libtableau_values_table_set_identifier(
+	     values_table,
+	     17,
+	     "drive_hpa_in_use",
+	     16,
+	     error ) != 1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
+		 "%s: unable to set identifier: 17.",
+		 function );
 
-	values_table->identifiers[ 18 ] = strndup(
-	                                   "drive_dco_support",
-	                                   17 );
+		return( -1 );
+	}
+	if( libtableau_values_table_set_identifier(
+	     values_table,
+	     18,
+	     "drive_dco_support",
+	     17,
+	     error ) != 1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
+		 "%s: unable to set identifier: 18.",
+		 function );
 
-	values_table->identifiers[ 19 ] = strndup(
-	                                   "drive_dco_in_use",
-	                                   16 );
+		return( -1 );
+	}
+	if( libtableau_values_table_set_identifier(
+	     values_table,
+	     19,
+	     "drive_dco_in_use",
+	     16,
+	     error ) != 1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
+		 "%s: unable to set identifier: 19.",
+		 function );
 
-	values_table->identifiers[ 20 ] = strndup(
-	                                   "drive_security_support",
-	                                   22 );
+		return( -1 );
+	}
+	if( libtableau_values_table_set_identifier(
+	     values_table,
+	     20,
+	     "drive_security_support",
+	     22,
+	     error ) != 1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
+		 "%s: unable to set identifier: 20.",
+		 function );
 
-	values_table->identifiers[ 21 ] = strndup(
-	                                   "drive_security_in_use",
-	                                   21 );
+		return( -1 );
+	}
+	if( libtableau_values_table_set_identifier(
+	     values_table,
+	     21,
+	     "drive_security_in_use",
+	     21,
+	     error ) != 1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
+		 "%s: unable to set identifier: 21.",
+		 function );
 
+		return( -1 );
+	}
 	return( 1 );
 }
 

@@ -176,6 +176,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath="..\..\tableautools\info_handle.c"
+				>
+			</File>
+			<File
 				RelativePath="..\..\tableautools\tableauinfo.c"
 				>
 			</File>
@@ -187,12 +191,20 @@
 				RelativePath="..\..\tableautools\tableautools_output.c"
 				>
 			</File>
+			<File
+				RelativePath="..\..\tableautools\tableautools_signal.c"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath="..\..\tableautools\info_handle.h"
+				>
+			</File>
 			<File
 				RelativePath="..\..\tableautools\tableautools_getopt.h"
 				>
@@ -219,6 +231,10 @@
 			</File>
 			<File
 				RelativePath="..\..\tableautools\tableautools_output.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\tableautools\tableautools_signal.h"
 				>
 			</File>
 			<File

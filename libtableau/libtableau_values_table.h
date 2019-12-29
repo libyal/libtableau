@@ -57,37 +57,50 @@ int libtableau_values_table_free(
      libtableau_values_table_t **values_table,
      libcerror_error_t **error );
 
-/* TODO: refactor to resize */
-int libtableau_values_table_realloc(
+int libtableau_values_table_resize(
      libtableau_values_table_t *values_table,
-     int previous_number_of_values,
-     int new_number_of_values,
+     int number_of_values,
+     libcerror_error_t **error );
+
+int libtableau_values_table_get_number_of_values(
+     libtableau_values_table_t *values_table,
+     int *number_of_values,
      libcerror_error_t **error );
 
 int libtableau_values_table_get_index(
      libtableau_values_table_t *values_table,
      const char *identifier,
+     size_t identifier_length,
      libcerror_error_t **error );
 
 int libtableau_values_table_get_identifier(
      libtableau_values_table_t *values_table,
      int value_index,
-     char *identifier,
-     size_t length,
+     char *string,
+     size_t string_size,
      libcerror_error_t **error );
 
-int libtableau_values_table_get_value(
+int libtableau_values_table_set_identifier(
+     libtableau_values_table_t *values_table,
+     int value_index,
+     const char *string,
+     size_t string_length,
+     libcerror_error_t **error );
+
+int libtableau_values_table_get_value_by_identifier(
      libtableau_values_table_t *values_table,
      const char *identifier,
-     char *value,
-     size_t length,
+     size_t identifier_length,
+     char *string,
+     size_t string_size,
      libcerror_error_t **error );
 
 int libtableau_values_table_set_value(
      libtableau_values_table_t *values_table,
      const char *identifier,
-     char *value,
-     size_t length,
+     size_t identifier_length,
+     char *string,
+     size_t string_length,
      libcerror_error_t **error );
 
 #if defined( __cplusplus )

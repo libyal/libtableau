@@ -35,6 +35,7 @@
 
 #include <stdio.h>
 
+#include "tableautools_getopt.h"
 #include "tableautools_input.h"
 #include "tableautools_libcerror.h"
 #include "tableautools_libclocale.h"
@@ -71,8 +72,8 @@ int main( int argc, char * const argv[] )
 	libcerror_error_t *error                  = NULL;
 	libtableau_handle_t *handle               = NULL;
 	system_character_t *fixed_string_variable = NULL;
-	system_character_t *program               = _SYSTEM_STRING( "tableaucontrol" );
 	system_character_t *source                = NULL;
+	char *program                             = "tableaucontrol";
 	system_integer_t option                   = 0;
 	int8_t input_confirmed                    = -1;
 	int result                                = 0;
@@ -108,7 +109,7 @@ int main( int argc, char * const argv[] )
 	 stdout,
 	 program );
 
-	while( ( option = getopt(
+	while( ( option = tableautools_getopt(
 	                   argc,
 	                   argv,
 	                   _SYSTEM_STRING( "hvV" ) ) ) != (system_integer_t) -1 )
