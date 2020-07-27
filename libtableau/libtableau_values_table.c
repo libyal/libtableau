@@ -84,13 +84,14 @@ int libtableau_values_table_initialize(
 	}
 	values_table_size = number_of_values * sizeof( char * );
 
-	if( values_table_size > (size_t) SSIZE_MAX )
+	if( ( values_table_size == 0 )
+	 || ( values_table_size > (size_t) MEMORY_MAXIMUM_ALLOCATION_SIZE ) )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-		 LIBCERROR_RUNTIME_ERROR_VALUE_EXCEEDS_MAXIMUM,
-		 "%s: invalid number of values value exceeds maximum.",
+		 LIBCERROR_RUNTIME_ERROR_VALUE_OUT_OF_BOUNDS,
+		 "%s: invalid number of values value out of bounds.",
 		 function );
 
 		return( -1 );
@@ -692,7 +693,7 @@ int libtableau_values_table_set_identifier(
 		return( -1 );
 	}
 	if( ( string_length == 0 )
-	 || ( string_length > (size_t) ( SSIZE_MAX - 1 ) ) )
+	 || ( string_length > (size_t) ( MEMORY_MAXIMUM_ALLOCATION_SIZE - 1 ) ) )
 	{
 		libcerror_error_set(
 		 error,
@@ -974,6 +975,17 @@ int libtableau_values_table_set_value(
 	 || ( string_length == 0 ) )
 	{
 		return( 1 );
+	}
+	if( string_length > (size_t) ( MEMORY_MAXIMUM_ALLOCATION_SIZE - 1 ) )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_VALUE_EXCEEDS_MAXIMUM,
+		 "%s: invalid string length value exceeds maximum.",
+		 function );
+
+		goto on_error;
 	}
 	values_table->values[ value_index ] = (char *) memory_allocate(
 	                                                sizeof( char ) * ( string_length + 1 ) );

@@ -27,7 +27,6 @@
 #include <stdlib.h>
 #endif
 
-#include "tableau_test_libcerror.h"
 #include "tableau_test_libtableau.h"
 #include "tableau_test_macros.h"
 #include "tableau_test_unused.h"

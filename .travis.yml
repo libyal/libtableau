@@ -1,5 +1,8 @@
+version: ~> 1.0
 language: c
-matrix:
+os: linux
+dist: bionic
+jobs:
   include:
   - name: "Linux with clang"
     env:
@@ -8,9 +11,6 @@ matrix:
     - LDFLAGS="--coverage"
     - TARGET="linux-clang"
     compiler: clang
-    os: linux
-    dist: bionic
-    sudo: required
     group: edge
   - name: "Linux with gcc"
     env:
@@ -19,9 +19,6 @@ matrix:
     - LDFLAGS="--coverage"
     - TARGET="linux-gcc"
     compiler: gcc
-    os: linux
-    dist: bionic
-    sudo: required
     group: edge
   - name: "Linux with gcc on s390x (Docker)"
     env:
@@ -32,9 +29,6 @@ matrix:
     - LDFLAGS="--coverage"
     - TARGET="docker"
     compiler: gcc
-    os: linux
-    dist: bionic
-    sudo: required
     group: edge
     services:
     - docker
@@ -45,9 +39,6 @@ matrix:
     - LDFLAGS="--coverage"
     - TARGET="linux-gcc-wide-character-type"
     compiler: gcc
-    os: linux
-    dist: bionic
-    sudo: required
     group: edge
   - name: "Linux with gcc without optimization"
     env:
@@ -57,9 +48,6 @@ matrix:
     - LDFLAGS="--coverage"
     - TARGET="linux-gcc-no-optimization"
     compiler: gcc
-    os: linux
-    dist: bionic
-    sudo: required
     group: edge
   - name: "Linux with gcc and shared libraries"
     env:
@@ -68,9 +56,6 @@ matrix:
     - LDFLAGS="--coverage"
     - TARGET="linux-gcc-shared"
     compiler: gcc
-    os: linux
-    dist: bionic
-    sudo: required
     group: edge
   - name: "Linux with gcc, shared libraries and wide character type (wchar_t) support"
     env:
@@ -79,42 +64,36 @@ matrix:
     - LDFLAGS="--coverage"
     - TARGET="linux-gcc-shared-wide-character-type"
     compiler: gcc
-    os: linux
-    dist: bionic
-    sudo: required
     group: edge
   - name: "Linux with gcc and static executables support"
     env:
-    - CONFIGURE_OPTIONS="--enable-static-executables"
+    - CONFIGURE_OPTIONS="--enable-static-executables=yes --enable-multi-threading-support=no"
     - CFLAGS="--coverage"
     - LDFLAGS="--coverage"
     - TARGET="linux-gcc-static-executables"
     compiler: gcc
-    os: linux
-    dist: bionic
-    sudo: required
     group: edge
-  - name: "Mac OS with clang"
+  - name: "Mac OS 10.14 with clang"
     env:
     - CONFIGURE_OPTIONS=""
     - TARGET="macos-clang"
     compiler: clang
     os: osx
-    osx_image: xcode8.3
-  - name: "Mac OS with gcc"
+    osx_image: xcode11
+  - name: "Mac OS 10.14 with gcc"
     env:
     - CONFIGURE_OPTIONS=""
     - TARGET="macos-gcc"
     compiler: gcc
     os: osx
-    osx_image: xcode8.3
-  - name: "Mac OS gcc and pkgbuild"
+    osx_image: xcode11
+  - name: "Mac OS 10.14 with gcc and pkgbuild"
     env:
     - CONFIGURE_OPTIONS="--disable-dependency-tracking --prefix=/usr/local"
     - TARGET="macos-gcc-pkgbuild"
     compiler: gcc
     os: osx
-    osx_image: xcode8.3
+    osx_image: xcode11
 before_install:
 - .travis/before_install.sh
 install:
@@ -123,5 +102,6 @@ script:
 - .travis/script.sh
 after_success:
 - if test ${TARGET} = "linux-gcc-no-optimization"; then
-    curl -o codecov.sh -s https://codecov.io/bash && sed 's/ -execdir / -exec /' -i ./codecov.sh && /bin/bash ./codecov.sh -n ${TARGET} -y .codecov.yml;
+    for DIRECTORY in `find . -maxdepth 1 -type d`; do (cd ${DIRECTORY} && find . -maxdepth 1 -name \*.gcno -type f -exec gcov -pb {} \;) done;
+    curl -o codecov.sh -s https://codecov.io/bash && /bin/bash ./codecov.sh -n ${TARGET} -X gcov;
   fi
