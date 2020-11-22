@@ -30,7 +30,11 @@
 
 #include <libtableau/extern.h>
 
+#if defined( __CYGWIN__ )
+#define LIBTABLEAU_EXTERN_VARIABLE	extern
+#else
 #define LIBTABLEAU_EXTERN_VARIABLE	LIBTABLEAU_EXTERN
+#endif
 
 #else
 #define LIBTABLEAU_EXTERN		/* extern */
