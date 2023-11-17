@@ -4,5 +4,5 @@ man_MANS = \
 	tableauinfo.1
 
 distclean: clean
-	/bin/rm -f Makefile
+	-rm -f Makefile
 

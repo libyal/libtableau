@@ -18,9 +18,9 @@ MAINTAINERCLEANFILES = \
 	Makefile.in
 
 distclean: clean
-	/bin/rm -f libtableau.h
-	/bin/rm -f libtableau/definitions.h
-	/bin/rm -f libtableau/features.h
-	/bin/rm -f libtableau/types.h
-	/bin/rm -f Makefile
+	-rm -f libtableau.h
+	-rm -f libtableau/definitions.h
+	-rm -f libtableau/features.h
+	-rm -f libtableau/types.h
+	-rm -f Makefile
 
