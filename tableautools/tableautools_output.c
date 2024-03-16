@@ -1,7 +1,7 @@
 /*
  * Common output functions for the tableautools
  *
- * Copyright (C) 2008-2023, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2008-2024, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -100,7 +100,7 @@ void tableauoutput_copyright_fprint(
 	 */
 	fprintf(
 	 stream,
-	 _( "Copyright (C) 2008-2023, %s.\n" ),
+	 _( "Copyright (C) 2008-2024, %s.\n" ),
 	 _( "Joachim Metz" ) );
 
 	fprintf(
