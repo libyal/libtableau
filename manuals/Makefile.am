@@ -3,6 +3,12 @@ man_MANS = \
 	tableaucontrol.1 \
 	tableauinfo.1
 
-distclean: clean
-	-rm -f Makefile
+EXTRA_DIST = \
+	libtableau.3 \
+	tableaucontrol.1 \
+	tableauinfo.1
+
+DISTCLEANFILES = \
+	Makefile \
+	Makefile.in
 

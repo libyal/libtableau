@@ -1,6 +1,6 @@
 AM_CPPFLAGS = \
-	-I$(top_srcdir)/include \
-	-I$(top_srcdir)/common \
+	-I../include -I$(top_srcdir)/include \
+	-I../common -I$(top_srcdir)/common \
 	@LIBCERROR_CPPFLAGS@ \
 	@LIBCTHREADS_CPPFLAGS@ \
 	@LIBCLOCALE_CPPFLAGS@ \
@@ -50,13 +50,11 @@ EXTRA_DIST = \
 	libtableau.rc \
 	libtableau.rc.in
 
-MAINTAINERCLEANFILES = \
+DISTCLEANFILES = \
+	libtableau_definitions.h \
+	libtableau.rc \
+	Makefile \
 	Makefile.in
-
-distclean: clean
-	-rm -f libtableau_definitions.h
-	-rm -f libtableau.rc
-	-rm -f Makefile
 
 sources-local: $(BUILT_SOURCES)
 

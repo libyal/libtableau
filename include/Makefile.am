@@ -14,13 +14,11 @@ EXTRA_DIST = \
 	libtableau/features.h.in \
 	libtableau/types.h.in
 
-MAINTAINERCLEANFILES = \
+DISTCLEANFILES = \
+	libtableau.h \
+	libtableau/definitions.h \
+	libtableau/features.h \
+	libtableau/types.h \
+	Makefile \
 	Makefile.in
-
-distclean: clean
-	-rm -f libtableau.h
-	-rm -f libtableau/definitions.h
-	-rm -f libtableau/features.h
-	-rm -f libtableau/types.h
-	-rm -f Makefile
 
