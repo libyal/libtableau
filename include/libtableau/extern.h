@@ -31,14 +31,17 @@
  */
 #if defined( LIBTABLEAU_DLL_EXPORT )
 #define LIBTABLEAU_EXTERN __declspec(dllexport)
+#define LIBTABLEAU_EXTERN_VARIABLE extern __declspec(dllexport)
 
 #elif defined( LIBTABLEAU_DLL_IMPORT )
-#define LIBTABLEAU_EXTERN extern __declspec(dllimport)
+#define LIBTABLEAU_EXTERN __declspec(dllimport)
+#define LIBTABLEAU_EXTERN_VARIABLE extern __declspec(dllimport)
 
 #else
 #define LIBTABLEAU_EXTERN extern
+#define LIBTABLEAU_EXTERN_VARIABLE extern
 
-#endif
+#endif /* defined( LIBTABLEAU_DLL_EXPORT ) */
 
 #endif /* !defined( _LIBTABLEAU_EXTERN_H ) */
 

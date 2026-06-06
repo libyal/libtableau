@@ -24,21 +24,28 @@
 
 #include <common.h>
 
+#if !defined( __CYGWIN__ ) && !defined( _WIN32 ) && defined( __has_attribute )
+#if __has_attribute( visibility )
+#define LIBTABLEAU_INTERNAL	__attribute__((visibility("hidden"))) extern
+
+#else
+#define LIBTABLEAU_INTERNAL	extern
+
+#endif /* __has_attribute( visibility ) */
+#else
+#define LIBTABLEAU_INTERNAL	extern
+
+#endif /* !defined( __CYGWIN__ ) && !defined( _WIN32 ) && defined( __has_attribute ) */
+
 /* Define HAVE_LOCAL_LIBTABLEAU for local use of libtableau
  */
 #if !defined( HAVE_LOCAL_LIBTABLEAU )
 
 #include <libtableau/extern.h>
 
-#if defined( __CYGWIN__ ) || defined( __MINGW32__ )
-#define LIBTABLEAU_EXTERN_VARIABLE	extern
-#else
-#define LIBTABLEAU_EXTERN_VARIABLE	LIBTABLEAU_EXTERN
-#endif
-
 #else
 #define LIBTABLEAU_EXTERN		/* extern */
-#define LIBTABLEAU_EXTERN_VARIABLE	extern
+#define LIBTABLEAU_EXTERN_VARIABLE	LIBTABLEAU_INTERNAL
 
 #endif /* !defined( HAVE_LOCAL_LIBTABLEAU ) */
 
