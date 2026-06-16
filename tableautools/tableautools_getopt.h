@@ -35,6 +35,23 @@
 extern "C" {
 #endif
 
+typedef struct tableautools_option tableautools_option_t;
+
+struct tableautools_option
+{
+	/* The identifier typically a single character or 0 if positional argument.
+	 */
+	char identifier;
+
+	/* The name of the argument or NULL if none.
+	 */
+	const char *name;
+
+	/* The help text.
+	 */
+	const char *help;
+};
+
 #if defined( HAVE_GETOPT )
 #define tableautools_getopt( argument_count, argument_values, options_string ) \
 	getopt( argument_count, argument_values, options_string )
@@ -59,6 +76,27 @@ system_integer_t tableautools_getopt(
                   const system_character_t *options_string );
 
 #endif /* defined( HAVE_GETOPT ) */
+
+void tableautools_getopt_wrapped_fprint(
+      FILE *stream,
+      int maximum_line_length,
+      int start_line_index,
+      const char *indentation,
+      const char *text,
+      size_t text_length );
+
+void tableautools_getopt_usage_fprint(
+      FILE *stream,
+      const char *program,
+      const char *description,
+      const tableautools_option_t *options,
+      int number_of_options );
+
+int tableautools_getopt_get_options_string(
+     const tableautools_option_t *options,
+     int number_of_options,
+     system_character_t *options_string,
+     size_t options_string_size );
 
 #if defined( __cplusplus )
 }

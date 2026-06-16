@@ -1,6 +1,6 @@
-.Dd June  6, 2026
-.Dt libtableau 3
-.Os libtableau
+.Dd June 16, 2026
+.Dt LIBTABLEAU 3
+.Os
 .Sh NAME
 .Nm libtableau.h
 .Nd Library to support the Tableau(TM) forensic bridge (write blocker)
@@ -8,69 +8,203 @@
 .In libtableau.h
 .Pp
 Support functions
+.nf
 .Ft const char *
-.Fn libtableau_get_version "void"
+.Fo libtableau_get_version
+.Fa "void"
+.Fc
+.fi
 .Pp
 Notify functions
+.nf
 .Ft void
-.Fn libtableau_notify_set_verbose "int verbose"
+.Fo libtableau_notify_set_verbose
+.Fa "int verbose"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libtableau_notify_set_stream "FILE *stream" "libtableau_error_t **error"
+.Fo libtableau_notify_set_stream
+.Fa "FILE *stream"
+.Fa "libtableau_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libtableau_notify_stream_open "const char *filename" "libtableau_error_t **error"
+.Fo libtableau_notify_stream_open
+.Fa "const char *filename"
+.Fa "libtableau_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libtableau_notify_stream_close "libtableau_error_t **error"
+.Fo libtableau_notify_stream_close
+.Fa "libtableau_error_t **error"
+.Fc
+.fi
 .Pp
 Error functions
+.nf
 .Ft void
-.Fn libtableau_error_free "libtableau_error_t **error"
+.Fo libtableau_error_free
+.Fa "libtableau_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libtableau_error_fprint "libtableau_error_t *error" "FILE *stream"
+.Fo libtableau_error_fprint
+.Fa "libtableau_error_t *error"
+.Fa "FILE *stream"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libtableau_error_sprint "libtableau_error_t *error" "char *string" "size_t size"
+.Fo libtableau_error_sprint
+.Fa "libtableau_error_t *error"
+.Fa "char *string"
+.Fa "size_t size"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libtableau_error_backtrace_fprint "libtableau_error_t *error" "FILE *stream"
+.Fo libtableau_error_backtrace_fprint
+.Fa "libtableau_error_t *error"
+.Fa "FILE *stream"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libtableau_error_backtrace_sprint "libtableau_error_t *error" "char *string" "size_t size"
+.Fo libtableau_error_backtrace_sprint
+.Fa "libtableau_error_t *error"
+.Fa "char *string"
+.Fa "size_t size"
+.Fc
+.fi
 .Pp
 Handle functions
+.nf
 .Ft int
-.Fn libtableau_handle_initialize "libtableau_handle_t **handle" "libtableau_error_t **error"
+.Fo libtableau_handle_initialize
+.Fa "libtableau_handle_t **handle"
+.Fa "libtableau_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libtableau_handle_free "libtableau_handle_t **handle" "libtableau_error_t **error"
+.Fo libtableau_handle_free
+.Fa "libtableau_handle_t **handle"
+.Fa "libtableau_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libtableau_handle_open "libtableau_handle_t *handle" "const char *filename" "int access_flags" "libtableau_error_t **error"
+.Fo libtableau_handle_open
+.Fa "libtableau_handle_t *handle"
+.Fa "const char *filename"
+.Fa "int access_flags"
+.Fa "libtableau_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libtableau_handle_close "libtableau_handle_t *handle" "libtableau_error_t **error"
+.Fo libtableau_handle_close
+.Fa "libtableau_handle_t *handle"
+.Fa "libtableau_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libtableau_handle_query "libtableau_handle_t *handle" "libtableau_error_t **error"
+.Fo libtableau_handle_query
+.Fa "libtableau_handle_t *handle"
+.Fa "libtableau_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libtableau_handle_detected_dco "libtableau_handle_t *handle" "libtableau_error_t **error"
+.Fo libtableau_handle_detected_dco
+.Fa "libtableau_handle_t *handle"
+.Fa "libtableau_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libtableau_handle_remove_dco "libtableau_handle_t *handle" "libtableau_error_t **error"
+.Fo libtableau_handle_remove_dco
+.Fa "libtableau_handle_t *handle"
+.Fa "libtableau_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libtableau_handle_get_drive_number_of_sectors "libtableau_handle_t *handle" "uint32_t *number_of_sectors" "libtableau_error_t **error"
+.Fo libtableau_handle_get_drive_number_of_sectors
+.Fa "libtableau_handle_t *handle"
+.Fa "uint32_t *number_of_sectors"
+.Fa "libtableau_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libtableau_handle_get_hpa_number_of_sectors "libtableau_handle_t *handle" "uint32_t *number_of_sectors" "libtableau_error_t **error"
+.Fo libtableau_handle_get_hpa_number_of_sectors
+.Fa "libtableau_handle_t *handle"
+.Fa "uint32_t *number_of_sectors"
+.Fa "libtableau_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libtableau_handle_get_dco_number_of_sectors "libtableau_handle_t *handle" "uint32_t *number_of_sectors" "libtableau_error_t **error"
+.Fo libtableau_handle_get_dco_number_of_sectors
+.Fa "libtableau_handle_t *handle"
+.Fa "uint32_t *number_of_sectors"
+.Fa "libtableau_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libtableau_handle_get_number_of_values "libtableau_handle_t *handle" "int *number_of_values" "libtableau_error_t **error"
+.Fo libtableau_handle_get_number_of_values
+.Fa "libtableau_handle_t *handle"
+.Fa "int *number_of_values"
+.Fa "libtableau_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libtableau_handle_get_value_identifier "libtableau_handle_t *handle" "int value_index" "char *string" "size_t string_size" "libtableau_error_t **error"
+.Fo libtableau_handle_get_value_identifier
+.Fa "libtableau_handle_t *handle"
+.Fa "int value_index"
+.Fa "char *string"
+.Fa "size_t string_size"
+.Fa "libtableau_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libtableau_handle_get_value "libtableau_handle_t *handle" "const char *identifier" "char *string" "size_t string_size" "libtableau_error_t **error"
+.Fo libtableau_handle_get_value
+.Fa "libtableau_handle_t *handle"
+.Fa "const char *identifier"
+.Fa "char *string"
+.Fa "size_t string_size"
+.Fa "libtableau_error_t **error"
+.Fc
+.fi
 .Pp
 Available when compiled with wide character string support:
+.nf
 .Ft int
-.Fn libtableau_handle_open_wide "libtableau_handle_t *handle" "const wchar_t *filename" "int access_flags" "libtableau_error_t **error"
+.Fo libtableau_handle_open_wide
+.Fa "libtableau_handle_t *handle"
+.Fa "const wchar_t *filename"
+.Fa "int access_flags"
+.Fa "libtableau_error_t **error"
+.Fc
+.fi
 .Sh DESCRIPTION
 The
 .Fn libtableau_get_version
 function is used to retrieve the library version.
 .Sh RETURN VALUES
-Most of the functions return NULL or \-1 on error, dependent on the return type.
-For the actual return values see "libtableau.h".
+Most of the functions return NULL or \-1 on error, dependent on the return \
+type.
+For the actual return values see
+.In libtableau.h .
 .Sh ENVIRONMENT
 None
 .Sh FILES
@@ -88,14 +222,16 @@ To compile libtableau with wide character support use:
 .sp
 .Ar LIBTABLEAU_WIDE_CHARACTER_TYPE
  in libtableau/features.h can be used to determine if libtableau was compiled with wide character support.
+.Sh SEE ALSO
+.In libtableau.h
+.Sh AUTHORS
+.An Joachim Metz <joachim.metz@gmail.com>
 .Sh BUGS
-Please report bugs of any kind on the project issue tracker: https://github.com/libyal/libtableau/issues
-.Sh AUTHOR
-These man pages are generated from "libtableau.h".
+Please report bugs of any kind on the project issue tracker: \
+https://github.com/libyal/libtableau/issues
 .Sh COPYRIGHT
 Copyright (C) 2008-2026, Joachim Metz <joachim.metz@gmail.com>.
 .sp
 This is free software; see the source for copying conditions.
-There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-.Sh SEE ALSO
-the libtableau.h include file
+There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A \
+PARTICULAR PURPOSE.

@@ -51,10 +51,10 @@ int libtableau_io_send_command(
      libcerror_error_t **error )
 {
 	static char *function = "libtableau_io_send_command";
-	int result            = 0;
 
 #if defined( HAVE_SCSI_SG_PT_H )
 	void *sg_scsi_pt_obj  = NULL;
+	int result            = 0;
 #endif
 
 	if( file_descriptor == -1 )
