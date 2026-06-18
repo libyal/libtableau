@@ -1,6 +1,6 @@
 # Tests functions.
 #
-# Version: 20260615
+# Version: 20260616
 
 $ExitSuccess = 0
 $ExitFailure = 1
@@ -55,6 +55,27 @@ Function GetTestExecutablesDirectory
 		}
 	}
 	Return ${TestExecutablesDirectory}
+}
+
+Function WriteTestResult
+{
+        param( [string]$Description, [int]$Result )
+
+        Write-Host "${Description} (" -nonewline
+
+        If (${Result} -eq ${ExitSuccess})
+        {
+                Write-Host "PASS" -foreground Green -nonewline
+        }
+        ElseIf (${Result} -eq ${ExitIgnore})
+        {
+		Write-Host "SKIP" -foreground Cyan -nonewline
+        }
+        Else
+        {
+                Write-Host "FAIL" -foreground Red -nonewline
+        }
+        Write-Host ")"
 }
 
 Function ReadIgnoreList
@@ -172,7 +193,7 @@ Function GenerateTestInputs
 			}
 			ForEach ($TestFile in ${TestFiles})
 			{
-				$TestFileName = ${TestFile}.Name
+				$TestFileName = Split-Path -Path ${TestFile} -Leaf
 
 				If (-Not ($GlobFiles) -And -Not (Test-Path -Path "${GlobFile}" -PathType Leaf))
 				{

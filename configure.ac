@@ -2,7 +2,7 @@ AC_PREREQ([2.71])
 
 AC_INIT(
   [libtableau],
-  [20260616],
+  [20260617],
   [https://github.com/libyal/libtableau/issues])
 
 AC_CONFIG_SRCDIR(

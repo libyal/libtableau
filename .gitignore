@@ -145,7 +145,6 @@ stamp-h[1-9]
 /tests/tableau_test_security_values
 /tests/tableau_test_support
 /tests/tableau_test_values_table
-/tests/test_inputs_*.at
 /tests/test_library
 /tests/test_manpages
 /tests/test_tools

@@ -2,8 +2,8 @@
 #
 # Version: 20260615
 
-$LibraryTests = "error notify security_values support values_table"
-$LibraryTestsWithInput = "handle"
+$LibraryTests = "error notify handle security_values support values_table"
+$LibraryTestsWithInput = ""
 $OptionSets = "" -split " "
 
 . .\test_functions.ps1
