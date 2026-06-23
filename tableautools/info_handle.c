@@ -235,7 +235,7 @@ int info_handle_open_input(
 }
 
 /* Closes the input handle
- * Returns the 0 if succesful or -1 on error
+ * Returns the 0 if successful or -1 on error
  */
 int info_handle_close_input(
      info_handle_t *info_handle,

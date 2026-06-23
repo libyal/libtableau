@@ -23,6 +23,7 @@ DPKG_FILES = \
 	dpkg/copyright \
 	dpkg/rules \
 	dpkg/libtableau-dev.install \
+	dpkg/libtableau-tools.install \
 	dpkg/libtableau.install \
 	dpkg/source/format
 
