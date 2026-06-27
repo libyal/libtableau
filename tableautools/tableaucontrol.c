@@ -118,7 +118,7 @@ int main( int argc, char * const argv[] )
 
 		goto on_error;
 	}
-	tableauoutput_version_fprint(
+	tableautools_output_version_fprint(
 	 stdout,
 	 program );
 
@@ -153,7 +153,7 @@ int main( int argc, char * const argv[] )
 				break;
 
 			case (system_integer_t) 'V':
-				tableauoutput_copyright_fprint(
+				tableautools_output_copyright_fprint(
 				 stdout );
 
 				return( EXIT_SUCCESS );

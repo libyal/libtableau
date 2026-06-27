@@ -36,14 +36,14 @@ int tableautools_output_initialize(
      int stdio_mode,
      libcerror_error_t **error );
 
-void tableauoutput_copyright_fprint(
+void tableautools_output_copyright_fprint(
       FILE *stream );
 
-void tableauoutput_version_fprint(
+void tableautools_output_version_fprint(
       FILE *stream,
       const char *program );
 
-void tableauoutput_version_detailed_fprint(
+void tableautools_output_version_detailed_fprint(
       FILE *stream,
       const char *program );
 

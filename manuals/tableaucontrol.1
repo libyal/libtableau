@@ -1,26 +1,26 @@
-.Dd May  8, 2019
-.Dt tableaucontrol
-.Os libtableau
+.Dd June 27, 2026
+.Dt TABLEAUCONTROL 1
+.Os
 .Sh NAME
 .Nm tableaucontrol
-.Nd controls a Tableau (TM) forensic bridge (write blocker)
+.Nd controls a Tableau forensic bridge (write blocker)
 .Sh SYNOPSIS
 .Nm tableaucontrol
 .Op Fl hvV
 .Ar source
 .Sh DESCRIPTION
 .Nm tableaucontrol
-is a utility to control a Tableau (TM) forensic bridge (write blocker)
+is a utility to control a Tableau forensic bridge (write blocker)
 .Pp
 .Nm tableaucontrol
 is part of the
 .Nm libtableau
 package.
 .Nm libtableau
-is a library to read from the Tableau (TM) forenisc bridge (write blocker)
+is a library to read from a Tableau forenisc bridge (write blocker)
 .Pp
 .Ar source
-is the source device to read from.
+is the source device.
 .Pp
 The options are as follows:
 .Bl -tag -width Ds
@@ -45,14 +45,19 @@ Power cycle the drive to make sure the changes are detected.
 .sp
 .Ed
 .Sh DIAGNOSTICS
-Errors, verbose and debug output are printed to stderr when verbose output \-v is enabled.
+Errors, verbose and debug output are printed to stderr when verbose output \
+\-v is enabled.
 Verbose and debug output are only printed when enabled at compilation.
-.Sh BUGS
-Please report bugs of any kind on the project issue tracker: https://github.com/libyal/libtableau/issues
-.Sh AUTHOR
-These man pages were written by Joachim Metz.
-.Sh COPYRIGHT
-Copyright (C) 2008-2026, Joachim Metz <joachim.metz@gmail.com>.
-This is free software; see the source for copying conditions. There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 .Sh SEE ALSO
 .Xr tableauinfo 1
+.Sh AUTHORS
+.An Joachim Metz <joachim.metz@gmail.com>
+.Sh BUGS
+Please report bugs of any kind on the project issue tracker: \
+https://github.com/libyal/libtableau/issues
+.Sh COPYRIGHT
+Copyright (C) 2008-2026, Joachim Metz <joachim.metz@gmail.com>.
+.sp
+This is free software; see the source for copying conditions.
+There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A \
+PARTICULAR PURPOSE.

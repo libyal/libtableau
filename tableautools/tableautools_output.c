@@ -89,7 +89,7 @@ int tableautools_output_initialize(
 
 /* Prints the copyright information
  */
-void tableauoutput_copyright_fprint(
+void tableautools_output_copyright_fprint(
       FILE *stream )
 {
 	if( stream == NULL )
@@ -114,7 +114,7 @@ void tableauoutput_copyright_fprint(
 
 /* Prints the version information
  */
-void tableauoutput_version_fprint(
+void tableautools_output_version_fprint(
       FILE *stream,
       const char *program )
 {
@@ -135,7 +135,7 @@ void tableauoutput_version_fprint(
 
 /* Prints the detailed version information
  */
-void tableauoutput_version_detailed_fprint(
+void tableautools_output_version_detailed_fprint(
       FILE *stream,
       const char *program )
 {
