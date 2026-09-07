@@ -1,5 +1,5 @@
 /*
- * Library to support the Tableau(TM) forensic bridge (write blocker)
+ * Library to support the Tableau forensic bridge (write blocker)
  *
  * Copyright (C) 2008-2026, Joachim Metz <joachim.metz@gmail.com>
  *

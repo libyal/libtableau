@@ -1,7 +1,7 @@
 Name: libtableau
 Version: @VERSION@
 Release: 1
-Summary: Library to support the Tableau(TM) forensic bridge (write blocker)
+Summary: Library to support the Tableau forensic bridge (write blocker)
 Group: System Environment/Libraries
 License: LGPL-3.0-or-later
 Source: %{name}-%{version}.tar.gz
@@ -10,10 +10,10 @@ Requires: @ax_libcerror_spec_requires@ @ax_libclocale_spec_requires@ @ax_libcnot
 BuildRequires: gcc @ax_libcerror_spec_build_requires@ @ax_libclocale_spec_build_requires@ @ax_libcnotify_spec_build_requires@ @ax_libcthreads_spec_build_requires@ @ax_libuna_spec_build_requires@ sg3_utils-libs
 
 %description -n libtableau
-Library to support the Tableau(TM) forensic bridge (write blocker)
+Library to support the Tableau forensic bridge (write blocker)
 
 %package -n libtableau-static
-Summary: Library to support the Tableau(TM) forensic bridge (write blocker)
+Summary: Library to support the Tableau forensic bridge (write blocker)
 Group: Development/Libraries
 Requires: libtableau = %{version}-%{release}
 
@@ -29,12 +29,12 @@ Requires: libtableau = %{version}-%{release}
 Header files and libraries for developing applications for libtableau.
 
 %package -n libtableau-tools
-Summary: Several tools for reading Tableau(TM) forensic bridges (write blockers)
+Summary: Several tools for reading Tableau forensic bridges (write blockers)
 Group: Applications/System
 Requires: libtableau = %{version}-%{release}
 
 %description -n libtableau-tools
-Several tools for reading Tableau(TM) forensic bridges (write blockers)
+Several tools for reading Tableau forensic bridges (write blockers)
 
 %prep
 %setup -q
